@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
   Text,
   View,
   TextInput,
@@ -12,7 +11,7 @@ import { NavigationScreenProps, ScrollView } from 'react-navigation';
 type Props = NavigationScreenProps;
 
 const Record: React.FC<Props> = ({ navigation }) => {
-  const [state, setState] = useState({
+  const [recordState, setRecordState] = useState({
     date: '',
     league: '',
     round: '',
@@ -33,87 +32,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
     result: ''
   });
 
-  console.log(state);
-
-  function navigateToPicture() {
-    navigation.navigate('Camera');
-  }
-
-  function navigateToMenu() {
-    navigation.navigate('Menu');
-  }
-
-  function handleNameChange(text: string) {
-    setState(state => ({ ...state, date: text }));
-  }
-
-  function handleLeagueChange(text: string) {
-    setState(state => ({ ...state, league: text }));
-  }
-
-  function handleRoundChange(text: string) {
-    setState(state => ({ ...state, round: text }));
-  }
-
-  function handleHomeChange(text: string) {
-    setState(state => ({ ...state, homeTeam: text }));
-  }
-
-  function handleAwayChange(text: string) {
-    setState(state => ({ ...state, awayTeam: text }));
-  }
-
-  function handleRefereeChange(text: string) {
-    setState(state => ({ ...state, referee: text }));
-  }
-
-  function handleFirstAssistantChange(text: string) {
-    setState(state => ({ ...state, firstAssistant: text }));
-  }
-
-  function handleSecondAssistantChange(text: string) {
-    setState(state => ({ ...state, secondAssistant: text }));
-  }
-
-  function handleDelegateChange(text: string) {
-    setState(state => ({ ...state, delegate: text }));
-  }
-
-  function handleHomeRepresentativeChange(text: string) {
-    setState(state => ({ ...state, homeRepresentative: text }));
-  }
-
-  function handleAwayRepresentativeChange(text: string) {
-    setState(state => ({ ...state, awayRepresentative: text }));
-  }
-
-  function handleHomeYellowChange(text: string) {
-    setState(state => ({ ...state, homeYellow: text }));
-  }
-
-  function handleAwayYellowChange(text: string) {
-    setState(state => ({ ...state, awayYellow: text }));
-  }
-
-  function handleHomeRedChange(text: string) {
-    setState(state => ({ ...state, homeRed: text }));
-  }
-
-  function handleAwayRedChange(text: string) {
-    setState(state => ({ ...state, awayRed: text }));
-  }
-
-  function handleRemarksChange(text: string) {
-    setState(state => ({ ...state, remarks: text }));
-  }
-
-  function handleComentRefereeChange(text: string) {
-    setState(state => ({ ...state, comentReferee: text }));
-  }
-
-  function handleResultChange(text: string) {
-    setState(state => ({ ...state, result: text }));
-  }
+  console.log(recordState);
 
   return (
     <ScrollView>
@@ -125,7 +44,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Datum"
             maxLength={15}
-            value={state.date}
+            value={recordState.date}
             onChangeText={handleNameChange}
           />
         </View>
@@ -135,7 +54,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Liga"
             maxLength={30}
-            value={state.league}
+            value={recordState.league}
             onChangeText={handleLeagueChange}
           />
         </View>
@@ -145,7 +64,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Kolo"
             maxLength={3}
-            value={state.round}
+            value={recordState.round}
             onChangeText={handleRoundChange}
           />
         </View>
@@ -157,14 +76,14 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Domaćin"
             maxLength={30}
-            value={state.homeTeam}
+            value={recordState.homeTeam}
             onChangeText={handleHomeChange}
           />
           <TextInput
             style={styles.bodyForm}
             placeholder="Gost"
             maxLength={30}
-            value={state.awayTeam}
+            value={recordState.awayTeam}
             onChangeText={handleAwayChange}
           />
         </View>
@@ -174,7 +93,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Sudac"
             maxLength={30}
-            value={state.referee}
+            value={recordState.referee}
             onChangeText={handleRefereeChange}
           />
         </View>
@@ -184,7 +103,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="1. Pomoćni"
             maxLength={30}
-            value={state.firstAssistant}
+            value={recordState.firstAssistant}
             onChangeText={handleFirstAssistantChange}
           />
         </View>
@@ -194,7 +113,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="2. Pomoćni"
             maxLength={30}
-            value={state.secondAssistant}
+            value={recordState.secondAssistant}
             onChangeText={handleSecondAssistantChange}
           />
         </View>
@@ -204,7 +123,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Delegat"
             maxLength={30}
-            value={state.delegate}
+            value={recordState.delegate}
             onChangeText={handleDelegateChange}
           />
         </View>
@@ -214,7 +133,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Predstavnik"
             maxLength={30}
-            value={state.homeRepresentative}
+            value={recordState.homeRepresentative}
             onChangeText={handleHomeRepresentativeChange}
           />
         </View>
@@ -224,7 +143,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Predstavnik"
             maxLength={30}
-            value={state.awayRepresentative}
+            value={recordState.awayRepresentative}
             onChangeText={handleAwayRepresentativeChange}
           />
         </View>
@@ -236,7 +155,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
           placeholder="Domaće opomene"
           maxLength={500}
           multiline={true}
-          value={state.homeYellow}
+          value={recordState.homeYellow}
           onChangeText={handleHomeYellowChange}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
@@ -247,7 +166,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
           placeholder="Gostujuće opomene"
           maxLength={500}
           multiline={true}
-          value={state.awayYellow}
+          value={recordState.awayYellow}
           onChangeText={handleAwayYellowChange}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
@@ -258,7 +177,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
           placeholder="Domaća isključenja"
           maxLength={500}
           multiline={true}
-          value={state.homeRed}
+          value={recordState.homeRed}
           onChangeText={handleHomeRedChange}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
@@ -269,7 +188,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
           placeholder="Gostujuća isključenja"
           maxLength={500}
           multiline={true}
-          value={state.awayRed}
+          value={recordState.awayRed}
           onChangeText={handleAwayRedChange}
         />
         <Text style={[styles.containerTitle, styles.margin]}>Primjedbe</Text>
@@ -278,7 +197,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
           placeholder="Primjedbe"
           maxLength={500}
           multiline={true}
-          value={state.remarks}
+          value={recordState.remarks}
           onChangeText={handleRemarksChange}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
@@ -289,7 +208,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
           placeholder="Komentar suca"
           maxLength={500}
           multiline={true}
-          value={state.comentReferee}
+          value={recordState.comentReferee}
           onChangeText={handleComentRefereeChange}
         />
         <View style={styles.containerForm}>
@@ -298,7 +217,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
             style={styles.bodyForm}
             placeholder="Rezultat"
             maxLength={10}
-            value={state.result}
+            value={recordState.result}
             onChangeText={handleResultChange}
           />
         </View>
@@ -321,6 +240,86 @@ const Record: React.FC<Props> = ({ navigation }) => {
       </View>
     </ScrollView>
   );
+
+  function navigateToPicture() {
+    navigation.navigate('Camera');
+  }
+
+  function navigateToMenu() {
+    navigation.navigate('Menu');
+  }
+
+  function handleNameChange(text: string) {
+    setRecordState(state => ({ ...state, date: text }));
+  }
+
+  function handleLeagueChange(text: string) {
+    setRecordState(state => ({ ...state, league: text }));
+  }
+
+  function handleRoundChange(text: string) {
+    setRecordState(state => ({ ...state, round: text }));
+  }
+
+  function handleHomeChange(text: string) {
+    setRecordState(state => ({ ...state, homeTeam: text }));
+  }
+
+  function handleAwayChange(text: string) {
+    setRecordState(state => ({ ...state, awayTeam: text }));
+  }
+
+  function handleRefereeChange(text: string) {
+    setRecordState(state => ({ ...state, referee: text }));
+  }
+
+  function handleFirstAssistantChange(text: string) {
+    setRecordState(state => ({ ...state, firstAssistant: text }));
+  }
+
+  function handleSecondAssistantChange(text: string) {
+    setRecordState(state => ({ ...state, secondAssistant: text }));
+  }
+
+  function handleDelegateChange(text: string) {
+    setRecordState(state => ({ ...state, delegate: text }));
+  }
+
+  function handleHomeRepresentativeChange(text: string) {
+    setRecordState(state => ({ ...state, homeRepresentative: text }));
+  }
+
+  function handleAwayRepresentativeChange(text: string) {
+    setRecordState(state => ({ ...state, awayRepresentative: text }));
+  }
+
+  function handleHomeYellowChange(text: string) {
+    setRecordState(state => ({ ...state, homeYellow: text }));
+  }
+
+  function handleAwayYellowChange(text: string) {
+    setRecordState(state => ({ ...state, awayYellow: text }));
+  }
+
+  function handleHomeRedChange(text: string) {
+    setRecordState(state => ({ ...state, homeRed: text }));
+  }
+
+  function handleAwayRedChange(text: string) {
+    setRecordState(state => ({ ...state, awayRed: text }));
+  }
+
+  function handleRemarksChange(text: string) {
+    setRecordState(state => ({ ...state, remarks: text }));
+  }
+
+  function handleComentRefereeChange(text: string) {
+    setRecordState(state => ({ ...state, comentReferee: text }));
+  }
+
+  function handleResultChange(text: string) {
+    setRecordState(state => ({ ...state, result: text }));
+  }
 };
 
 const styles = StyleSheet.create({

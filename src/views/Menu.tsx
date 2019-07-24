@@ -21,17 +21,7 @@ interface ReduxProps {
   userCenter: string;
 }
 
-const Menu: React.FC<Props> = props => {
-  const { navigation, userName, userCenter } = props;
-
-  function navigateToPicture() {
-    navigation.navigate('Camera');
-  }
-
-  function navigateToWrite() {
-    navigation.navigate('Record');
-  }
-
+const Menu: React.FC<Props> = ({ navigation, userName, userCenter }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -60,6 +50,14 @@ const Menu: React.FC<Props> = props => {
       </View>
     </SafeAreaView>
   );
+
+  function navigateToPicture() {
+    navigation.navigate('Camera');
+  }
+
+  function navigateToWrite() {
+    navigation.navigate('Record');
+  }
 };
 
 const styles = StyleSheet.create({
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect<ReduxProps, null, ApplicationState>(state => ({
+export default connect<ReduxProps, null, null, ApplicationState>(state => ({
   userName: state.user.name,
   userCenter: state.user.center
 }))(Menu);
