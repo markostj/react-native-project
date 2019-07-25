@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import { NavigationScreenProps, ScrollView } from 'react-navigation';
 
+import { Navigation } from '../components/Navigation';
+
 type Props = NavigationScreenProps;
 
 const Record: React.FC<Props> = ({ navigation }) => {
@@ -222,32 +224,28 @@ const Record: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View>
-          <TouchableHighlight
-            onPress={navigateToMenu} // and send to database
-            style={[styles.menuBtn, styles.blue]}
-            underlayColor={'#8F8F8F'}
-          >
-            <Text style={styles.menuBtnText}>Pošalji u bazu podataka</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={navigateToPicture} // and also send to database
-            style={[styles.menuBtn, styles.green]}
-            underlayColor={'#8F8F8F'}
-          >
-            <Text style={styles.menuBtnText}>Ipak slikaj zapisnik</Text>
-          </TouchableHighlight>
+          <Navigation
+            value="Menu"
+            colorBg="#66ffff"
+            text="Pošalji u bazu podataka"
+            size={30}
+            {...navigation}
+          />
+          <Navigation
+            value="Camera"
+            colorBg="#6666ff"
+            text="Ipak slikaj zapisnik"
+            size={30}
+            {...navigation}
+          />
         </View>
       </View>
     </ScrollView>
+    /**
+     * for navigation menu send to db first then go to menu
+     * for navigation Camera send to db firt then go to camera
+     */
   );
-
-  function navigateToPicture() {
-    navigation.navigate('Camera');
-  }
-
-  function navigateToMenu() {
-    navigation.navigate('Menu');
-  }
 
   function handleNameChange(text: string) {
     setRecordState(state => ({ ...state, date: text }));
@@ -366,27 +364,6 @@ const styles = StyleSheet.create({
   },
   medium: {
     height: 200
-  },
-  menuBtn: {
-    borderWidth: 1,
-    borderColor: 'black',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 30,
-    marginBottom: 20,
-    padding: 20
-  },
-  menuBtnText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#fff',
-    fontSize: 30
-  },
-  blue: {
-    backgroundColor: '#66ffff'
-  },
-  green: {
-    backgroundColor: '#6666ff'
   }
 });
 

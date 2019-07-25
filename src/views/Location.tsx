@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { GetUserActions } from '../redux/userActions';
 import { ApplicationState } from 'redux/store';
+
+import { Navigation } from '../components/Navigation';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
@@ -33,6 +28,7 @@ const Location: React.FC<Props> = ({
   getCenter
 }) => {
   console.log(userName, userCenter);
+  console.log(navigation.navigate);
 
   const [location, setLocation] = useState('Osijek');
 
@@ -64,20 +60,16 @@ const Location: React.FC<Props> = ({
         source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/img/location.png')}
       />
       <View>
-        <TouchableHighlight
-          onPress={handlePress}
-          style={styles.footerBtn}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.footerBtnText}>Odaberi vrstu zapisnika</Text>
-        </TouchableHighlight>
+        <Navigation
+          value="Menu"
+          colorBg="#f4511e"
+          text="Odaberi vrstu zapisnika"
+          size={25}
+          {...navigation}
+        />
       </View>
     </SafeAreaView>
   );
-
-  function handlePress() {
-    navigation.navigate('Menu');
-  }
 };
 
 const styles = StyleSheet.create({
@@ -109,21 +101,6 @@ const styles = StyleSheet.create({
     width: 350,
     height: 300,
     marginBottom: 20
-  },
-  footerBtn: {
-    borderWidth: 1,
-    borderColor: 'black',
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 10,
-    padding: 5,
-    backgroundColor: '#f4511e'
-  },
-  footerBtnText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#fff',
-    fontSize: 30
   }
 });
 

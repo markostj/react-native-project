@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+
+import { Navigation } from '../components/Navigation';
 
 type Props = NavigationScreenProps;
 
@@ -17,20 +13,16 @@ const Camera: React.FC<Props> = ({ navigation }) => {
         <Text> Camera</Text>
       </View>
       <View>
-        <TouchableHighlight
-          onPress={handlePress}
-          style={styles.footerBtn}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.footerBtnText}>Pošalji u bazu podataka</Text>
-        </TouchableHighlight>
+        <Navigation
+          value="Menu"
+          colorBg="#66ffff"
+          text="Pošalji u bazu podataka"
+          size={30}
+          {...navigation}
+        />
       </View>
     </SafeAreaView>
   );
-
-  function handlePress() {
-    navigation.navigate('Menu');
-  }
 };
 
 const styles = StyleSheet.create({
@@ -45,22 +37,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  footerBtn: {
-    borderWidth: 1,
-    borderColor: 'black',
-    height: 70,
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: '#66ffff'
-  },
-  footerBtnText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#fff',
-    fontSize: 30
   }
 });
 

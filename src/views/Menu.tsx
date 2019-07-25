@@ -1,18 +1,13 @@
 import React from 'react';
 
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import { NavigationScreenProps } from 'react-navigation';
 
 import { connect } from 'react-redux';
 import { ApplicationState } from 'redux/store';
+
+import { Navigation } from '../components/Navigation';
 
 type Props = NavigationScreenProps & ReduxProps;
 
@@ -32,32 +27,25 @@ const Menu: React.FC<Props> = ({ navigation, userName, userCenter }) => {
         <Text style={styles.headerName}>{userName}</Text>
         <Text style={styles.headerCenter}> {userCenter}</Text>
       </View>
+
       <View>
-        <TouchableHighlight
-          onPress={navigateToPicture}
-          style={[styles.menuBtn, styles.blue]}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.menuBtnText}>Slikaj</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          onPress={navigateToWrite}
-          style={[styles.menuBtn, styles.green]}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.menuBtnText}>Napiši zapisnik</Text>
-        </TouchableHighlight>
+        <Navigation
+          value="Camera"
+          colorBg="#6666ff"
+          text="Slikaj"
+          size={30}
+          {...navigation}
+        />
+        <Navigation
+          value="Record"
+          colorBg="#00cc00"
+          text="Napiši zapisnik"
+          size={30}
+          {...navigation}
+        />
       </View>
     </SafeAreaView>
   );
-
-  function navigateToPicture() {
-    navigation.navigate('Camera');
-  }
-
-  function navigateToWrite() {
-    navigation.navigate('Record');
-  }
 };
 
 const styles = StyleSheet.create({
@@ -84,27 +72,6 @@ const styles = StyleSheet.create({
   },
   headerCenter: {
     fontSize: 15
-  },
-  menuBtn: {
-    borderWidth: 1,
-    borderColor: 'black',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 30,
-    marginBottom: 20,
-    padding: 20
-  },
-  menuBtnText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#fff',
-    fontSize: 30
-  },
-  blue: {
-    backgroundColor: '#6666ff'
-  },
-  green: {
-    backgroundColor: '#00cc00'
   }
 });
 
