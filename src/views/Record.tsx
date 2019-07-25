@@ -37,9 +37,9 @@ const Record: React.FC<Props> = ({ navigation }) => {
 
   console.log(recordState);
 
-  function handleNameChange(event: any) {
-    console.log(event.nativeEvent);
-    /*  setRecordState(state => ({ ...state, name: value })); */
+  function handleNameChange(name: string, value: string) {
+    console.log(name, value);
+    setRecordState(state => ({ ...state, name: value }));
   }
 
   function handleLeagueChange(text: string) {
@@ -53,7 +53,7 @@ const Record: React.FC<Props> = ({ navigation }) => {
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Datum </Text>
           <Form
-            value={'blabla'}
+            value={recordState.date}
             name={'date'}
             onChangeText={handleNameChange}
           />

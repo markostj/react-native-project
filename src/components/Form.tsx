@@ -16,7 +16,7 @@ export const Form: React.FC<Props> = ({
       style={styles.bodyForm}
       placeholder={placeholder}
       value={value}
-      onChangeText={onChangeText}
+      onChangeText={onChangeText(name, value)}
     />
   );
 };
