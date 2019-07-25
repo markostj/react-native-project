@@ -9,6 +9,7 @@ import {
 import { NavigationScreenProps, ScrollView } from 'react-navigation';
 
 import { Navigation } from '../components/Navigation';
+import { Form } from '../components/Form';
 
 type Props = NavigationScreenProps;
 
@@ -36,17 +37,24 @@ const Record: React.FC<Props> = ({ navigation }) => {
 
   console.log(recordState);
 
+  function handleNameChange(event: any) {
+    console.log(event.nativeEvent);
+    /*  setRecordState(state => ({ ...state, name: value })); */
+  }
+
+  function handleLeagueChange(text: string) {
+    setRecordState(state => ({ ...state, league: text }));
+  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Zapisnik</Text>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Datum </Text>
-          <TextInput
-            style={styles.bodyForm}
-            placeholder="Datum"
-            maxLength={15}
-            value={recordState.date}
+          <Form
+            value={'blabla'}
+            name={'date'}
             onChangeText={handleNameChange}
           />
         </View>
@@ -246,14 +254,6 @@ const Record: React.FC<Props> = ({ navigation }) => {
      * for navigation Camera send to db firt then go to camera
      */
   );
-
-  function handleNameChange(text: string) {
-    setRecordState(state => ({ ...state, date: text }));
-  }
-
-  function handleLeagueChange(text: string) {
-    setRecordState(state => ({ ...state, league: text }));
-  }
 
   function handleRoundChange(text: string) {
     setRecordState(state => ({ ...state, round: text }));
