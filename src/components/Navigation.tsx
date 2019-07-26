@@ -3,21 +3,40 @@ import { NavigationScreenProps } from 'react-navigation';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { StyleSheet, Text } from 'react-native';
 
-type Props = NavigationScreenProps;
+type Props = NavigationScreenProps & OwnProps;
 
-export const Navigation: React.FC<Props> = props => {
+interface OwnProps {
+  colorBg: string;
+  size: number;
+  text: string;
+  value: string;
+  navigate: any;
+}
+
+/**
+ *
+ * @navigate  is what type?
+ */
+
+export const Navigation: React.FC<Props> = ({
+  colorBg,
+  size,
+  text,
+  navigate,
+  value
+}) => {
   return (
     <TouchableHighlight
-      style={[styles.button, { backgroundColor: props.colorBg }]}
+      style={[styles.button, { backgroundColor: colorBg }]}
       onPress={whenClicked}
       underlayColor={'#8F8F8F'}
     >
-      <Text style={[styles.text, { fontSize: props.size }]}>{props.text}</Text>
+      <Text style={[styles.text, { fontSize: size }]}>{text}</Text>
     </TouchableHighlight>
   );
 
   function whenClicked() {
-    props.navigate(props.value);
+    navigate(value);
   }
 };
 
