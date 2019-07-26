@@ -1,2 +1,2 @@
 export { Navigation } from './Navigation';
-export { Form } from './Form';
+export { FormInput } from './FormInput';

@@ -1,10 +1,10 @@
-import Details from '../views/Details';
 import { Homepage } from '../views/Homepage';
 import HomeScreen from '../views/Homescreen';
-import Location from '../views/Location';
-import Menu from '../views/Menu';
-import Camera from '../views/Camera';
-import Record from '../views/Record';
+import RecordView from '../views/RecordView';
+import DetailsView from '../views/DetailsView';
+import LocationView from '../views/LocationView';
+import MenuView from '../views/MenuView';
+import CameraView from '../views/CameraView';
 
 import { createStackNavigator } from 'react-navigation';
 
@@ -18,7 +18,7 @@ const MainNavigator = createStackNavigator(
       }
     },
     Details: {
-      screen: Details,
+      screen: DetailsView,
       navigationOptions: {
         headerTitle: 'Details'
       }
@@ -30,32 +30,32 @@ const MainNavigator = createStackNavigator(
       }
     },
     Location: {
-      screen: Location,
+      screen: LocationView,
       navigationOptions: {
         headerTitle: 'Location'
       }
     },
     Menu: {
-      screen: Menu,
+      screen: MenuView,
       navigationOptions: {
         headerTitle: 'Menu'
       }
     },
     Camera: {
-      screen: Camera,
+      screen: CameraView,
       navigationOptions: {
         headerTitle: 'Camera'
       }
     },
     Record: {
-      screen: Record,
+      screen: RecordView,
       navigationOptions: {
         headerTitle: 'Record'
       }
     }
   },
   {
-    initialRouteName: 'Record',
+    initialRouteName: 'Home',
 
     defaultNavigationOptions: {
       headerStyle: {

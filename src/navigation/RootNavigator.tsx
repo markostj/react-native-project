@@ -1,5 +1,5 @@
 import MainNavigator from './MainNavigator';
-import Modal from '../views/Modal';
+import Modal from '../views/ModalView';
 
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 

@@ -17,7 +17,7 @@ interface DispatchProps {
   getName: (text: string) => void;
 }
 
-const Details: React.FC<Props> = ({ userName, userCenter, getName }) => {
+const DetailsView: React.FC<Props> = ({ userName, userCenter, getName }) => {
   console.log(userName);
 
   return (
@@ -47,4 +47,4 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   {
     getName: GetUserActions.setName
   }
-)(Details);
+)(DetailsView);

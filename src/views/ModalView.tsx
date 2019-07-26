@@ -5,7 +5,7 @@ import { NavigationScreenProps } from 'react-navigation';
 
 type Props = NavigationScreenProps;
 
-const Modal: React.FC<Props> = ({ navigation }) => {
+const ModalView: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={{ fontSize: 30 }}>This is a modal!</Text>
@@ -18,4 +18,4 @@ const Modal: React.FC<Props> = ({ navigation }) => {
   }
 };
 
-export default Modal;
+export default ModalView;

@@ -16,7 +16,7 @@ interface ReduxProps {
   userCenter: string;
 }
 
-const Menu: React.FC<Props> = ({ navigation, userName, userCenter }) => {
+const MenuView: React.FC<Props> = ({ navigation, userName, userCenter }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
 export default connect<ReduxProps, null, null, ApplicationState>(state => ({
   userName: state.user.name,
   userCenter: state.user.center
-}))(Menu);
+}))(MenuView);

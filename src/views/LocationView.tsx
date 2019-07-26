@@ -20,7 +20,7 @@ interface DispatchProps {
   getCenter: (text: string) => void;
 }
 
-const Location: React.FC<Props> = ({
+const LocationView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
@@ -33,7 +33,7 @@ const Location: React.FC<Props> = ({
   const [location, setLocation] = useState('Osijek');
 
   /**
-   * Look how to use useEffect
+   * Look how to use useEffect and instead of useEffect use thunk
    */
   useEffect(() => {
     // Excercise probably make something with firebase and then fetch it
@@ -113,4 +113,4 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     getName: GetUserActions.setName,
     getCenter: GetUserActions.setCenter
   }
-)(Location);
+)(LocationView);

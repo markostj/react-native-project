@@ -1,33 +1,15 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { NavigationScreenProps, ScrollView } from 'react-navigation';
 
 import { Navigation } from '../components/Navigation';
-import { Form } from '../components/Form';
+import { FormInput } from '../components/FormInput';
+import { Record } from '../models/Record';
 
 type Props = NavigationScreenProps;
 
-const Record: React.FC<Props> = ({ navigation }) => {
-  const [recordState, setRecordState] = useState({
-    date: '',
-    league: '',
-    round: '',
-    homeTeam: '',
-    awayTeam: '',
-    referee: '',
-    firstAssistant: '',
-    secondAssistant: '',
-    delegate: '',
-    homeRepresentative: '',
-    awayRepresentative: '',
-    homeYellow: '',
-    awayYellow: '',
-    homeRed: '',
-    awayRed: '',
-    remarks: '',
-    comentReferee: '',
-    result: ''
-  });
+const RecordView: React.FC<Props> = ({ navigation }) => {
+  const [recordState, setRecordState] = useState(new Record());
 
   console.log(recordState);
 
@@ -37,28 +19,34 @@ const Record: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.title}>Zapisnik</Text>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Datum </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Datum"
             value={recordState.date}
+            size="small"
+            propName="date"
             maxLength={15}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Liga </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Liga"
             value={recordState.league}
+            size="small"
+            propName="league"
             maxLength={30}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Kolo </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Kolo"
             value={recordState.round}
+            propName="round"
+            size="small"
             maxLength={3}
           />
         </View>
@@ -66,137 +54,161 @@ const Record: React.FC<Props> = ({ navigation }) => {
           Utakmica između klubova
         </Text>
         <View style={styles.containerForm}>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Domaćin"
             value={recordState.homeTeam}
+            propName="homeTeam"
+            size="small"
             maxLength={30}
           />
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Gost"
             value={recordState.awayTeam}
+            propName="awayTeam"
+            size="small"
             maxLength={30}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Sudac </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Sudac"
             value={recordState.referee}
+            propName="referee"
+            size="small"
             maxLength={30}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> 1. Pomoćni </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="1. Pomoćni"
             value={recordState.firstAssistant}
+            propName="firstAssistant"
+            size="small"
             maxLength={30}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> 2. Pomoćni </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="2. Pomoćni"
             value={recordState.secondAssistant}
+            propName="secondAssistant"
+            size="small"
             maxLength={30}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Delegat </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Delegat"
             value={recordState.delegate}
+            propName="delegate"
+            size="small"
             maxLength={30}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Domaći predstavnik kluba </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Predstavnik"
             value={recordState.homeRepresentative}
+            propName="homeRepresentative"
+            size="small"
             maxLength={30}
           />
         </View>
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Gost predstavnik </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Predstavnik"
             value={recordState.awayRepresentative}
+            propName="awayRepresentative"
+            size="small"
             maxLength={30}
           />
         </View>
         <Text style={[styles.containerTitle, styles.margin]}>
           Domaće opomene
         </Text>
-        <Form
+        <FormInput
           handleChangeCallback={handleChange}
           placeholder="Domaće opomene"
           value={recordState.homeYellow}
+          propName="homeYellow"
+          size="big"
           maxLength={500}
-          big={true}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
           Gostujuće opomene
         </Text>
-        <Form
+        <FormInput
           handleChangeCallback={handleChange}
           placeholder="Gostujuće opomene"
           value={recordState.awayYellow}
+          propName="awayYellow"
+          size="big"
           maxLength={500}
-          big={true}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
           Domaća isključenja
         </Text>
-        <Form
+        <FormInput
           handleChangeCallback={handleChange}
           placeholder="Domaća isključenja"
           value={recordState.homeRed}
+          propName="homeRed"
+          size="medium"
           maxLength={500}
-          medium={true}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
           Gostujuća isključenja
         </Text>
-        <Form
+        <FormInput
           handleChangeCallback={handleChange}
           placeholder="Gostujuća isključenja"
           value={recordState.awayRed}
+          propName="awayRed"
+          size="medium"
           maxLength={500}
-          medium={true}
         />
         <Text style={[styles.containerTitle, styles.margin]}>Primjedbe</Text>
-        <Form
+        <FormInput
           handleChangeCallback={handleChange}
           placeholder="Primjedbe"
           value={recordState.remarks}
+          propName="remarks"
+          size="medium"
           maxLength={500}
-          medium={true}
         />
         <Text style={[styles.containerTitle, styles.margin]}>
           Komentar Suca
         </Text>
-        <Form
+        <FormInput
           handleChangeCallback={handleChange}
           placeholder="Komentar suca"
           value={recordState.comentReferee}
+          propName="comentReferee"
+          size="medium"
           maxLength={500}
-          medium={true}
         />
         <View style={styles.containerForm}>
           <Text style={styles.containerTitle}> Rezultat (Domaći:Gosti) </Text>
-          <Form
+          <FormInput
             handleChangeCallback={handleChange}
             placeholder="Rezultat"
             value={recordState.result}
+            propName="result"
+            size="small"
             maxLength={10}
           />
         </View>
@@ -223,74 +235,8 @@ const Record: React.FC<Props> = ({ navigation }) => {
      * for navigation Camera send to db firt then go to camera
      */
   );
-  function handleChange(event) {
-    const change = event.nativeEvent.text;
-    console.log(event.nativeEvent);
-    /**
-     * Instead of switch I could use smtg like this [name] : change
-     * but don't know how to send 2 arguments(name)
-     */
-    switch (event.nativeEvent.target) {
-      case 13:
-        setRecordState(state => ({ ...state, date: change }));
-        break;
-      case 23:
-        setRecordState(state => ({ ...state, league: change }));
-        break;
-      case 33:
-        setRecordState(state => ({ ...state, round: change }));
-        break;
-      case 43:
-        setRecordState(state => ({ ...state, homeTeam: change }));
-        break;
-      case 45:
-        setRecordState(state => ({ ...state, awayTeam: change }));
-        break;
-      case 55:
-        setRecordState(state => ({ ...state, referee: change }));
-        break;
-      case 65:
-        setRecordState(state => ({ ...state, firstAssistant: change }));
-        break;
-      case 75:
-        setRecordState(state => ({ ...state, secondAssistant: change }));
-        break;
-      case 85:
-        setRecordState(state => ({ ...state, delegate: change }));
-        break;
-      case 95:
-        setRecordState(state => ({ ...state, homeRepresentative: change }));
-        break;
-      case 105:
-        setRecordState(state => ({ ...state, awayRepresentative: change }));
-        break;
-      case 115:
-        setRecordState(state => ({ ...state, homeYellow: change }));
-        break;
-      case 123:
-        setRecordState(state => ({ ...state, awayYellow: change }));
-        break;
-      case 129:
-        setRecordState(state => ({ ...state, homeRed: change }));
-        break;
-      case 137:
-        setRecordState(state => ({ ...state, awayRed: change }));
-        break;
-      case 145:
-        setRecordState(state => ({ ...state, remarks: change }));
-        break;
-      case 153:
-        setRecordState(state => ({ ...state, comentReferee: change }));
-        break;
-      case 153:
-        setRecordState(state => ({ ...state, comentReferee: change }));
-        break;
-      case 159:
-        setRecordState(state => ({ ...state, result: change }));
-        break;
-      default:
-        return '';
-    }
+  function handleChange(propName: string, value: string) {
+    setRecordState({ ...recordState, [propName]: value });
   }
 };
 
@@ -320,4 +266,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Record;
+export default RecordView;

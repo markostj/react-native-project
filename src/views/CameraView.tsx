@@ -6,7 +6,7 @@ import { Navigation } from '../components/Navigation';
 
 type Props = NavigationScreenProps;
 
-const Camera: React.FC<Props> = ({ navigation }) => {
+const CameraView: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Camera;
+export default CameraView;
