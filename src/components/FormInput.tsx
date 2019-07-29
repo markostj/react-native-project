@@ -4,11 +4,13 @@ import {
   StyleSheet,
   TextInputProps,
   NativeSyntheticEvent,
-  TextInputChangeEventData
+  TextInputChangeEventData,
+  Text
 } from 'react-native';
 
 type Props = OwnProps;
 type FormSize = 'small' | 'medium' | 'big';
+type TitleStyle = 'normal' | 'none' | 'margin';
 
 /**
  * We can use extend so we dont have to write props that components already have
@@ -16,6 +18,8 @@ type FormSize = 'small' | 'medium' | 'big';
 interface OwnProps extends TextInputProps {
   propName: string;
   size: FormSize;
+  title: string;
+  titleStyle: TitleStyle;
   handleChangeCallback: (propName: string, value: string) => void;
 }
 
@@ -25,17 +29,22 @@ export const FormInput: React.FC<Props> = ({
   value,
   handleChangeCallback,
   maxLength,
-  size
+  size,
+  title,
+  titleStyle
 }) => {
   return (
-    <TextInput
-      style={getStyleList(size)}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      maxLength={maxLength}
-      multiline={true}
-    />
+    <>
+      <Text style={getStyleTitle(titleStyle)}> {title} </Text>
+      <TextInput
+        style={getStyleList(size)}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        maxLength={maxLength}
+        multiline={true}
+      />
+    </>
   );
 
   function onChange(event: NativeSyntheticEvent<TextInputChangeEventData>) {
@@ -52,6 +61,19 @@ export const FormInput: React.FC<Props> = ({
         return [styles.bodyForm, styles.bigForm, styles.mediumForm];
       case 'big':
         return [styles.bodyForm, styles.bigForm];
+      default:
+        return '';
+    }
+  }
+
+  function getStyleTitle(formTitle: TitleStyle) {
+    switch (formTitle) {
+      case 'normal':
+        return [styles.containerTitle];
+      case 'none':
+        return [styles.none];
+      case 'margin':
+        return [styles.containerTitle, styles.margin];
       default:
         return '';
     }
@@ -79,5 +101,17 @@ const styles = StyleSheet.create({
   },
   mediumForm: {
     height: 200
+  },
+  containerTitle: {
+    fontSize: 20,
+    width: 200,
+    flexWrap: 'wrap',
+    textAlign: 'center'
+  },
+  none: {
+    display: 'none'
+  },
+  margin: {
+    marginBottom: 10
   }
 });

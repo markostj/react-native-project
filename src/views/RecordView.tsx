@@ -18,8 +18,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
       <View style={styles.container}>
         <Text style={styles.title}>Zapisnik</Text>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Datum </Text>
           <FormInput
+            title="Datum"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Datum"
             value={recordState.date}
@@ -29,8 +30,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Liga </Text>
           <FormInput
+            title="Liga"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Liga"
             value={recordState.league}
@@ -40,8 +42,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Kolo </Text>
           <FormInput
+            title="Kolo"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Kolo"
             value={recordState.round}
@@ -55,6 +58,8 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
         </Text>
         <View style={styles.containerForm}>
           <FormInput
+            title=""
+            titleStyle="none"
             handleChangeCallback={handleChange}
             placeholder="Domaćin"
             value={recordState.homeTeam}
@@ -63,6 +68,8 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
             maxLength={30}
           />
           <FormInput
+            title=""
+            titleStyle="none"
             handleChangeCallback={handleChange}
             placeholder="Gost"
             value={recordState.awayTeam}
@@ -72,8 +79,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Sudac </Text>
           <FormInput
+            title="Sudac"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Sudac"
             value={recordState.referee}
@@ -83,8 +91,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> 1. Pomoćni </Text>
           <FormInput
+            title="1. Pomoćni"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="1. Pomoćni"
             value={recordState.firstAssistant}
@@ -94,8 +103,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> 2. Pomoćni </Text>
           <FormInput
+            title="2. Pomoćni"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="2. Pomoćni"
             value={recordState.secondAssistant}
@@ -105,8 +115,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Delegat </Text>
           <FormInput
+            title="Delegat"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Delegat"
             value={recordState.delegate}
@@ -116,8 +127,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Domaći predstavnik kluba </Text>
           <FormInput
+            title="Domaći predstavnik kluba"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Predstavnik"
             value={recordState.homeRepresentative}
@@ -127,8 +139,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Gost predstavnik </Text>
           <FormInput
+            title="Gost predstavnik"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Predstavnik"
             value={recordState.awayRepresentative}
@@ -137,10 +150,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
             maxLength={30}
           />
         </View>
-        <Text style={[styles.containerTitle, styles.margin]}>
-          Domaće opomene
-        </Text>
         <FormInput
+          title="Domaće opomene"
+          titleStyle="margin"
           handleChangeCallback={handleChange}
           placeholder="Domaće opomene"
           value={recordState.homeYellow}
@@ -148,10 +160,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           size="big"
           maxLength={500}
         />
-        <Text style={[styles.containerTitle, styles.margin]}>
-          Gostujuće opomene
-        </Text>
         <FormInput
+          title="Gostujuće opomene"
+          titleStyle="margin"
           handleChangeCallback={handleChange}
           placeholder="Gostujuće opomene"
           value={recordState.awayYellow}
@@ -159,10 +170,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           size="big"
           maxLength={500}
         />
-        <Text style={[styles.containerTitle, styles.margin]}>
-          Domaća isključenja
-        </Text>
         <FormInput
+          title="Domaća isključenja"
+          titleStyle="margin"
           handleChangeCallback={handleChange}
           placeholder="Domaća isključenja"
           value={recordState.homeRed}
@@ -170,10 +180,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           size="medium"
           maxLength={500}
         />
-        <Text style={[styles.containerTitle, styles.margin]}>
-          Gostujuća isključenja
-        </Text>
         <FormInput
+          title="Gostujuća isključenja"
+          titleStyle="margin"
           handleChangeCallback={handleChange}
           placeholder="Gostujuća isključenja"
           value={recordState.awayRed}
@@ -181,8 +190,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           size="medium"
           maxLength={500}
         />
-        <Text style={[styles.containerTitle, styles.margin]}>Primjedbe</Text>
         <FormInput
+          title="Primjedbe"
+          titleStyle="margin"
           handleChangeCallback={handleChange}
           placeholder="Primjedbe"
           value={recordState.remarks}
@@ -190,10 +200,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           size="medium"
           maxLength={500}
         />
-        <Text style={[styles.containerTitle, styles.margin]}>
-          Komentar Suca
-        </Text>
         <FormInput
+          title="Komentar Suca"
+          titleStyle="margin"
           handleChangeCallback={handleChange}
           placeholder="Komentar suca"
           value={recordState.comentReferee}
@@ -202,8 +211,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           maxLength={500}
         />
         <View style={styles.containerForm}>
-          <Text style={styles.containerTitle}> Rezultat (Domaći:Gosti) </Text>
           <FormInput
+            title="Rezultat (Domaći:Gosti)"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Rezultat"
             value={recordState.result}
