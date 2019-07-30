@@ -3,10 +3,11 @@ import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import { GetUserActions } from '../redux/userActions';
 import { ApplicationState } from 'redux/store';
 
 import { Navigation } from '../components/Navigation';
+
+import { itemsFetchData } from '../redux/userActions';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
@@ -16,34 +17,27 @@ interface ReduxProps {
 }
 
 interface DispatchProps {
-  getName: (text: string) => void;
-  getCenter: (text: string) => void;
+  fetchData: (url: string) => void;
 }
 
 const LocationView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
-  getName,
-  getCenter
+  fetchData
 }) => {
   console.log(userName, userCenter);
   console.log(navigation.navigate);
 
   const [location, setLocation] = useState('Osijek');
-
   /**
-   * Look how to use useEffect and instead of useEffect use thunk
+   * location from geolocation
    */
+
   useEffect(() => {
     // Excercise probably make something with firebase and then fetch it
-    fetch('https://jsonplaceholder.typicode.com/users/1')
-      .then(response => response.json())
-      .then(json => {
-        getName(json.name);
-        getCenter(json.address.city);
-      });
-  });
+    fetchData('https://jsonplaceholder.typicode.com/users/2');
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,7 +104,6 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     userCenter: state.user.center
   }),
   {
-    getName: GetUserActions.setName,
-    getCenter: GetUserActions.setCenter
+    fetchData: itemsFetchData
   }
 )(LocationView);

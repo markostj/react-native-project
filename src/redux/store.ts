@@ -1,6 +1,7 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer, { UserState } from './userReducer';
+import thunk from 'redux-thunk';
 
 export interface ApplicationState {
     user: UserState;
@@ -13,5 +14,8 @@ export const configureStore = () => {
         user: userReducer
     };
 
-    return createStore(combineReducers(rootReducer), composeEnchancers());
+    return createStore(
+        combineReducers(rootReducer),
+        composeEnchancers(applyMiddleware(thunk))
+    );
 };

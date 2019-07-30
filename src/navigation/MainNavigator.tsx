@@ -55,7 +55,7 @@ const MainNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Record',
+    initialRouteName: 'Home',
 
     defaultNavigationOptions: {
       headerStyle: {
