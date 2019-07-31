@@ -3,7 +3,7 @@ import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import { ApplicationState } from 'redux/store';
+import { ApplicationState } from '../redux/store';
 
 import { Navigation } from '../components/Navigation';
 
@@ -34,20 +34,25 @@ const LocationView: React.FC<Props> = ({
    * location from geolocation
    */
 
-  useEffect(() => {
+  /* useEffect(() => {
     // Excercise probably make something with firebase and then fetch it
     fetchData('https://jsonplaceholder.typicode.com/users/2');
-  }, []);
+  }, []); 
+    See if we need this?
+  */
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image // Put real picture from firebase storage
           style={styles.headerImg}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/img/man.jpeg')}
+          source={{
+            uri:
+              'https://firebasestorage.googleapis.com/v0/b/ns-zapisnik.appspot.com/o/22.jpg?alt=media&token=f2932fb7-c5e5-4e5c-beed-5a38e9cb5077'
+          }}
         />
         <Text style={styles.headerName}>{userName}</Text>
-        <Text style={styles.headerCenter}> {userCenter}</Text>
+        {/*         <Text style={styles.headerCenter}> {userCenter}</Text> */}
       </View>
       <Image // Put real location and save it to location
         style={styles.bodyImg}

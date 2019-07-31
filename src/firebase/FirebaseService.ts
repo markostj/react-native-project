@@ -7,7 +7,7 @@ const firebaseConfig = {
     authDomain: 'ns-zapisnik.firebaseapp.com',
     databaseURL: 'https://ns-zapisnik.firebaseio.com',
     projectId: 'ns-zapisnik',
-    storageBucket: '',
+    storageBucket: 'gs://ns-zapisnik.appspot.com/',
     messagingSenderId: '613091037969',
     appId: '1:613091037969:web:7b8bd337ae8d0236'
 };

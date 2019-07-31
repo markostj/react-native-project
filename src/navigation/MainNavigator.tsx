@@ -1,4 +1,4 @@
-import { Homepage } from '../views/Homepage';
+import Homepage from '../views/Homepage';
 import HomeScreen from '../views/Homescreen';
 import RecordView from '../views/RecordView';
 import DetailsView from '../views/DetailsView';

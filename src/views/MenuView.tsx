@@ -12,7 +12,7 @@ import {
 import { NavigationScreenProps } from 'react-navigation';
 
 import { connect } from 'react-redux';
-import { ApplicationState } from 'redux/store';
+import { ApplicationState } from '../redux/store';
 
 import { Navigation } from '../components/Navigation';
 import { FirebaseAuth } from '../firebase/FirebaseService';

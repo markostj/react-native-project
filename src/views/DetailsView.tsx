@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
-import { ApplicationState } from 'redux/store';
+import { ApplicationState } from '../redux/store';
 import { TextInput } from 'react-native-gesture-handler';
 import { GetUserActions } from '../redux/userActions';
 import { itemsFetchData } from '../redux/userActions';

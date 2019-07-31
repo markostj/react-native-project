@@ -9,20 +9,25 @@ import {
   View,
   Alert
 } from 'react-native';
+import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
 
-import * as firebase from 'firebase';
+import { ApplicationState } from '../redux/store';
+
+import { GetUserActions } from '../redux/userActions';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 
-type Props = NavigationScreenProps;
+import * as firebase from 'firebase';
 
-export const Homepage: React.FC<Props> = ({ navigation }) => {
+type Props = NavigationScreenProps & DispatchProps;
+
+interface DispatchProps {
+  getName: (text: string) => void;
+}
+
+const Homepage: React.FC<Props> = ({ navigation, getName }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  useEffect(() => {
-    console.log('Similar to componentDiDMount and componentDiDUpdate');
-  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,20 +78,17 @@ export const Homepage: React.FC<Props> = ({ navigation }) => {
 
   function handleNameChange(text: string) {
     setEmail(text);
-    console.log(email);
   }
 
   function handlePasswordChange(text: string) {
     setPassword(text);
-    console.log(password);
   }
 
   function handleSubmit() {
-    console.log(email);
-    console.log(password); // Check Authentification here and then --> navigate
     FirebaseAuth.signInWithEmailAndPassword(email, password).then(
       () => {
         navigation.navigate('Location');
+        getName(email);
         setEmail('');
         setPassword('');
       },
@@ -95,7 +97,6 @@ export const Homepage: React.FC<Props> = ({ navigation }) => {
       }
     );
   }
-  /* navigation.navigate('Location'); */
 };
 
 const styles = StyleSheet.create({
@@ -169,3 +170,10 @@ const styles = StyleSheet.create({
     fontSize: 30
   }
 });
+
+export default connect<any, DispatchProps, null, ApplicationState>(
+  state => ({}),
+  {
+    getName: GetUserActions.setName
+  }
+)(Homepage);
