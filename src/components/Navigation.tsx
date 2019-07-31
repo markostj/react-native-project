@@ -10,13 +10,8 @@ interface OwnProps {
   size: number;
   text: string;
   value: string;
-  navigate: any;
+  navigate: (value: string) => void;
 }
-
-/**
- *
- * @navigate  is what type?
- */
 
 export const Navigation: React.FC<Props> = ({
   colorBg,

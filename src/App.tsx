@@ -18,6 +18,13 @@ import { configureStore } from './redux/store';
 class App extends React.Component {
   store = configureStore();
 
+  /**
+   * onAuthStateChanged maybe put later?
+   * can we make logout just with signOut and navigate to login page
+   * or have to do with onAuthStateChanged
+   *
+   */
+
   render() {
     return (
       <Provider store={this.store}>

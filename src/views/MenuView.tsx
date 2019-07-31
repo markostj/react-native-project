@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight
+} from 'react-native';
 
 import { NavigationScreenProps } from 'react-navigation';
 
@@ -8,6 +15,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from 'redux/store';
 
 import { Navigation } from '../components/Navigation';
+import { FirebaseAuth } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps & ReduxProps;
 
@@ -43,9 +51,22 @@ const MenuView: React.FC<Props> = ({ navigation, userName, userCenter }) => {
           size={30}
           {...navigation}
         />
+        <TouchableHighlight
+          onPress={handleLogOut}
+          style={styles.logOutBtn}
+          underlayColor={'#8F8F8F'}
+        >
+          <Text style={styles.logOutText}>Odlogiraj se</Text>
+        </TouchableHighlight>
       </View>
     </SafeAreaView>
   );
+
+  function handleLogOut() {
+    FirebaseAuth.signOut().then(() => {
+      navigation.navigate('App');
+    });
+  }
 };
 
 const styles = StyleSheet.create({
@@ -72,6 +93,20 @@ const styles = StyleSheet.create({
   },
   headerCenter: {
     fontSize: 15
+  },
+  logOutBtn: {
+    backgroundColor: 'red',
+    borderWidth: 1,
+    borderColor: 'black',
+    marginTop: 30,
+    marginBottom: 20,
+    padding: 20
+  },
+  logOutText: {
+    color: '#000',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 30
   }
 });
 

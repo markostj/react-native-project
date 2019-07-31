@@ -6,14 +6,18 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
-  View
+  View,
+  Alert
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+
+import * as firebase from 'firebase';
+import { FirebaseAuth } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps;
 
 export const Homepage: React.FC<Props> = ({ navigation }) => {
-  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   useEffect(() => {
@@ -41,9 +45,9 @@ export const Homepage: React.FC<Props> = ({ navigation }) => {
         <View style={styles.bodyLogIn}>
           <TextInput
             style={styles.bodyForm}
-            placeholder="Full Name"
+            placeholder="Email"
             maxLength={40}
-            value={name}
+            value={email}
             onChangeText={handleNameChange}
           />
           <TextInput
@@ -68,8 +72,8 @@ export const Homepage: React.FC<Props> = ({ navigation }) => {
   );
 
   function handleNameChange(text: string) {
-    setName(text);
-    console.log(name);
+    setEmail(text);
+    console.log(email);
   }
 
   function handlePasswordChange(text: string) {
@@ -78,10 +82,20 @@ export const Homepage: React.FC<Props> = ({ navigation }) => {
   }
 
   function handleSubmit() {
-    console.log(name);
+    console.log(email);
     console.log(password); // Check Authentification here and then --> navigate
-    navigation.navigate('Location');
+    FirebaseAuth.signInWithEmailAndPassword(email, password).then(
+      () => {
+        navigation.navigate('Location');
+        setEmail('');
+        setPassword('');
+      },
+      error => {
+        Alert.alert(error.message);
+      }
+    );
   }
+  /* navigation.navigate('Location'); */
 };
 
 const styles = StyleSheet.create({

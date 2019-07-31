@@ -6,6 +6,7 @@ import { ApplicationState } from 'redux/store';
 import { TextInput } from 'react-native-gesture-handler';
 import { GetUserActions } from '../redux/userActions';
 import { itemsFetchData } from '../redux/userActions';
+import { FirebaseAuth, FirebaseDatabase } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
@@ -38,6 +39,9 @@ const DetailsView: React.FC<Props> = ({
    */
 
   console.log(userName);
+
+  console.log('FirebaseAuth:', FirebaseAuth);
+  console.log('FirebaseDatabase:', FirebaseDatabase);
 
   if (loading && error) {
     return <Text>Ispričavamo se došlo je do pogreške</Text>;
