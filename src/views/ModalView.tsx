@@ -1,21 +1,38 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, StyleSheet } from 'react-native';
 
 import { NavigationScreenProps } from 'react-navigation';
+import { Navigation } from '../components/Navigation';
 
 type Props = NavigationScreenProps;
 
 const ModalView: React.FC<Props> = ({ navigation }) => {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-      <Button onPress={handleOnPress} title="Dismiss" />
+    <View style={styles.container}>
+      <Text style={styles.modalText}>
+        Vaš zapisnik je uspješno poslan u bazu!
+      </Text>
+      <Navigation
+        value="Menu"
+        colorBg="#f4511e"
+        text="OK, go to Menu"
+        size={30}
+        {...navigation}
+      />
     </View>
   );
-
-  function handleOnPress() {
-    navigation.goBack();
-  }
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalText: {
+    fontSize: 30,
+    textAlign: 'center'
+  }
+});
 
 export default ModalView;

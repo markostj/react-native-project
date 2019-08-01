@@ -15,6 +15,11 @@ import AppContainer from './navigation/RootNavigator';
 import { Provider } from 'react-redux';
 import { configureStore } from './redux/store';
 
+import './fixtimerbug';
+/**
+ * fixtimerbug is for setting a timer for a long period of time react native ERROR
+ */
+
 class App extends React.Component {
   store = configureStore();
 

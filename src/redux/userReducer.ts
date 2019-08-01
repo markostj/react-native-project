@@ -14,7 +14,7 @@ const INITIAL_STATE: UserState = {
     error: false,
     loading: false,
     uid: '',
-    urlPic: ''
+    urlPic: 'smtg'
 };
 
 export default (state = INITIAL_STATE, action: any): UserState => {

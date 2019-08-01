@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  Alert
+} from 'react-native';
 import { NavigationScreenProps, ScrollView } from 'react-navigation';
 
-import { Navigation } from '../components/Navigation';
 import { FormInput } from '../components/FormInput';
 import { Record } from '../models/Record';
+import { FirebaseDatabase } from '../firebase/FirebaseService';
+
+import uuid from 'react-native-uuid';
 
 type Props = NavigationScreenProps;
 
 const RecordView: React.FC<Props> = ({ navigation }) => {
   const [recordState, setRecordState] = useState(new Record());
+  const [error, setError] = useState('');
 
-  console.log(recordState);
+  /**
+   *  const randUID = uuid.v1();
+   * Use this randUID or date for naming docs ??
+   */
+  const randNumb = (Math.random() * (100000.12 - 0.02) + 0.02).toFixed(4);
 
   return (
     <ScrollView>
@@ -223,30 +236,88 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View>
-          <Navigation
-            value="Menu"
-            colorBg="#66ffff"
-            text="Pošalji u bazu podataka"
-            size={30}
-            {...navigation}
-          />
-          <Navigation
-            value="Camera"
-            colorBg="#6666ff"
-            text="Ipak slikaj zapisnik"
-            size={30}
-            {...navigation}
-          />
+          <Text style={styles.error}> {error} </Text>
+          <TouchableHighlight
+            style={[styles.button, styles.blue]}
+            onPress={check}
+            underlayColor={'#8F8F8F'}
+          >
+            <Text style={[styles.text]}>Pošalji u bazu podataka</Text>
+          </TouchableHighlight>
         </View>
       </View>
     </ScrollView>
-    /**
-     * for navigation menu send to db first then go to menu
-     * for navigation Camera send to db firt then go to camera
-     */
   );
+
+  /**
+   * check - probably can make this better
+   */
+  function check() {
+    if (
+      recordState.date.trim() === '' ||
+      recordState.league.trim() === '' ||
+      recordState.round.trim() === '' ||
+      recordState.homeTeam.trim() === '' ||
+      recordState.awayTeam.trim() === '' ||
+      recordState.referee.trim() === '' ||
+      recordState.firstAssistant.trim() === '' ||
+      recordState.secondAssistant.trim() === '' ||
+      recordState.delegate.trim() === '' ||
+      recordState.homeRepresentative.trim() === '' ||
+      recordState.awayRepresentative.trim() === '' ||
+      recordState.homeYellow.trim() === '' ||
+      recordState.awayYellow.trim() === '' ||
+      recordState.homeRed.trim() === '' ||
+      recordState.awayRed.trim() === '' ||
+      recordState.remarks.trim() === '' ||
+      recordState.comentReferee.trim() === '' ||
+      recordState.result.trim() === ''
+    ) {
+      setError('Ostavili ste polje prazno');
+      alertError();
+    } else {
+      setError('');
+      FirebaseDatabase.collection('records')
+        .doc(`${recordState.date}.${+randNumb}`)
+        .set({
+          date: recordState.date,
+          league: recordState.league,
+          round: recordState.round,
+          homeTeam: recordState.homeTeam,
+          awayTeam: recordState.awayTeam,
+          referee: recordState.referee,
+          firstAssistant: recordState.firstAssistant,
+          secondAssistant: recordState.secondAssistant,
+          delegate: recordState.delegate,
+          homeRepresentative: recordState.homeRepresentative,
+          awayRepresentative: recordState.awayRepresentative,
+          homeYellow: recordState.homeYellow,
+          awayYellow: recordState.awayYellow,
+          homeRed: recordState.homeRed,
+          awayRed: recordState.awayRed,
+          remarks: recordState.remarks,
+          comentReferee: recordState.comentReferee,
+          result: recordState.result
+        })
+        .then(() => console.log('Document successfully written!'))
+        .then(() => navigation.navigate('MyModal'))
+        .catch(errorText =>
+          console.error('Error writing document: ', errorText)
+        );
+    }
+  }
+
   function handleChange(propName: string, value: string) {
     setRecordState({ ...recordState, [propName]: value });
+  }
+
+  function alertError() {
+    Alert.alert(
+      'Pogreška',
+      'Ostavili ste jedno ili više polja prazno',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      { cancelable: false }
+    );
   }
 };
 
@@ -273,6 +344,28 @@ const styles = StyleSheet.create({
   },
   margin: {
     marginBottom: 10
+  },
+  error: {
+    fontSize: 30,
+    color: 'red'
+  },
+  button: {
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 20,
+    padding: 20
+  },
+  text: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 30
+  },
+  blue: {
+    backgroundColor: '#66ffff'
+  },
+  purple: {
+    backgroundColor: '#6666ff'
   }
 });
 

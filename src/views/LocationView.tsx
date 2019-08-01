@@ -12,6 +12,8 @@ import { itemsFetchData, GetUserActions } from '../redux/userActions';
 import * as firebase from 'firebase';
 import { FirebaseDatabase } from '../firebase/FirebaseService';
 
+import { CirclesLoader, TextLoader } from 'react-native-indicator';
+
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
 interface ReduxProps {
@@ -37,12 +39,12 @@ const LocationView: React.FC<Props> = ({
   setUrlPic,
   urlPic
 }) => {
-  console.log(userName, userCenter);
-  console.log(navigation.navigate);
-
   console.log(userUID);
 
+  console.log(userName, userCenter);
+
   const [location, setLocation] = useState('Osijek');
+  const [loading, setLoading] = useState(true);
 
   FirebaseDatabase.collection(`users`)
     .doc(userUID)
@@ -50,6 +52,7 @@ const LocationView: React.FC<Props> = ({
     .then(snapshot => {
       setCenter(snapshot.data().center);
     })
+    .then(() => setLoading(false))
     .catch(error => {
       console.log('Error getting data', error);
     });
@@ -68,6 +71,15 @@ const LocationView: React.FC<Props> = ({
   ref.getDownloadURL().then(data => {
     setUrlPic(data);
   });
+
+  if (loading || userName === '') {
+    return (
+      <View style={styles.container}>
+        <CirclesLoader size={100} />
+        <TextLoader text="Loading" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
