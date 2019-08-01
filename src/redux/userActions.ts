@@ -25,6 +25,10 @@ export const GetUserActions = {
     setUID: (uid: string) => ({
         type: UserActionTypes.SetUID,
         payload: uid
+    }),
+    setUrlPics: (url: string) => ({
+        type: UserActionTypes.SetUrlPics,
+        payload: url
     })
 };
 

@@ -22,15 +22,21 @@ type Props = NavigationScreenProps & ReduxProps;
 interface ReduxProps {
   userName: string;
   userCenter: string;
+  urlPic: string;
 }
 
-const MenuView: React.FC<Props> = ({ navigation, userName, userCenter }) => {
+const MenuView: React.FC<Props> = ({
+  navigation,
+  userName,
+  userCenter,
+  urlPic
+}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image // Put real picture from firebase storage
           style={styles.headerImg}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/img/man.jpeg')}
+          source={{ uri: urlPic }}
         />
         <Text style={styles.headerName}>{userName}</Text>
         <Text style={styles.headerCenter}> {userCenter}</Text>
@@ -112,5 +118,6 @@ const styles = StyleSheet.create({
 
 export default connect<ReduxProps, null, null, ApplicationState>(state => ({
   userName: state.user.name,
-  userCenter: state.user.center
+  userCenter: state.user.center,
+  urlPic: state.user.urlPic
 }))(MenuView);

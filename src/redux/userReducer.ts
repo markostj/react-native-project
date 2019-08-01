@@ -5,6 +5,7 @@ export interface UserState {
     error: boolean;
     loading: boolean;
     uid: string;
+    urlPic: string;
 }
 
 const INITIAL_STATE: UserState = {
@@ -12,7 +13,8 @@ const INITIAL_STATE: UserState = {
     center: '',
     error: false,
     loading: false,
-    uid: 'bla'
+    uid: '',
+    urlPic: ''
 };
 
 export default (state = INITIAL_STATE, action: any): UserState => {
@@ -47,6 +49,11 @@ export default (state = INITIAL_STATE, action: any): UserState => {
             return {
                 ...state,
                 uid: action.payload
+            };
+        case UserActionTypes.SetUrlPics:
+            return {
+                ...state,
+                urlPic: action.payload
             };
         default:
             return state || INITIAL_STATE;

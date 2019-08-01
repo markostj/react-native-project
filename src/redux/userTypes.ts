@@ -4,7 +4,8 @@ enum UserActions { // enum is for defining constant so we can easier use it
     UserError = 'user/UserError',
     UserLoading = 'user/UserLoading',
     FetchSuccess = 'user/FetchSuccess',
-    SetUID = 'user/SetUID'
+    SetUID = 'user/SetUID',
+    SetUrlPics = 'user/SetUrlPics'
 }
 
 export const UserActionTypes = {

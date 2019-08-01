@@ -18,11 +18,13 @@ interface ReduxProps {
   userName: string;
   userCenter: string;
   userUID: string;
+  urlPic: string;
 }
 
 interface DispatchProps {
   fetchData: (url: string) => void;
   setCenter: (center: string) => void;
+  setUrlPic: (url: string) => void;
 }
 
 const LocationView: React.FC<Props> = ({
@@ -31,7 +33,9 @@ const LocationView: React.FC<Props> = ({
   userCenter,
   fetchData,
   userUID,
-  setCenter
+  setCenter,
+  setUrlPic,
+  urlPic
 }) => {
   console.log(userName, userCenter);
   console.log(navigation.navigate);
@@ -60,6 +64,10 @@ const LocationView: React.FC<Props> = ({
   }, []); 
     See if we need this?
   */
+  const ref = firebase.storage().ref(`${userUID}.jpg`);
+  ref.getDownloadURL().then(data => {
+    setUrlPic(data);
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,8 +75,7 @@ const LocationView: React.FC<Props> = ({
         <Image // Put real picture from firebase storage
           style={styles.headerImg}
           source={{
-            uri:
-              'https://firebasestorage.googleapis.com/v0/b/ns-zapisnik.appspot.com/o/22.jpg?alt=media&token=f2932fb7-c5e5-4e5c-beed-5a38e9cb5077'
+            uri: urlPic
           }}
         />
         <Text style={styles.headerName}>{userName}</Text>
@@ -129,10 +136,12 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
     userName: state.user.name,
     userCenter: state.user.center,
-    userUID: state.user.uid
+    userUID: state.user.uid,
+    urlPic: state.user.urlPic
   }),
   {
     fetchData: itemsFetchData,
-    setCenter: GetUserActions.setCenter
+    setCenter: GetUserActions.setCenter,
+    setUrlPic: GetUserActions.setUrlPics
   }
 )(LocationView);
