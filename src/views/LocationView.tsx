@@ -7,29 +7,49 @@ import { ApplicationState } from '../redux/store';
 
 import { Navigation } from '../components/Navigation';
 
-import { itemsFetchData } from '../redux/userActions';
+import { itemsFetchData, GetUserActions } from '../redux/userActions';
+
+import * as firebase from 'firebase';
+import { FirebaseDatabase } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
 interface ReduxProps {
   userName: string;
   userCenter: string;
+  userUID: string;
 }
 
 interface DispatchProps {
   fetchData: (url: string) => void;
+  setCenter: (center: string) => void;
 }
 
 const LocationView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
-  fetchData
+  fetchData,
+  userUID,
+  setCenter
 }) => {
   console.log(userName, userCenter);
   console.log(navigation.navigate);
 
+  console.log(userUID);
+
   const [location, setLocation] = useState('Osijek');
+
+  FirebaseDatabase.collection(`users`)
+    .doc(userUID)
+    .get()
+    .then(snapshot => {
+      setCenter(snapshot.data().center);
+    })
+    .catch(error => {
+      console.log('Error getting data', error);
+    });
+
   /**
    * location from geolocation
    */
@@ -52,6 +72,7 @@ const LocationView: React.FC<Props> = ({
           }}
         />
         <Text style={styles.headerName}>{userName}</Text>
+        <Text style={styles.headerCenter}> {userCenter}</Text>
         {/*         <Text style={styles.headerCenter}> {userCenter}</Text> */}
       </View>
       <Image // Put real location and save it to location
@@ -94,7 +115,8 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   headerCenter: {
-    fontSize: 15
+    fontSize: 15,
+    marginBottom: 10
   },
   bodyImg: {
     width: 350,
@@ -106,9 +128,11 @@ const styles = StyleSheet.create({
 export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
     userName: state.user.name,
-    userCenter: state.user.center
+    userCenter: state.user.center,
+    userUID: state.user.uid
   }),
   {
-    fetchData: itemsFetchData
+    fetchData: itemsFetchData,
+    setCenter: GetUserActions.setCenter
   }
 )(LocationView);

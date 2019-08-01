@@ -21,6 +21,10 @@ export const GetUserActions = {
         type: UserActionTypes.FetchSuccess,
         name,
         center
+    }),
+    setUID: (uid: string) => ({
+        type: UserActionTypes.SetUID,
+        payload: uid
     })
 };
 

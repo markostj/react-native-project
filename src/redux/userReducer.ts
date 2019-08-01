@@ -4,13 +4,15 @@ export interface UserState {
     center: string;
     error: boolean;
     loading: boolean;
+    uid: string;
 }
 
 const INITIAL_STATE: UserState = {
     name: '',
     center: '',
     error: false,
-    loading: false
+    loading: false,
+    uid: 'bla'
 };
 
 export default (state = INITIAL_STATE, action: any): UserState => {
@@ -40,6 +42,11 @@ export default (state = INITIAL_STATE, action: any): UserState => {
                 ...state,
                 name: action.name,
                 center: action.center
+            };
+        case UserActionTypes.SetUID:
+            return {
+                ...state,
+                uid: action.payload
             };
         default:
             return state || INITIAL_STATE;

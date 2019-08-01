@@ -17,17 +17,29 @@ import { ApplicationState } from '../redux/store';
 import { GetUserActions } from '../redux/userActions';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 
-import * as firebase from 'firebase';
-
 type Props = NavigationScreenProps & DispatchProps;
 
 interface DispatchProps {
   getName: (text: string) => void;
+  setUID: (uid: string) => void;
 }
 
-const Homepage: React.FC<Props> = ({ navigation, getName }) => {
+const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  FirebaseAuth.onAuthStateChanged(user => {
+    if (user) {
+      // User logged in already or has just logged in.
+      setUID(user.uid);
+    } else {
+      /**
+       * setUID(''); error because of that
+       * when he tries to logout probably because of
+       * firebase .doc(userUID) and it is empty then
+       */
+    }
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -174,6 +186,7 @@ const styles = StyleSheet.create({
 export default connect<any, DispatchProps, null, ApplicationState>(
   state => ({}),
   {
-    getName: GetUserActions.setName
+    getName: GetUserActions.setName,
+    setUID: GetUserActions.setUID
   }
 )(Homepage);
