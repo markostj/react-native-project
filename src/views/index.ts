@@ -6,3 +6,4 @@ export * from './ModalView';
 export * from './MenuView';
 export * from './CameraView';
 export * from './RecordView';
+export * from './ForgotPasswordView';

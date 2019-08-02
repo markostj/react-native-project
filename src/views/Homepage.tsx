@@ -84,6 +84,13 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
         >
           <Text style={styles.footerBtnText}>Log In</Text>
         </TouchableHighlight>
+        <TouchableHighlight
+          onPress={forgotPassword}
+          style={styles.footerBtn}
+          underlayColor={'#8F8F8F'}
+        >
+          <Text style={styles.footerBtnText}>Forgot Password</Text>
+        </TouchableHighlight>
       </View>
     </SafeAreaView>
   );
@@ -108,6 +115,10 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
         Alert.alert(error.message);
       }
     );
+  }
+
+  function forgotPassword() {
+    navigation.navigate('ForgotPassword');
   }
 };
 
