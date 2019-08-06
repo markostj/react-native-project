@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert } from 'react-native';
-import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
-import { ApplicationState } from '../redux/store';
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
-import { GetUserActions } from '../redux/userActions';
-import { itemsFetchData } from '../redux/userActions';
-import { FirebaseAuth, FirebaseDatabase } from '../firebase/FirebaseService';
+import { FirebaseAuth } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps;
 

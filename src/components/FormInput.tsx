@@ -43,6 +43,7 @@ export const FormInput: React.FC<Props> = ({
         onChange={onChange}
         maxLength={maxLength}
         multiline={true}
+        autoCorrect={false}
       />
     </>
   );

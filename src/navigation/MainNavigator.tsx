@@ -33,7 +33,8 @@ const MainNavigator = createStackNavigator(
     Location: {
       screen: LocationView,
       navigationOptions: {
-        headerTitle: 'Location'
+        headerTitle: 'Location',
+        headerLeft: null
       }
     },
     Menu: {

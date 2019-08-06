@@ -315,7 +315,7 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
     Alert.alert(
       'Pogreška',
       'Ostavili ste jedno ili više polja prazno',
-      [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      [{ text: 'OK' }],
       { cancelable: false }
     );
   }
