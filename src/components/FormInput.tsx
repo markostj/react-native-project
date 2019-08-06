@@ -10,7 +10,7 @@ import {
 
 type Props = OwnProps;
 type FormSize = 'small' | 'medium' | 'big';
-type TitleStyle = 'normal' | 'none' | 'margin';
+type Title = 'normal' | 'none' | 'margin';
 
 /**
  * We can use extend so we dont have to write props that components already have
@@ -19,7 +19,7 @@ interface OwnProps extends TextInputProps {
   propName: string;
   size: FormSize;
   title: string;
-  titleStyle: TitleStyle;
+  titleStyle: Title;
   handleChangeCallback: (propName: string, value: string) => void;
 }
 
@@ -67,7 +67,7 @@ export const FormInput: React.FC<Props> = ({
     }
   }
 
-  function getStyleTitle(formTitle: TitleStyle) {
+  function getStyleTitle(formTitle: Title) {
     switch (formTitle) {
       case 'normal':
         return [styles.containerTitle];

@@ -46,17 +46,17 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
       <View style={styles.header}>
         <Image // maybe delete this and left just navigation
           style={styles.img}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/img/square.png')}
+          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/square.png')}
         />
         <Image
           style={styles.img}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/img/square.png')}
+          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/square.png')}
         />
       </View>
       <View style={styles.body}>
         <Image
           style={styles.bodyImg}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/img/hns.png')}
+          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/hns.png')}
         />
         <Text style={styles.bodyTitle}>NS Zapisnik</Text>
         <View style={styles.bodyLogIn}>

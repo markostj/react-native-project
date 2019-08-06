@@ -12,19 +12,18 @@ import { FormInput } from '../components/FormInput';
 import { Record } from '../models/Record';
 import { FirebaseDatabase } from '../firebase/FirebaseService';
 
-import uuid from 'react-native-uuid';
-
 type Props = NavigationScreenProps;
 
 const RecordView: React.FC<Props> = ({ navigation }) => {
   const [recordState, setRecordState] = useState(new Record());
-  const [error, setError] = useState('');
 
-  /**
-   *  const randUID = uuid.v1();
-   * Use this randUID or date for naming docs ??
-   */
-  const randNumb = (Math.random() * (100000.12 - 0.02) + 0.02).toFixed(4);
+  const isValid = Object.keys(recordState).every(
+    key => recordState[key].length > 0
+  );
+
+  console.log(`Vidjet cemo jel valja: ${isValid}`);
+
+  const [error, setError] = useState('');
 
   return (
     <ScrollView>
@@ -253,32 +252,13 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
    * check - probably can make this better
    */
   function check() {
-    if (
-      recordState.date.trim() === '' ||
-      recordState.league.trim() === '' ||
-      recordState.round.trim() === '' ||
-      recordState.homeTeam.trim() === '' ||
-      recordState.awayTeam.trim() === '' ||
-      recordState.referee.trim() === '' ||
-      recordState.firstAssistant.trim() === '' ||
-      recordState.secondAssistant.trim() === '' ||
-      recordState.delegate.trim() === '' ||
-      recordState.homeRepresentative.trim() === '' ||
-      recordState.awayRepresentative.trim() === '' ||
-      recordState.homeYellow.trim() === '' ||
-      recordState.awayYellow.trim() === '' ||
-      recordState.homeRed.trim() === '' ||
-      recordState.awayRed.trim() === '' ||
-      recordState.remarks.trim() === '' ||
-      recordState.comentReferee.trim() === '' ||
-      recordState.result.trim() === ''
-    ) {
+    if (!isValid) {
       setError('Ostavili ste polje prazno');
       alertError();
     } else {
       setError('');
       FirebaseDatabase.collection('records')
-        .doc(`${recordState.date}.${+randNumb}`)
+        .doc()
         .set({
           date: recordState.date,
           league: recordState.league,
