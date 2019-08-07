@@ -248,9 +248,6 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
     </ScrollView>
   );
 
-  /**
-   * check - probably can make this better
-   */
   function check() {
     if (!isValid) {
       setError('Ostavili ste polje prazno');

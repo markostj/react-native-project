@@ -8,14 +8,13 @@ import {
   Text
 } from 'react-native';
 
-type Props = OwnProps;
 type FormSize = 'small' | 'medium' | 'big';
 type Title = 'normal' | 'none' | 'margin';
 
 /**
  * We can use extend so we dont have to write props that components already have
  */
-interface OwnProps extends TextInputProps {
+interface Props extends TextInputProps {
   propName: string;
   size: FormSize;
   title: string;
