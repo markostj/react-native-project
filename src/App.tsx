@@ -16,19 +16,30 @@ import { Provider } from 'react-redux';
 import { configureStore } from './redux/store';
 
 import './fixtimerbug';
+import { FirebaseAuth } from './firebase/FirebaseService';
 /**
  * fixtimerbug is for setting a timer for a long period of time react native ERROR
  */
+
+FirebaseAuth.onAuthStateChanged(user => {
+  if (user) {
+    console.log('Loged in');
+    console.log(user.uid);
+  } else {
+    console.log('Loged out');
+  }
+});
 
 class App extends React.Component {
   store = configureStore();
 
   /**
-   * onAuthStateChanged maybe put later?
-   * can we make logout just with signOut and navigate to login page
-   * or have to do with onAuthStateChanged
-   *
+   * signOut Because it stays loged in??
    */
+
+  componentDidMount() {
+    FirebaseAuth.signOut();
+  }
 
   render() {
     return (

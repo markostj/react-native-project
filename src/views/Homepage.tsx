@@ -10,11 +10,13 @@ import {
   Alert
 } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationScreenProps } from 'react-navigation';
+import { NavigationScreenProps, NavigationEvents } from 'react-navigation';
 
 import { ApplicationState } from '../redux/store';
 
 import { GetUserActions } from '../redux/userActions';
+
+import { signIn } from '../redux/userActions';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps & DispatchProps;
@@ -22,24 +24,12 @@ type Props = NavigationScreenProps & DispatchProps;
 interface DispatchProps {
   getName: (text: string) => void;
   setUID: (uid: string) => void;
+  signIn: (email: string, password: string) => void;
 }
 
-const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
+const Homepage: React.FC<Props> = ({ navigation, getName, setUID, signIn }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  FirebaseAuth.onAuthStateChanged(user => {
-    if (user) {
-      // User logged in already or has just logged in.
-      setUID(user.uid);
-    } else {
-      /**
-       * setUID(''); error because of that
-       * when he tries to logout probably because of
-       * firebase .doc(userUID) and it is empty then
-       */
-    }
-  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -104,8 +94,16 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
   }
 
   function handleSubmit() {
+    /*   signIn(email, password);
+    getName(email);
+    console.log(email); 
+    This is correct after I find way to put navigatation
+    and delete Firebaseauth under
+    */
+
     FirebaseAuth.signInWithEmailAndPassword(email, password).then(
-      () => {
+      user => {
+        setUID(user.user.uid);
         navigation.navigate('Location');
         getName(email);
         setEmail('');
@@ -198,6 +196,7 @@ export default connect<any, DispatchProps, null, ApplicationState>(
   state => ({}),
   {
     getName: GetUserActions.setName,
-    setUID: GetUserActions.setUID
+    setUID: GetUserActions.setUID,
+    signIn
   }
 )(Homepage);

@@ -1,4 +1,9 @@
 import { UserActionTypes } from './userTypes';
+import { FirebaseAuth, FirebaseDatabase } from '../firebase/FirebaseService';
+import { Alert } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+
+import * as firebase from 'firebase';
 
 export const GetUserActions = {
     setName: (name: string) => ({
@@ -29,6 +34,9 @@ export const GetUserActions = {
     setUrlPics: (url: string) => ({
         type: UserActionTypes.SetUrlPics,
         payload: url
+    }),
+    authUser: () => ({
+        type: UserActionTypes.AuthUser
     })
 };
 
@@ -53,5 +61,53 @@ export function itemsFetchData(url: string) {
                 )
             )
             .catch(() => dispatch(GetUserActions.userError(true)));
+    };
+}
+
+export function signIn(email: string, password: string) {
+    return dispatch => {
+        FirebaseAuth.signInWithEmailAndPassword(email, password)
+            .then(user => {
+                dispatch(GetUserActions.setUID(user.user.uid));
+            })
+            .then(() => {
+                dispatch(GetUserActions.authUser());
+            })
+            /**
+             * Have to put navigation
+             * Do it like dispatch?
+             */
+            .catch(error => {
+                Alert.alert(error.message);
+            });
+    };
+}
+
+export function getCenter(uid: string) {
+    return dispatch => {
+        FirebaseDatabase.collection(`users`)
+            .doc(uid)
+            .get()
+            .then(snapshot => {
+                dispatch(GetUserActions.setCenter(snapshot.data().center));
+            })
+            .then(() => {
+                dispatch(GetUserActions.userLoading(false));
+            })
+            .catch(error => {
+                Alert.alert(error.message);
+            });
+    };
+}
+
+export function getProfilePic(uid: string) {
+    return dispatch => {
+        firebase
+            .storage()
+            .ref(`${uid}.jpg`)
+            .getDownloadURL()
+            .then(data => {
+                dispatch(GetUserActions.setUrlPics(data));
+            });
     };
 }

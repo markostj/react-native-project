@@ -6,15 +6,17 @@ export interface UserState {
     loading: boolean;
     uid: string;
     urlPic: string;
+    authenticated: boolean;
 }
 
 const INITIAL_STATE: UserState = {
     name: '',
     center: '',
     error: false,
-    loading: false,
+    loading: true,
     uid: '',
-    urlPic: 'smtg'
+    urlPic: 'smtg',
+    authenticated: false
 };
 
 export default (state = INITIAL_STATE, action: any): UserState => {
@@ -54,6 +56,11 @@ export default (state = INITIAL_STATE, action: any): UserState => {
             return {
                 ...state,
                 urlPic: action.payload
+            };
+        case UserActionTypes.AuthUser:
+            return {
+                ...state,
+                authenticated: true
             };
         default:
             return state || INITIAL_STATE;

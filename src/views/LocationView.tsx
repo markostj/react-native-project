@@ -14,7 +14,12 @@ import { ApplicationState } from '../redux/store';
 
 import { Navigation } from '../components/Navigation';
 
-import { itemsFetchData, GetUserActions } from '../redux/userActions';
+import {
+  itemsFetchData,
+  GetUserActions,
+  getCenter,
+  getProfilePic
+} from '../redux/userActions';
 
 import * as firebase from 'firebase';
 import { FirebaseDatabase } from '../firebase/FirebaseService';
@@ -34,61 +39,39 @@ interface ReduxProps {
   userCenter: string;
   userUID: string;
   urlPic: string;
+  authUser: boolean;
+  loading: boolean;
 }
 
 interface DispatchProps {
-  fetchData: (url: string) => void;
-  setCenter: (center: string) => void;
-  setUrlPic: (url: string) => void;
+  getCenter: (uid: string) => void;
+  getProfilePic: (uid: string) => void;
 }
 
 const LocationView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
-  fetchData,
   userUID,
-  setCenter,
-  setUrlPic,
-  urlPic
+  urlPic,
+  getCenter,
+  loading,
+  getProfilePic
 }) => {
-  console.log(userUID);
-
-  console.log(userName, userCenter);
-
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [mjesto, setMjesto] = useState('');
   const [ulica, setUlica] = useState('');
 
-  FirebaseDatabase.collection(`users`)
-    .doc(userUID)
-    .get()
-    .then(snapshot => {
-      setCenter(snapshot.data().center);
-    })
-    .then(() => setLoading(false))
-    .catch((error: string) => {
-      console.log('Error getting data', error);
-    });
+  getCenter(userUID);
+  getProfilePic(userUID);
 
   /**
    * location from geolocation
    */
 
-  /* useEffect(() => {
-    // Excercise probably make something with firebase and then fetch it
-    fetchData('https://jsonplaceholder.typicode.com/users/2');
-  }, []); 
-    See if we need this?
-  */
-  const ref = firebase.storage().ref(`${userUID}.jpg`);
-  ref.getDownloadURL().then(data => {
-    setUrlPic(data);
-  });
-
-  /* GetLocation.getCurrentPosition({
+  /* 
+  GetLocation.getCurrentPosition({
     enableHighAccuracy: true,
     timeout: 15000
   })
@@ -119,7 +102,7 @@ const LocationView: React.FC<Props> = ({
     .catch((error: { code: string; message: string }) => {
       const { code, message } = error;
       console.warn(code, message);
-    });
+    }); */
 
   if (loading || userName === '') {
     return (
@@ -128,7 +111,7 @@ const LocationView: React.FC<Props> = ({
         <TextLoader text="Loading" />
       </View>
     );
-  } */
+  }
 
   /**
    * Put map?
@@ -207,11 +190,12 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     userName: state.user.name,
     userCenter: state.user.center,
     userUID: state.user.uid,
-    urlPic: state.user.urlPic
+    urlPic: state.user.urlPic,
+    authUser: state.user.authenticated,
+    loading: state.user.loading
   }),
   {
-    fetchData: itemsFetchData,
-    setCenter: GetUserActions.setCenter,
-    setUrlPic: GetUserActions.setUrlPics
+    getCenter,
+    getProfilePic
   }
 )(LocationView);
