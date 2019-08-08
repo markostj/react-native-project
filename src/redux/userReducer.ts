@@ -41,12 +41,6 @@ export default (state = INITIAL_STATE, action: any): UserState => {
                 ...state,
                 loading: action.payload
             };
-        case UserActionTypes.FetchSuccess:
-            return {
-                ...state,
-                name: action.name,
-                center: action.center
-            };
         case UserActionTypes.SetUID:
             return {
                 ...state,

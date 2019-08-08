@@ -68,10 +68,13 @@ const MenuView: React.FC<Props> = ({
     </SafeAreaView>
   );
 
-  function handleLogOut() {
-    FirebaseAuth.signOut().then(() => {
-      navigation.navigate('App');
-    });
+  /**
+   * Should this be also thunk ?
+   * Is this async form correct?
+   */
+  async function handleLogOut() {
+    await FirebaseAuth.signOut();
+    navigation.navigate('App');
   }
 };
 

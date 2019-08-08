@@ -9,7 +9,6 @@ type Props = NavigationScreenProps;
 const ForgotPasswordView: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState('');
 
-  console.log(email);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -36,11 +35,17 @@ const ForgotPasswordView: React.FC<Props> = ({ navigation }) => {
     setEmail(text);
   }
 
-  function handleSubmit() {
-    FirebaseAuth.sendPasswordResetEmail(email)
-      .then(() => Alert.alert('Please check your email...'))
-      .then(() => navigation.navigate('App'))
-      .catch(error => Alert.alert(error.message));
+  /**
+   * Dont know if this is correct or I should use then here?
+   */
+  async function handleSubmit() {
+    try {
+      await FirebaseAuth.sendPasswordResetEmail(email);
+      Alert.alert('Please check your email...');
+      navigation.navigate('App');
+    } catch (error) {
+      Alert.alert(error.message);
+    }
   }
 };
 

@@ -63,11 +63,17 @@ const LocationView: React.FC<Props> = ({
   const [mjesto, setMjesto] = useState('');
   const [ulica, setUlica] = useState('');
 
-  getCenter(userUID);
-  getProfilePic(userUID);
+  /**
+   * Do we use useEffect for this?
+   */
+  useEffect(() => {
+    getCenter(userUID);
+    getProfilePic(userUID);
+  }, []);
 
   /**
    * location from geolocation
+   * make with async
    */
 
   /* 

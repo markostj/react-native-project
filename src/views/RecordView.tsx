@@ -21,8 +21,6 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
     key => recordState[key].length > 0
   );
 
-  console.log(`Vidjet cemo jel valja: ${isValid}`);
-
   const [error, setError] = useState('');
 
   return (

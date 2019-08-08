@@ -19,15 +19,24 @@ import { GetUserActions } from '../redux/userActions';
 import { signIn } from '../redux/userActions';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 
-type Props = NavigationScreenProps & DispatchProps;
+type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
+interface ReduxProps {
+  authenticated: boolean;
+}
 interface DispatchProps {
   getName: (text: string) => void;
   setUID: (uid: string) => void;
   signIn: (email: string, password: string) => void;
 }
 
-const Homepage: React.FC<Props> = ({ navigation, getName, setUID, signIn }) => {
+const Homepage: React.FC<Props> = ({
+  navigation,
+  getName,
+  setUID,
+  signIn,
+  authenticated
+}) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -93,26 +102,16 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID, signIn }) => {
     setPassword(text);
   }
 
-  function handleSubmit() {
-    /*   signIn(email, password);
+  /**
+   * How to make async for navigation?
+   * Because it goes to Location even if we are not loged in
+   */
+  async function handleSubmit() {
+    await signIn(email, password);
     getName(email);
-    console.log(email); 
-    This is correct after I find way to put navigatation
-    and delete Firebaseauth under
-    */
-
-    FirebaseAuth.signInWithEmailAndPassword(email, password).then(
-      user => {
-        setUID(user.user.uid);
-        navigation.navigate('Location');
-        getName(email);
-        setEmail('');
-        setPassword('');
-      },
-      error => {
-        Alert.alert(error.message);
-      }
-    );
+    setEmail('');
+    setPassword('');
+    navigation.navigate('Location');
   }
 
   function forgotPassword() {
@@ -193,7 +192,9 @@ const styles = StyleSheet.create({
 });
 
 export default connect<any, DispatchProps, null, ApplicationState>(
-  state => ({}),
+  state => ({
+    authenticated: state.user.authenticated
+  }),
   {
     getName: GetUserActions.setName,
     setUID: GetUserActions.setUID,

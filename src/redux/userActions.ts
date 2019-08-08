@@ -4,7 +4,11 @@ import { Alert } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 import * as firebase from 'firebase';
+import { Dispatch } from 'redux';
 
+/**
+ * Every set put in one action
+ */
 export const GetUserActions = {
     setName: (name: string) => ({
         type: UserActionTypes.SetName,
@@ -22,11 +26,6 @@ export const GetUserActions = {
         type: UserActionTypes.UserLoading,
         payload: loading
     }),
-    fetchSuccess: (name: string, center: string) => ({
-        type: UserActionTypes.FetchSuccess,
-        name,
-        center
-    }),
     setUID: (uid: string) => ({
         type: UserActionTypes.SetUID,
         payload: uid
@@ -40,74 +39,52 @@ export const GetUserActions = {
     })
 };
 
-export function itemsFetchData(url: string) {
-    return dispatch => {
-        dispatch(GetUserActions.userLoading(true));
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-
-                dispatch(GetUserActions.userLoading(false));
-
-                return response;
-            })
-            .then(response => response.json())
-            .then(items =>
-                dispatch(
-                    GetUserActions.fetchSuccess(items.name, items.address.city)
-                )
-            )
-            .catch(() => dispatch(GetUserActions.userError(true)));
-    };
-}
-
-export function signIn(email: string, password: string) {
-    return dispatch => {
-        FirebaseAuth.signInWithEmailAndPassword(email, password)
-            .then(user => {
-                dispatch(GetUserActions.setUID(user.user.uid));
-            })
-            .then(() => {
-                dispatch(GetUserActions.authUser());
-            })
-            /**
-             * Have to put navigation
-             * Do it like dispatch?
-             */
-            .catch(error => {
-                Alert.alert(error.message);
-            });
-    };
-}
+export const signIn = (email: string, password: string) => async (
+    dispatch: Dispatch
+) => {
+    try {
+        const user = await FirebaseAuth.signInWithEmailAndPassword(
+            email,
+            password
+        );
+        /**
+         * have to put navigation
+         */
+        dispatch(GetUserActions.setUID(user.user.uid));
+        dispatch(GetUserActions.authUser());
+    } catch (error) {
+        Alert.alert(error.message);
+    }
+};
+/**
+ * What is correct form for up or down async ?
+ *
+ */
 
 export function getCenter(uid: string) {
-    return dispatch => {
-        FirebaseDatabase.collection(`users`)
-            .doc(uid)
-            .get()
-            .then(snapshot => {
-                dispatch(GetUserActions.setCenter(snapshot.data().center));
-            })
-            .then(() => {
-                dispatch(GetUserActions.userLoading(false));
-            })
-            .catch(error => {
-                Alert.alert(error.message);
-            });
+    return async dispatch => {
+        try {
+            const snapshot = await FirebaseDatabase.collection(`users`)
+                .doc(uid)
+                .get();
+            dispatch(GetUserActions.setCenter(snapshot.data().center));
+            dispatch(GetUserActions.userLoading(false));
+        } catch (error) {
+            Alert.alert(error.message);
+        }
     };
 }
 
 export function getProfilePic(uid: string) {
-    return dispatch => {
-        firebase
-            .storage()
-            .ref(`${uid}.jpg`)
-            .getDownloadURL()
-            .then(data => {
-                dispatch(GetUserActions.setUrlPics(data));
-            });
+    return async dispatch => {
+        try {
+            const data = await firebase
+                .storage()
+                .ref(`${uid}.jpg`)
+                .getDownloadURL();
+            dispatch(GetUserActions.setUrlPics(data));
+        } catch (error) {
+            Alert.alert(error.message);
+        }
     };
 }
