@@ -40,7 +40,6 @@ interface ReduxProps {
   userUID: string;
   urlPic: string;
   authUser: boolean;
-  loading: boolean;
 }
 
 interface DispatchProps {
@@ -54,22 +53,12 @@ const LocationView: React.FC<Props> = ({
   userCenter,
   userUID,
   urlPic,
-  getCenter,
-  loading,
-  getProfilePic
+  authUser
 }) => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [mjesto, setMjesto] = useState('');
   const [ulica, setUlica] = useState('');
-
-  /**
-   * Do we use useEffect for this?
-   */
-  useEffect(() => {
-    getCenter(userUID);
-    getProfilePic(userUID);
-  }, []);
 
   /**
    * location from geolocation
@@ -110,7 +99,7 @@ const LocationView: React.FC<Props> = ({
       console.warn(code, message);
     }); */
 
-  if (loading || userName === '') {
+  if (!authUser) {
     return (
       <View style={styles.container}>
         <CirclesLoader size={100} />
@@ -126,14 +115,14 @@ const LocationView: React.FC<Props> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image
+        {/*  <Image
           style={styles.headerImg}
           source={{
             uri: urlPic
           }}
-        />
-        <Text style={styles.headerName}>{userName}</Text>
-        <Text style={styles.headerCenter}> {userCenter}</Text>
+        /> */}
+        <Text style={styles.headerName}>Marko</Text>
+        <Text style={styles.headerCenter}> OS</Text>
         <Text style={styles.headerName}>
           Trenutna adresa:{ulica}, {mjesto}
         </Text>
@@ -197,8 +186,7 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     userCenter: state.user.center,
     userUID: state.user.uid,
     urlPic: state.user.urlPic,
-    authUser: state.user.authenticated,
-    loading: state.user.loading
+    authUser: state.user.authenticated
   }),
   {
     getCenter,

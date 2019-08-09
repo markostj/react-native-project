@@ -34,10 +34,7 @@ const MenuView: React.FC<Props> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image // Put real picture from firebase storage
-          style={styles.headerImg}
-          source={{ uri: urlPic }}
-        />
+        <Image style={styles.headerImg} source={{ uri: urlPic }} />
         <Text style={styles.headerName}>{userName}</Text>
         <Text style={styles.headerCenter}> {userCenter}</Text>
       </View>

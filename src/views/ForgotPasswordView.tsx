@@ -1,13 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
 import { FirebaseAuth } from '../firebase/FirebaseService';
+import { connect } from 'react-redux';
+import { passwordReset } from '../redux/userThunks';
+import { ApplicationState } from '../redux/store';
 
-type Props = NavigationScreenProps;
+type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
-const ForgotPasswordView: React.FC<Props> = ({ navigation }) => {
+interface ReduxProps {
+  error: string;
+  reset: boolean;
+}
+
+interface DispatchProps {
+  passwordReset: (email: string) => void;
+}
+
+const ForgotPasswordView: React.FC<Props> = ({
+  navigation,
+  error,
+  reset,
+  passwordReset
+}) => {
   const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    if (reset) {
+      Alert.alert('Provjerite mail');
+      navigation.navigate('App');
+    }
+    if (error !== '') {
+      Alert.alert(error);
+    }
+  });
 
   return (
     <View style={styles.container}>
@@ -38,14 +65,8 @@ const ForgotPasswordView: React.FC<Props> = ({ navigation }) => {
   /**
    * Dont know if this is correct or I should use then here?
    */
-  async function handleSubmit() {
-    try {
-      await FirebaseAuth.sendPasswordResetEmail(email);
-      Alert.alert('Please check your email...');
-      navigation.navigate('App');
-    } catch (error) {
-      Alert.alert(error.message);
-    }
+  function handleSubmit() {
+    passwordReset(email);
   }
 };
 
@@ -87,4 +108,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ForgotPasswordView;
+export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
+  state => ({
+    error: state.user.error,
+    reset: state.user.resetPassword
+  }),
+  {
+    passwordReset
+  }
+)(ForgotPasswordView);

@@ -16,42 +16,44 @@ import { ApplicationState } from '../redux/store';
 
 import { GetUserActions } from '../redux/userActions';
 
-import { signIn } from '../redux/userActions';
+import { signIn } from '../redux/userThunks';
 import { FirebaseAuth } from '../firebase/FirebaseService';
+import { auth } from 'firebase';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
 interface ReduxProps {
   authenticated: boolean;
+  error: string;
 }
 interface DispatchProps {
-  getName: (text: string) => void;
-  setUID: (uid: string) => void;
   signIn: (email: string, password: string) => void;
 }
 
 const Homepage: React.FC<Props> = ({
   navigation,
-  getName,
-  setUID,
   signIn,
-  authenticated
+  authenticated,
+  error
 }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  console.log(`Authenticated je : ${authenticated}`);
+
+  useEffect(() => {
+    if (error !== '') {
+      Alert.alert(error);
+    }
+    if (authenticated) {
+      setEmail('');
+      setPassword('');
+      navigation.navigate('Location');
+    }
+  });
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image // maybe delete this and left just navigation
-          style={styles.img}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/square.png')}
-        />
-        <Image
-          style={styles.img}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/square.png')}
-        />
-      </View>
       <View style={styles.body}>
         <Image
           style={styles.bodyImg}
@@ -95,6 +97,7 @@ const Homepage: React.FC<Props> = ({
   );
 
   function handleNameChange(text: string) {
+    /* setEmail(...state, [prop]: text); */
     setEmail(text);
   }
 
@@ -106,12 +109,11 @@ const Homepage: React.FC<Props> = ({
    * How to make async for navigation?
    * Because it goes to Location even if we are not loged in
    */
-  async function handleSubmit() {
-    await signIn(email, password);
-    getName(email);
+  function handleSubmit() {
+    signIn(email, password);
     setEmail('');
     setPassword('');
-    navigation.navigate('Location');
+    /*    navigation.navigate('Location'); */
   }
 
   function forgotPassword() {
@@ -123,20 +125,6 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     flex: 1
-  },
-
-  header: {
-    backgroundColor: '#8F8F8F',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  img: {
-    width: 25,
-    height: 25,
-    marginLeft: 10,
-    marginRight: 10
   },
   body: {
     backgroundColor: '#C4C4C4',
@@ -193,11 +181,10 @@ const styles = StyleSheet.create({
 
 export default connect<any, DispatchProps, null, ApplicationState>(
   state => ({
-    authenticated: state.user.authenticated
+    authenticated: state.user.authenticated,
+    error: state.user.error
   }),
   {
-    getName: GetUserActions.setName,
-    setUID: GetUserActions.setUID,
     signIn
   }
 )(Homepage);

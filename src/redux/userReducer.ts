@@ -1,60 +1,48 @@
 import { UserActionTypes } from './userTypes';
-export interface UserState {
-    name: string;
-    center: string;
-    error: boolean;
-    loading: boolean;
-    uid: string;
-    urlPic: string;
+export interface UserState extends firebase.UserInfo {
+    refereeCenter: string;
     authenticated: boolean;
+    error: '';
+    resetPassword: boolean;
 }
 
 const INITIAL_STATE: UserState = {
-    name: '',
-    center: '',
-    error: false,
-    loading: true,
+    displayName: '',
+    email: '',
+    phoneNumber: '',
+    photoURL: '',
+    providerId: '',
     uid: '',
-    urlPic: 'smtg',
-    authenticated: false
+    refereeCenter: '',
+    authenticated: false,
+    error: '',
+    resetPassword: false
 };
 
+/**
+ * How to put here for example [value] : action.payload.[value]
+ */
 export default (state = INITIAL_STATE, action: any): UserState => {
     switch (action.type) {
-        case UserActionTypes.SetName:
+        case UserActionTypes.GetUserInfo:
             return {
                 ...state,
-                name: action.payload
-            };
-        case UserActionTypes.SetCenter:
-            return {
-                ...state,
-                center: action.payload
-            };
-        case UserActionTypes.UserError:
-            return {
-                ...state,
-                error: action.payload
-            };
-        case UserActionTypes.UserLoading:
-            return {
-                ...state,
-                loading: action.payload
-            };
-        case UserActionTypes.SetUID:
-            return {
-                ...state,
-                uid: action.payload
-            };
-        case UserActionTypes.SetUrlPics:
-            return {
-                ...state,
-                urlPic: action.payload
+                email: 'bla'
             };
         case UserActionTypes.AuthUser:
             return {
                 ...state,
                 authenticated: true
+            };
+        case UserActionTypes.Error:
+            return {
+                ...state,
+                error: action.payload
+            };
+        case UserActionTypes.PasswordReset:
+            return {
+                ...state,
+                resetPassword: true
             };
         default:
             return state || INITIAL_STATE;

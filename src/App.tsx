@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import AppContainer from './navigation/RootNavigator';
 
@@ -21,33 +21,24 @@ import { FirebaseAuth } from './firebase/FirebaseService';
  * fixtimerbug is for setting a timer for a long period of time react native ERROR
  */
 
-FirebaseAuth.onAuthStateChanged(user => {
-  if (user) {
-    console.log('Loged in');
-    console.log(user.uid);
-  } else {
-    console.log('Loged out');
-  }
-});
+const App: React.FC = () => {
+  const store = configureStore();
 
-class App extends React.Component {
-  store = configureStore();
+  useEffect(() => {
+    FirebaseAuth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('Loged in');
+      } else {
+        console.log('Loged out');
+      }
+    });
+  });
 
-  /**
-   * signOut Because it stays loged in??
-   */
-
-  componentDidMount() {
-    FirebaseAuth.signOut();
-  }
-
-  render() {
-    return (
-      <Provider store={this.store}>
-        <AppContainer />
-      </Provider>
-    );
-  }
-}
+  return (
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  );
+};
 
 export default App;
