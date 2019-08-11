@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { passwordReset } from '../redux/userThunks';
 import { ApplicationState } from '../redux/store';
 import ImagePicker from 'react-native-image-picker';
+import * as firebase from 'firebase';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -27,15 +28,40 @@ const ChangeAvatarView: React.FC<Props> = ({
 }) => {
   const [photo, setPhoto] = useState();
 
+  const [proba, setProba] = useState();
+
+  /**
+   * Isto thunk
+   */
+  const handleUpload = async () => {
+    const response = await fetch(photo.uri);
+    const blob = await response.blob();
+    const user = FirebaseAuth.currentUser;
+
+    const ref = firebase
+      .storage()
+      .ref()
+      .child('Avatars/' + user.uid);
+    const data = await firebase
+      .storage()
+      .ref()
+      .child('Avatars/' + user.uid)
+      .getDownloadURL();
+    user.updateProfile({
+      displayName: 'Jane Q. User',
+      photoURL: data
+    });
+    setProba(data);
+    console.log(data);
+    return ref.put(blob);
+  };
+
   console.log(photo);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Izaberite svoju profilnu sliku</Text>
       {photo && (
-        <Image
-          source={{ uri: photo.uri }}
-          style={{ width: 300, height: 300 }}
-        />
+        <Image source={{ uri: proba }} style={{ width: 300, height: 300 }} />
       )}
       <TouchableHighlight
         onPress={handleChoosePhoto}
@@ -64,10 +90,6 @@ const ChangeAvatarView: React.FC<Props> = ({
         setPhoto(response);
       }
     });
-  }
-
-  function handleUpload() {
-    console.log('upload');
   }
 };
 

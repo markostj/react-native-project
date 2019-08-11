@@ -11,11 +11,27 @@ import { NavigationScreenProps } from 'react-navigation';
 
 import { Navigation } from '../components/Navigation';
 import ImagePicker from 'react-native-image-picker';
+import { FirebaseAuth } from '../firebase/FirebaseService';
+import * as firebase from 'firebase';
 
 type Props = NavigationScreenProps;
 
 const CameraView: React.FC<Props> = ({ navigation }) => {
   const [photo, setPhoto] = useState();
+
+  const handleUpload = async () => {
+    const response = await fetch(photo.uri);
+    const blob = await response.blob();
+    const user = FirebaseAuth.currentUser;
+    /**
+     * find how to upload with random name
+     */
+    const ref = firebase
+      .storage()
+      .ref()
+      .child('Records/' + 'bla');
+    return ref.put(blob);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,13 +51,20 @@ const CameraView: React.FC<Props> = ({ navigation }) => {
         </TouchableHighlight>
       </View>
       <View>
-        <Navigation
+        <TouchableHighlight
+          onPress={handleUpload}
+          style={styles.btn}
+          underlayColor={'#8F8F8F'}
+        >
+          <Text style={styles.btnText}>UPLOAD</Text>
+        </TouchableHighlight>
+        {/*     <Navigation
           value="Menu"
           colorBg="#66ffff"
           text="Pošalji u bazu podataka"
           size={30}
           {...navigation}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

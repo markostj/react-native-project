@@ -13,10 +13,6 @@ export const signIn = (email: string, password: string) => async (
 
         if (credential.user) {
             dispatch(GetUserActions.authUser(true));
-            credential.user.updateProfile({
-                displayName: credential.user.email,
-                photoURL: [credential.user.uid] + '.jpg'
-            });
             // vidjet kako se update-a user nekako ovako    ...credential.user.toJSON(),
             // update-a se to jednom i onda se sam dohvaca iz usera
             console.log(credential.user);

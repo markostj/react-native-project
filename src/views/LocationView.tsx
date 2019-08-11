@@ -22,7 +22,7 @@ import {
 } from '../redux/userActions';
 
 import * as firebase from 'firebase';
-import { FirebaseDatabase } from '../firebase/FirebaseService';
+import { FirebaseDatabase, FirebaseAuth } from '../firebase/FirebaseService';
 
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
@@ -59,6 +59,9 @@ const LocationView: React.FC<Props> = ({
   const [longitude, setLongitude] = useState(0);
   const [mjesto, setMjesto] = useState('');
   const [ulica, setUlica] = useState('');
+  const user = FirebaseAuth.currentUser;
+
+  const [picUri, setPicUri] = useState();
 
   /**
    * location from geolocation
@@ -99,6 +102,13 @@ const LocationView: React.FC<Props> = ({
       console.warn(code, message);
     }); */
 
+  /**
+   * Morat cu to sve u thunk i da se dispatcha onda kad se uploada, i odmah promijeni photoURL, a onda tu sam ucitam sliku mozda
+   * ali i dalje nez kako cu je postavit u hooks, a da ne rendera previse
+   */
+  useEffect(() => {
+    setPicUri(user.photoURL);
+  }, []);
   if (!authUser) {
     return (
       <View style={styles.container}>
@@ -118,8 +128,7 @@ const LocationView: React.FC<Props> = ({
         <Image
           style={styles.headerImg}
           source={{
-            uri:
-              'https://firebasestorage.googleapis.com/v0/b/ns-zapisnik.appspot.com/o/fLDrjt3loQXPtPJcPZBKBg52zcV2.jpg?alt=media&token=0b0290f5-acf5-40c6-82d7-307bd1b4e2f2'
+            uri: picUri
           }}
         />
         <Text style={styles.headerName}>Marko</Text>
