@@ -12,11 +12,13 @@ export const signIn = (email: string, password: string) => async (
         );
 
         if (credential.user) {
-            dispatch(GetUserActions.authUser());
-            {
-                // vidjet kako se update-a user nekako ovako    ...credential.user.toJSON(),
-                // update-a se to jednom i onda se sam dohvaca iz usera
-            }
+            dispatch(GetUserActions.authUser(true));
+            credential.user.updateProfile({
+                displayName: credential.user.email,
+                photoURL: [credential.user.uid] + '.jpg'
+            });
+            // vidjet kako se update-a user nekako ovako    ...credential.user.toJSON(),
+            // update-a se to jednom i onda se sam dohvaca iz usera
             console.log(credential.user);
             /**
              * Nakon uspješnog dohvatiti sve kolekcije vezane za usera
@@ -39,6 +41,12 @@ export const passwordReset = (email: string) => async (dispatch: Dispatch) => {
         dispatch(GetUserActions.error(error.message));
     }
 };
+
+export const logOut = () => async (dispatch: Dispatch) => {
+    const signout = await FirebaseAuth.signOut();
+    dispatch(GetUserActions.authUser(false));
+};
+
 /**
  * What is correct form for async up or down?
  *
@@ -74,4 +82,5 @@ export function getProfilePic(uid: string) {
         }
     };
 }
+
  */

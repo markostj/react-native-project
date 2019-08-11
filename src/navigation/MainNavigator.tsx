@@ -4,6 +4,7 @@ import LocationView from '../views/LocationView';
 import MenuView from '../views/MenuView';
 import CameraView from '../views/CameraView';
 import ForgotPasswordView from '../views/ForgotPasswordView';
+import ChangeAvatarView from '../views/ChangeAvatarView';
 
 import { createStackNavigator } from 'react-navigation';
 
@@ -44,6 +45,12 @@ const MainNavigator = createStackNavigator(
       screen: ForgotPasswordView,
       navigationOptions: {
         headerTitle: 'Forgot Password'
+      }
+    },
+    Avatar: {
+      screen: ChangeAvatarView,
+      navigationOptions: {
+        headerTitle: 'Change Avatar Picture'
       }
     }
   },

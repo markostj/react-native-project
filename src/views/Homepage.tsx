@@ -42,9 +42,9 @@ const Homepage: React.FC<Props> = ({
   console.log(`Authenticated je : ${authenticated}`);
 
   useEffect(() => {
-    if (error !== '') {
+    /*   if (error !== '') {
       Alert.alert(error);
-    }
+    } */
     if (authenticated) {
       setEmail('');
       setPassword('');

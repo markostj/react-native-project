@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   Image,
@@ -17,20 +17,35 @@ import { ApplicationState } from '../redux/store';
 import { Navigation } from '../components/Navigation';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 
-type Props = NavigationScreenProps & ReduxProps;
+import { logOut } from '../redux/userThunks';
+
+type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
 interface ReduxProps {
   userName: string;
   userCenter: string;
   urlPic: string;
+  authenticated: boolean;
+}
+
+interface DispatchProps {
+  logOut: () => void;
 }
 
 const MenuView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
-  urlPic
+  urlPic,
+  authenticated,
+  logOut
 }) => {
+  useEffect(() => {
+    if (!authenticated) {
+      navigation.navigate('App');
+    }
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -69,9 +84,8 @@ const MenuView: React.FC<Props> = ({
    * Should this be also thunk ?
    * Is this async form correct?
    */
-  async function handleLogOut() {
-    await FirebaseAuth.signOut();
-    navigation.navigate('App');
+  function handleLogOut() {
+    logOut();
   }
 };
 
@@ -116,8 +130,14 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect<ReduxProps, null, null, ApplicationState>(state => ({
-  userName: state.user.name,
-  userCenter: state.user.center,
-  urlPic: state.user.urlPic
-}))(MenuView);
+export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
+  state => ({
+    userName: state.user.name,
+    userCenter: state.user.center,
+    urlPic: state.user.urlPic,
+    authenticated: state.user.authenticated
+  }),
+  {
+    logOut
+  }
+)(MenuView);

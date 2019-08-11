@@ -115,12 +115,13 @@ const LocationView: React.FC<Props> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        {/*  <Image
+        <Image
           style={styles.headerImg}
           source={{
-            uri: urlPic
+            uri:
+              'https://firebasestorage.googleapis.com/v0/b/ns-zapisnik.appspot.com/o/fLDrjt3loQXPtPJcPZBKBg52zcV2.jpg?alt=media&token=0b0290f5-acf5-40c6-82d7-307bd1b4e2f2'
           }}
-        /> */}
+        />
         <Text style={styles.headerName}>Marko</Text>
         <Text style={styles.headerCenter}> OS</Text>
         <Text style={styles.headerName}>
@@ -128,6 +129,13 @@ const LocationView: React.FC<Props> = ({
         </Text>
       </View>
       <View>
+        <Navigation
+          value="Avatar"
+          colorBg="#05a05a"
+          text="Promijeni profilnu sliku"
+          size={25}
+          {...navigation}
+        />
         <Navigation
           value="Games"
           colorBg="#bf3eff"

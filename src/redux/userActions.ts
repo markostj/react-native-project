@@ -8,8 +8,9 @@ export const GetUserActions = {
         type: UserActionTypes.GetUserInfo,
         payload: value
     }),
-    authUser: () => ({
-        type: UserActionTypes.AuthUser
+    authUser: (auth: boolean) => ({
+        type: UserActionTypes.AuthUser,
+        payload: auth
     }),
     error: (error: string) => ({
         type: UserActionTypes.Error,

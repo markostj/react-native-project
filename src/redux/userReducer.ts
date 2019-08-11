@@ -32,7 +32,7 @@ export default (state = INITIAL_STATE, action: any): UserState => {
         case UserActionTypes.AuthUser:
             return {
                 ...state,
-                authenticated: true
+                authenticated: action.payload
             };
         case UserActionTypes.Error:
             return {

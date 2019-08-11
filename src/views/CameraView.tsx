@@ -1,16 +1,38 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  Image
+} from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { Navigation } from '../components/Navigation';
+import ImagePicker from 'react-native-image-picker';
 
 type Props = NavigationScreenProps;
 
 const CameraView: React.FC<Props> = ({ navigation }) => {
+  const [photo, setPhoto] = useState();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text> Camera</Text>
+        {photo && (
+          <Image
+            source={{ uri: photo.uri }}
+            style={{ width: 300, height: 300 }}
+          />
+        )}
+        <TouchableHighlight
+          onPress={handleTakePicture}
+          style={styles.btn}
+          underlayColor={'#8F8F8F'}
+        >
+          <Text style={styles.btnText}>Uslikaj</Text>
+        </TouchableHighlight>
       </View>
       <View>
         <Navigation
@@ -23,6 +45,18 @@ const CameraView: React.FC<Props> = ({ navigation }) => {
       </View>
     </SafeAreaView>
   );
+
+  function handleTakePicture() {
+    const options = {
+      noData: true
+    };
+    ImagePicker.launchCamera(options, response => {
+      console.log('response:', response);
+      if (response.uri) {
+        setPhoto(response);
+      }
+    });
+  }
 };
 
 const styles = StyleSheet.create({
@@ -37,6 +71,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  btn: {
+    marginTop: 20,
+    width: 100,
+    backgroundColor: '#1B85F6'
+  },
+  btnText: {
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#fff'
   }
 });
 
