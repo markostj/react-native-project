@@ -6,7 +6,8 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
-  View
+  View,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
@@ -25,16 +26,19 @@ interface DispatchProps {
   signIn: (email: string, password: string) => void;
 }
 
-const Homepage: React.FC<Props> = ({ navigation, signIn, authenticated }) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+const Homepage: React.FC<Props> = ({
+  navigation,
+  signIn,
+  authenticated,
+  error
+}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailVal, setEmailVal] = useState('');
 
   console.log(`Authenticated je : ${authenticated}`);
 
   useEffect(() => {
-    /*   if (error !== '') {
-      Alert.alert(error);
-    } */
     if (authenticated) {
       setEmail('');
       setPassword('');
@@ -56,7 +60,7 @@ const Homepage: React.FC<Props> = ({ navigation, signIn, authenticated }) => {
             placeholder="Email"
             maxLength={40}
             value={email}
-            onChangeText={handleNameChange}
+            onChangeText={handleEmailChange}
           />
           <TextInput
             secureTextEntry={true}
@@ -67,7 +71,7 @@ const Homepage: React.FC<Props> = ({ navigation, signIn, authenticated }) => {
             onChangeText={handlePasswordChange}
           />
         </View>
-
+        <Text style={styles.emailVal}> {emailVal}</Text>
         <TouchableHighlight
           onPress={handleSubmit}
           style={styles.footerBtn}
@@ -86,9 +90,17 @@ const Homepage: React.FC<Props> = ({ navigation, signIn, authenticated }) => {
     </SafeAreaView>
   );
 
-  function handleNameChange(text: string) {
-    /* setEmail(...state, [prop]: text); ----->cant do this*/
-    setEmail(text);
+  function handleEmailChange(text: string) {
+    console.log(text);
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      setEmailVal('Email is Not Correct');
+      setEmail(text);
+      return false;
+    } else {
+      setEmail(text);
+      setEmailVal('');
+    }
   }
 
   function handlePasswordChange(text: string) {
@@ -159,6 +171,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'gray',
     fontSize: 30
+  },
+  emailVal: {
+    color: 'red',
+    fontSize: 20
   }
 });
 

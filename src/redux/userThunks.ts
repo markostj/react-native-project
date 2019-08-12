@@ -66,8 +66,6 @@ export const uploadAvatar = (photoUri: string) => async (
         });
 };
 
-// Can use this for upload of records just put different collection name
-
 export const uploadRecord = (photoUri: string) => async (
     dispatch: Dispatch
 ) => {

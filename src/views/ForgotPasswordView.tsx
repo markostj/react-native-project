@@ -25,6 +25,7 @@ const ForgotPasswordView: React.FC<Props> = ({
   passwordReset
 }) => {
   const [email, setEmail] = useState('');
+  const [emailVal, setEmailVal] = useState('');
 
   useEffect(() => {
     if (reset) {
@@ -46,8 +47,9 @@ const ForgotPasswordView: React.FC<Props> = ({
         placeholder="Your Email"
         maxLength={40}
         value={email}
-        onChangeText={handleChange}
+        onChangeText={handleEmailChange}
       />
+      <Text style={styles.emailVal}> {emailVal}</Text>
       <TouchableHighlight
         onPress={handleSubmit}
         style={styles.submit}
@@ -58,10 +60,18 @@ const ForgotPasswordView: React.FC<Props> = ({
     </View>
   );
 
-  function handleChange(text: string) {
-    setEmail(text);
+  function handleEmailChange(text: string) {
+    console.log(text);
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      setEmailVal('Email is Not Correct');
+      setEmail(text);
+      return false;
+    } else {
+      setEmail(text);
+      setEmailVal('');
+    }
   }
-
   /**
    * Dont know if this is correct or I should use then here?
    */
@@ -105,6 +115,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 20
+  },
+  emailVal: {
+    color: 'red',
+    fontSize: 30
   }
 });
 
