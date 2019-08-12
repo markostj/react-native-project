@@ -1,4 +1,4 @@
-import Homepage from '../views/Homepage';
+import LoginView from '../views/LoginView';
 import RecordView from '../views/RecordView';
 import UserMenuView from '../views/UserMenuView';
 import RecordMenuView from '../views/RecordMenuView';
@@ -10,10 +10,10 @@ import { createStackNavigator } from 'react-navigation';
 
 const MainNavigator = createStackNavigator(
   {
-    App: {
-      screen: Homepage,
+    Login: {
+      screen: LoginView,
       navigationOptions: {
-        headerTitle: 'Hns Homepage'
+        headerTitle: 'Login View'
       }
     },
     UserMenu: {
@@ -55,7 +55,7 @@ const MainNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'App',
+    initialRouteName: 'Login',
 
     defaultNavigationOptions: {
       headerStyle: {

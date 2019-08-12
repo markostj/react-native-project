@@ -15,6 +15,7 @@ import { NavigationScreenProps } from 'react-navigation';
 import { ApplicationState } from '../redux/store';
 
 import { signIn } from '../redux/userThunks';
+import { GetUserActions } from '../redux/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -24,13 +25,15 @@ interface ReduxProps {
 }
 interface DispatchProps {
   signIn: (email: string, password: string) => void;
+  getError: (error: string) => void;
 }
 
-const Homepage: React.FC<Props> = ({
+const LoginView: React.FC<Props> = ({
   navigation,
   signIn,
   authenticated,
-  error
+  error,
+  getError
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,6 +42,9 @@ const Homepage: React.FC<Props> = ({
   console.log(`Authenticated je : ${authenticated}`);
 
   useEffect(() => {
+    if (error) {
+      Alert.alert(error);
+    }
     if (authenticated) {
       setEmail('');
       setPassword('');
@@ -91,6 +97,7 @@ const Homepage: React.FC<Props> = ({
   );
 
   function handleEmailChange(text: string) {
+    getError('');
     console.log(text);
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(text) === false) {
@@ -104,6 +111,7 @@ const Homepage: React.FC<Props> = ({
   }
 
   function handlePasswordChange(text: string) {
+    getError('');
     setPassword(text);
   }
 
@@ -173,6 +181,7 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   emailVal: {
+    marginTop: 10,
     color: 'red',
     fontSize: 20
   }
@@ -184,6 +193,7 @@ export default connect<any, DispatchProps, null, ApplicationState>(
     error: state.user.error
   }),
   {
-    signIn
+    signIn,
+    getError: GetUserActions.error
   }
-)(Homepage);
+)(LoginView);

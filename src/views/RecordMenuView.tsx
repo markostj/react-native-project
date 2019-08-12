@@ -41,7 +41,7 @@ const RecordMenuView: React.FC<Props> = ({
 }) => {
   useEffect(() => {
     if (!authenticated) {
-      navigation.navigate('App');
+      navigation.navigate('Login');
     }
   });
 

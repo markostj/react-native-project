@@ -6,6 +6,7 @@ import { FirebaseAuth } from '../firebase/FirebaseService';
 import { connect } from 'react-redux';
 import { passwordReset } from '../redux/userThunks';
 import { ApplicationState } from '../redux/store';
+import { GetUserActions } from '../redux/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -16,13 +17,15 @@ interface ReduxProps {
 
 interface DispatchProps {
   passwordReset: (email: string) => void;
+  getError: (error: string) => void;
 }
 
 const ForgotPasswordView: React.FC<Props> = ({
   navigation,
   error,
   reset,
-  passwordReset
+  passwordReset,
+  getError
 }) => {
   const [email, setEmail] = useState('');
   const [emailVal, setEmailVal] = useState('');
@@ -30,9 +33,9 @@ const ForgotPasswordView: React.FC<Props> = ({
   useEffect(() => {
     if (reset) {
       Alert.alert('Provjerite mail');
-      navigation.navigate('App');
+      navigation.navigate('Login');
     }
-    if (error !== '') {
+    if (error && email !== '') {
       Alert.alert(error);
     }
   });
@@ -61,6 +64,7 @@ const ForgotPasswordView: React.FC<Props> = ({
   );
 
   function handleEmailChange(text: string) {
+    getError('');
     console.log(text);
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(text) === false) {
@@ -72,9 +76,7 @@ const ForgotPasswordView: React.FC<Props> = ({
       setEmailVal('');
     }
   }
-  /**
-   * Dont know if this is correct or I should use then here?
-   */
+
   function handleSubmit() {
     passwordReset(email);
   }
@@ -128,6 +130,7 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     reset: state.user.resetPassword
   }),
   {
-    passwordReset
+    passwordReset,
+    getError: GetUserActions.error
   }
 )(ForgotPasswordView);
