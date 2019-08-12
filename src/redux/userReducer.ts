@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action: any): UserState => {
         case UserActionTypes.GetUserInfo:
             return {
                 ...state,
-                email: 'bla'
+                photoURL: action.payload
             };
         case UserActionTypes.AuthUser:
             return {

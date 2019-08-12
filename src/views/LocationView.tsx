@@ -40,6 +40,7 @@ interface ReduxProps {
   userUID: string;
   urlPic: string;
   authUser: boolean;
+  photoURI: string;
 }
 
 interface DispatchProps {
@@ -53,7 +54,8 @@ const LocationView: React.FC<Props> = ({
   userCenter,
   userUID,
   urlPic,
-  authUser
+  authUser,
+  photoURI
 }) => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
@@ -62,6 +64,8 @@ const LocationView: React.FC<Props> = ({
   const user = FirebaseAuth.currentUser;
 
   const [picUri, setPicUri] = useState();
+
+  console.log(`photoURIredux: ${photoURI}`);
 
   /**
    * location from geolocation
@@ -106,9 +110,7 @@ const LocationView: React.FC<Props> = ({
    * Morat cu to sve u thunk i da se dispatcha onda kad se uploada, i odmah promijeni photoURL, a onda tu sam ucitam sliku mozda
    * ali i dalje nez kako cu je postavit u hooks, a da ne rendera previse
    */
-  useEffect(() => {
-    setPicUri(user.photoURL);
-  }, []);
+
   if (!authUser) {
     return (
       <View style={styles.container}>
@@ -128,7 +130,7 @@ const LocationView: React.FC<Props> = ({
         <Image
           style={styles.headerImg}
           source={{
-            uri: picUri
+            uri: photoURI
           }}
         />
         <Text style={styles.headerName}>Marko</Text>
@@ -203,7 +205,8 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     userCenter: state.user.center,
     userUID: state.user.uid,
     urlPic: state.user.urlPic,
-    authUser: state.user.authenticated
+    authUser: state.user.authenticated,
+    photoURI: state.user.photoURL
   }),
   {
     getCenter,

@@ -8,6 +8,8 @@ import { passwordReset } from '../redux/userThunks';
 import { ApplicationState } from '../redux/store';
 import ImagePicker from 'react-native-image-picker';
 import * as firebase from 'firebase';
+import { uploadAvatar } from '../redux/userThunks';
+import { logOut } from '../redux/userThunks';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -18,42 +20,29 @@ interface ReduxProps {
 
 interface DispatchProps {
   passwordReset: (email: string) => void;
+  logOut: () => void;
+  uploadAvatar: (uri: string) => void;
 }
 
 const ChangeAvatarView: React.FC<Props> = ({
   navigation,
   error,
   reset,
-  passwordReset
+  passwordReset,
+  logOut,
+  uploadAvatar
 }) => {
   const [photo, setPhoto] = useState();
 
   const [proba, setProba] = useState();
 
+  const user = FirebaseAuth.currentUser;
   /**
    * Isto thunk
    */
-  const handleUpload = async () => {
-    const response = await fetch(photo.uri);
-    const blob = await response.blob();
-    const user = FirebaseAuth.currentUser;
 
-    const ref = firebase
-      .storage()
-      .ref()
-      .child('Avatars/' + user.uid);
-    const data = await firebase
-      .storage()
-      .ref()
-      .child('Avatars/' + user.uid)
-      .getDownloadURL();
-    user.updateProfile({
-      displayName: 'Jane Q. User',
-      photoURL: data
-    });
-    setProba(data);
-    console.log(data);
-    return ref.put(blob);
+  const handleUpload = async () => {
+    uploadAvatar(photo);
   };
 
   console.log(photo);
@@ -61,7 +50,7 @@ const ChangeAvatarView: React.FC<Props> = ({
     <View style={styles.container}>
       <Text style={styles.title}>Izaberite svoju profilnu sliku</Text>
       {photo && (
-        <Image source={{ uri: proba }} style={{ width: 300, height: 300 }} />
+        <Image source={{ uri: photo }} style={{ width: 300, height: 300 }} />
       )}
       <TouchableHighlight
         onPress={handleChoosePhoto}
@@ -87,7 +76,7 @@ const ChangeAvatarView: React.FC<Props> = ({
     ImagePicker.launchImageLibrary(options, response => {
       console.log('response:', response);
       if (response.uri) {
-        setPhoto(response);
+        setPhoto(response.uri);
       }
     });
   }
@@ -121,6 +110,8 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     reset: state.user.resetPassword
   }),
   {
-    passwordReset
+    passwordReset,
+    logOut,
+    uploadAvatar
   }
 )(ChangeAvatarView);

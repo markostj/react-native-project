@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 import { GetUserActions } from './userActions';
+import * as firebase from 'firebase';
 
 export const signIn = (email: string, password: string) => async (
     dispatch: Dispatch
@@ -13,15 +14,15 @@ export const signIn = (email: string, password: string) => async (
 
         if (credential.user) {
             dispatch(GetUserActions.authUser(true));
-            // vidjet kako se update-a user nekako ovako    ...credential.user.toJSON(),
-            // update-a se to jednom i onda se sam dohvaca iz usera
+            const photo = credential.user.photoURL.toString();
+            dispatch(GetUserActions.getUserInfo(photo));
+
             console.log(credential.user);
             /**
              * Nakon uspješnog dohvatiti sve kolekcije vezane za usera
              * Mergati podatke iz firebase autha i tih kolekcija u lokalni user objekt
              * dispatchirati usera sa svim podacima u reduxs
              */
-            // Setati userStateIsChanging: true za loader prije svega, ne poslje
         }
     } catch (error) {
         dispatch(GetUserActions.error(error.message));
@@ -43,10 +44,39 @@ export const logOut = () => async (dispatch: Dispatch) => {
     dispatch(GetUserActions.authUser(false));
 };
 
-/**
- * What is correct form for async up or down?
- *
- */
+export const uploadAvatar = (photoUri: string) => async (
+    dispatch: Dispatch
+) => {
+    const user = FirebaseAuth.currentUser;
+
+    const uploadImage = async (uri: string) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const ref = firebase
+            .storage()
+            .ref()
+            .child('Avatars/' + user.uid);
+        return ref.put(blob);
+    };
+
+    uploadImage(photoUri)
+        .then(async () => {
+            const data = await firebase
+                .storage()
+                .ref()
+                .child('Avatars/' + user.uid)
+                .getDownloadURL();
+            console.log(data);
+            return data;
+        })
+        .then(data => {
+            user.updateProfile({
+                photoURL: data
+            });
+            dispatch(GetUserActions.getUserInfo(data));
+        });
+};
+
 
 // obrisati svo nepotrebno ispod !
 /* export function getCenter(uid: string) {
@@ -62,21 +92,3 @@ export const logOut = () => async (dispatch: Dispatch) => {
         }
     };
 }
-
-Image url-ovi su trajni. Na uploadu avatara, saveati image url u user profile kolekciju
-
-export function getProfilePic(uid: string) {
-    return async dispatch => {
-        try {
-            const data = await firebase
-                .storage()
-                .ref(`${uid}.jpg`)
-                .getDownloadURL();
-            dispatch(GetUserActions.setUrlPics(data));
-        } catch (error) {
-            Alert.alert(error.message);
-        }
-    };
-}
-
- */
