@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../redux/store';
 
 import { Navigation } from '../components/Navigation';
-import { FirebaseAuth } from '../firebase/FirebaseService';
 
 import { logOut } from '../redux/userThunks';
 
@@ -24,8 +23,8 @@ type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 interface ReduxProps {
   userName: string;
   userCenter: string;
-  urlPic: string;
   authenticated: boolean;
+  photoURI: string;
 }
 
 interface DispatchProps {
@@ -36,9 +35,9 @@ const MenuView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
-  urlPic,
   authenticated,
-  logOut
+  logOut,
+  photoURI
 }) => {
   useEffect(() => {
     if (!authenticated) {
@@ -49,7 +48,7 @@ const MenuView: React.FC<Props> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.headerImg} source={{ uri: urlPic }} />
+        <Image style={styles.headerImg} source={{ uri: photoURI }} />
         <Text style={styles.headerName}>{userName}</Text>
         <Text style={styles.headerCenter}> {userCenter}</Text>
       </View>
@@ -80,10 +79,6 @@ const MenuView: React.FC<Props> = ({
     </SafeAreaView>
   );
 
-  /**
-   * Should this be also thunk ?
-   * Is this async form correct?
-   */
   function handleLogOut() {
     logOut();
   }
@@ -134,8 +129,9 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
     userName: state.user.name,
     userCenter: state.user.center,
-    urlPic: state.user.urlPic,
-    authenticated: state.user.authenticated
+
+    authenticated: state.user.authenticated,
+    photoURI: state.user.photoURL
   }),
   {
     logOut

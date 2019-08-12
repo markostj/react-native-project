@@ -41,10 +41,6 @@ const ChangeAvatarView: React.FC<Props> = ({
    * Isto thunk
    */
 
-  const handleUpload = async () => {
-    uploadAvatar(photo);
-  };
-
   console.log(photo);
   return (
     <View style={styles.container}>
@@ -79,6 +75,10 @@ const ChangeAvatarView: React.FC<Props> = ({
         setPhoto(response.uri);
       }
     });
+  }
+
+  function handleUpload() {
+    uploadAvatar(photo);
   }
 };
 

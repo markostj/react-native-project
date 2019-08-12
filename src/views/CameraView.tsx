@@ -8,39 +8,25 @@ import {
   Image
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-
-import { Navigation } from '../components/Navigation';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../redux/store';
 import ImagePicker from 'react-native-image-picker';
-import { FirebaseAuth } from '../firebase/FirebaseService';
-import * as firebase from 'firebase';
+import { uploadRecord } from '../redux/userThunks';
 
-type Props = NavigationScreenProps;
+type Props = NavigationScreenProps & DispatchProps;
 
-const CameraView: React.FC<Props> = ({ navigation }) => {
+interface DispatchProps {
+  uploadRecord: (photoUri: string) => void;
+}
+
+const CameraView: React.FC<Props> = ({ uploadRecord }) => {
   const [photo, setPhoto] = useState();
-
-  const handleUpload = async () => {
-    const response = await fetch(photo.uri);
-    const blob = await response.blob();
-    const user = FirebaseAuth.currentUser;
-    /**
-     * find how to upload with random name
-     */
-    const ref = firebase
-      .storage()
-      .ref()
-      .child('Records/' + 'bla');
-    return ref.put(blob);
-  };
-
+  console.log(photo);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         {photo && (
-          <Image
-            source={{ uri: photo.uri }}
-            style={{ width: 300, height: 300 }}
-          />
+          <Image source={{ uri: photo }} style={{ width: 300, height: 300 }} />
         )}
         <TouchableHighlight
           onPress={handleTakePicture}
@@ -58,13 +44,6 @@ const CameraView: React.FC<Props> = ({ navigation }) => {
         >
           <Text style={styles.btnText}>UPLOAD</Text>
         </TouchableHighlight>
-        {/*     <Navigation
-          value="Menu"
-          colorBg="#66ffff"
-          text="Pošalji u bazu podataka"
-          size={30}
-          {...navigation}
-        /> */}
       </View>
     </SafeAreaView>
   );
@@ -76,9 +55,13 @@ const CameraView: React.FC<Props> = ({ navigation }) => {
     ImagePicker.launchCamera(options, response => {
       console.log('response:', response);
       if (response.uri) {
-        setPhoto(response);
+        setPhoto(response.uri);
       }
     });
+  }
+
+  function handleUpload() {
+    uploadRecord(photo);
   }
 };
 
@@ -107,4 +90,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CameraView;
+export default connect<null, DispatchProps, null, ApplicationState>(
+  () => ({}),
+  {
+    uploadRecord
+  }
+)(CameraView);

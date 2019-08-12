@@ -1,28 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Alert
-} from 'react-native';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { ApplicationState } from '../redux/store';
 
 import { Navigation } from '../components/Navigation';
-
-import {
-  itemsFetchData,
-  GetUserActions,
-  getCenter,
-  getProfilePic
-} from '../redux/userActions';
-
-import * as firebase from 'firebase';
-import { FirebaseDatabase, FirebaseAuth } from '../firebase/FirebaseService';
 
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
@@ -32,7 +15,7 @@ import Geocoder from 'react-native-geocoding';
 
 Geocoder.init('AIzaSyAOwmI18jGOgTZBJX11b9Bbq0Y7HZI0898');
 
-type Props = NavigationScreenProps & ReduxProps & DispatchProps;
+type Props = NavigationScreenProps & ReduxProps;
 
 interface ReduxProps {
   userName: string;
@@ -41,11 +24,6 @@ interface ReduxProps {
   urlPic: string;
   authUser: boolean;
   photoURI: string;
-}
-
-interface DispatchProps {
-  getCenter: (uid: string) => void;
-  getProfilePic: (uid: string) => void;
 }
 
 const LocationView: React.FC<Props> = ({
@@ -61,11 +39,6 @@ const LocationView: React.FC<Props> = ({
   const [longitude, setLongitude] = useState(0);
   const [mjesto, setMjesto] = useState('');
   const [ulica, setUlica] = useState('');
-  const user = FirebaseAuth.currentUser;
-
-  const [picUri, setPicUri] = useState();
-
-  console.log(`photoURIredux: ${photoURI}`);
 
   /**
    * location from geolocation
@@ -199,7 +172,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
+export default connect<ReduxProps, null, null, ApplicationState>(
   state => ({
     userName: state.user.name,
     userCenter: state.user.center,
@@ -208,8 +181,5 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     authUser: state.user.authenticated,
     photoURI: state.user.photoURL
   }),
-  {
-    getCenter,
-    getProfilePic
-  }
+  {}
 )(LocationView);

@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 import { GetUserActions } from './userActions';
 import * as firebase from 'firebase';
-
 export const signIn = (email: string, password: string) => async (
     dispatch: Dispatch
 ) => {
@@ -49,17 +48,7 @@ export const uploadAvatar = (photoUri: string) => async (
 ) => {
     const user = FirebaseAuth.currentUser;
 
-    const uploadImage = async (uri: string) => {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        const ref = firebase
-            .storage()
-            .ref()
-            .child('Avatars/' + user.uid);
-        return ref.put(blob);
-    };
-
-    uploadImage(photoUri)
+    uploadImage(photoUri, 'Avatars', user.uid)
         .then(async () => {
             const data = await firebase
                 .storage()
@@ -77,18 +66,26 @@ export const uploadAvatar = (photoUri: string) => async (
         });
 };
 
+// Can use this for upload of records just put different collection name
 
-// obrisati svo nepotrebno ispod !
-/* export function getCenter(uid: string) {
-    return async dispatch => {
-        try {
-            const snapshot = await FirebaseDatabase.collection(`users`)
-                .doc(uid)
-                .get();
-            dispatch(GetUserActions.setCenter(snapshot.data().center));
-            dispatch(GetUserActions.userLoading(false));
-        } catch (error) {
-            Alert.alert(error.message);
-        }
-    };
-}
+export const uploadRecord = (photoUri: string) => async (
+    dispatch: Dispatch
+) => {
+    const uuidv4 = require('uuid/v4');
+    console.log(uuidv4());
+    uploadImage(photoUri, 'Records', uuidv4());
+};
+
+const uploadImage = async (
+    uri: string,
+    collectionName: string,
+    picName: string
+) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const ref = firebase
+        .storage()
+        .ref()
+        .child(`${collectionName}/` + picName);
+    return ref.put(blob);
+};
