@@ -31,7 +31,7 @@ interface DispatchProps {
   logOut: () => void;
 }
 
-const MenuView: React.FC<Props> = ({
+const RecordMenuView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
@@ -136,4 +136,4 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   {
     logOut
   }
-)(MenuView);
+)(RecordMenuView);

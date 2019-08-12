@@ -1,7 +1,7 @@
 import Homepage from '../views/Homepage';
 import RecordView from '../views/RecordView';
-import LocationView from '../views/LocationView';
-import MenuView from '../views/MenuView';
+import UserMenuView from '../views/UserMenuView';
+import RecordMenuView from '../views/RecordMenuView';
 import CameraView from '../views/CameraView';
 import ForgotPasswordView from '../views/ForgotPasswordView';
 import ChangeAvatarView from '../views/ChangeAvatarView';
@@ -16,17 +16,17 @@ const MainNavigator = createStackNavigator(
         headerTitle: 'Hns Homepage'
       }
     },
-    Location: {
-      screen: LocationView,
+    UserMenu: {
+      screen: UserMenuView,
       navigationOptions: {
-        headerTitle: 'Location',
+        headerTitle: 'User Menu',
         headerLeft: null
       }
     },
-    Menu: {
-      screen: MenuView,
+    RecordMenu: {
+      screen: RecordMenuView,
       navigationOptions: {
-        headerTitle: 'Menu'
+        headerTitle: 'Record Menu'
       }
     },
     Camera: {

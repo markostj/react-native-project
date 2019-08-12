@@ -1,5 +1,6 @@
 export interface Record {
     date: string;
+    place: string;
     league: string;
     round: string;
     homeTeam: string;
@@ -22,6 +23,7 @@ export interface Record {
 export class Record {
     constructor() {
         this.date = '';
+        this.place = '';
         this.league = '';
         this.round = '';
         this.homeTeam = '';

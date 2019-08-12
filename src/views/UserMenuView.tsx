@@ -9,81 +9,22 @@ import { Navigation } from '../components/Navigation';
 
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
-import GetLocation from 'react-native-get-location';
-
-import Geocoder from 'react-native-geocoding';
-
-Geocoder.init('AIzaSyAOwmI18jGOgTZBJX11b9Bbq0Y7HZI0898');
-
 type Props = NavigationScreenProps & ReduxProps;
 
 interface ReduxProps {
   userName: string;
   userCenter: string;
-  userUID: string;
-  urlPic: string;
   authUser: boolean;
   photoURI: string;
 }
 
-const LocationView: React.FC<Props> = ({
+const UserMenuView: React.FC<Props> = ({
   navigation,
   userName,
   userCenter,
-  userUID,
-  urlPic,
   authUser,
   photoURI
 }) => {
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-  const [mjesto, setMjesto] = useState('');
-  const [ulica, setUlica] = useState('');
-
-  /**
-   * location from geolocation
-   * make with async
-   */
-
-  /* 
-  GetLocation.getCurrentPosition({
-    enableHighAccuracy: true,
-    timeout: 15000
-  })
-    .then((location: { latitude: number; longitude: number }) => {
-      console.log(location);
-      const lat = location.latitude;
-      const long = location.longitude;
-      setLatitude(lat.toFixed(2));
-      setLongitude(long.toFixed(2));
-      console.log(latitude, longitude);
-    })
-    .then(() => {
-      fetch(
-        'https://maps.googleapis.com/maps/api/geocode/json?address=' +
-          latitude +
-          ',' +
-          longitude +
-          '&key=' +
-          'AIzaSyAOwmI18jGOgTZBJX11b9Bbq0Y7HZI0898'
-      )
-        .then(response => response.json())
-        .then(responseJson => {
-          setUlica(responseJson.results[0].address_components[1].short_name);
-          setMjesto(responseJson.results[0].address_components[2].long_name);
-          console.log(`Ulica: ${ulica} Grad: ${mjesto}`);
-        });
-    })
-    .catch((error: { code: string; message: string }) => {
-      const { code, message } = error;
-      console.warn(code, message);
-    }); */
-
-  /**
-   * Morat cu to sve u thunk i da se dispatcha onda kad se uploada, i odmah promijeni photoURL, a onda tu sam ucitam sliku mozda
-   * ali i dalje nez kako cu je postavit u hooks, a da ne rendera previse
-   */
-
   if (!authUser) {
     return (
       <View style={styles.container}>
@@ -92,10 +33,6 @@ const LocationView: React.FC<Props> = ({
       </View>
     );
   }
-
-  /**
-   * Put map?
-   */
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,9 +45,6 @@ const LocationView: React.FC<Props> = ({
         />
         <Text style={styles.headerName}>Marko</Text>
         <Text style={styles.headerCenter}> OS</Text>
-        <Text style={styles.headerName}>
-          Trenutna adresa:{ulica}, {mjesto}
-        </Text>
       </View>
       <View>
         <Navigation
@@ -128,7 +62,7 @@ const LocationView: React.FC<Props> = ({
           {...navigation}
         />
         <Navigation
-          value="Menu"
+          value="RecordMenu"
           colorBg="#f4511e"
           text="Odaberi vrstu zapisnika"
           size={25}
@@ -176,10 +110,8 @@ export default connect<ReduxProps, null, null, ApplicationState>(
   state => ({
     userName: state.user.name,
     userCenter: state.user.center,
-    userUID: state.user.uid,
-    urlPic: state.user.urlPic,
     authUser: state.user.authenticated,
     photoURI: state.user.photoURL
   }),
   {}
-)(LocationView);
+)(UserMenuView);

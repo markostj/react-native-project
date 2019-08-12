@@ -6,19 +6,14 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
-  View,
-  Alert
+  View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationScreenProps, NavigationEvents } from 'react-navigation';
+import { NavigationScreenProps } from 'react-navigation';
 
 import { ApplicationState } from '../redux/store';
 
-import { GetUserActions } from '../redux/userActions';
-
 import { signIn } from '../redux/userThunks';
-import { FirebaseAuth } from '../firebase/FirebaseService';
-import { auth } from 'firebase';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -30,12 +25,7 @@ interface DispatchProps {
   signIn: (email: string, password: string) => void;
 }
 
-const Homepage: React.FC<Props> = ({
-  navigation,
-  signIn,
-  authenticated,
-  error
-}) => {
+const Homepage: React.FC<Props> = ({ navigation, signIn, authenticated }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -48,7 +38,7 @@ const Homepage: React.FC<Props> = ({
     if (authenticated) {
       setEmail('');
       setPassword('');
-      navigation.navigate('Location');
+      navigation.navigate('UserMenu');
     }
   });
 
@@ -97,7 +87,7 @@ const Homepage: React.FC<Props> = ({
   );
 
   function handleNameChange(text: string) {
-    /* setEmail(...state, [prop]: text); */
+    /* setEmail(...state, [prop]: text); ----->cant do this*/
     setEmail(text);
   }
 
@@ -105,15 +95,8 @@ const Homepage: React.FC<Props> = ({
     setPassword(text);
   }
 
-  /**
-   * How to make async for navigation?
-   * Because it goes to Location even if we are not loged in
-   */
   function handleSubmit() {
     signIn(email, password);
-    setEmail('');
-    setPassword('');
-    /*    navigation.navigate('Location'); */
   }
 
   function forgotPassword() {
