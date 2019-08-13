@@ -87,3 +87,16 @@ const uploadImage = async (
         .child(`${collectionName}/` + picName);
     return ref.put(blob);
 };
+
+export const changeEmail = (email: string) => async (dispatch: Dispatch) => {
+    try {
+        const user = await FirebaseAuth.currentUser
+            .updateEmail(email)
+            .then(() => {
+                dispatch(GetUserActions.error(''));
+                dispatch(GetUserActions.authUser(false));
+            });
+    } catch (error) {
+        dispatch(GetUserActions.error(error.message));
+    }
+};

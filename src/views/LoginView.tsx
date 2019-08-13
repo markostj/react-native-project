@@ -48,7 +48,7 @@ const LoginView: React.FC<Props> = ({
     if (authenticated) {
       setEmail('');
       setPassword('');
-      navigation.navigate('UserMenu');
+      navigation.navigate('Homepage');
     }
   });
 
@@ -98,10 +98,9 @@ const LoginView: React.FC<Props> = ({
 
   function handleEmailChange(text: string) {
     getError('');
-    console.log(text);
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(text) === false) {
-      setEmailVal('Email is Not Correct');
+      setEmailVal('Email format is Not Correct');
       setEmail(text);
       return false;
     } else {

@@ -1,10 +1,12 @@
 import LoginView from '../views/LoginView';
 import RecordView from '../views/RecordView';
-import UserMenuView from '../views/UserMenuView';
+import HomepageView from '../views/HomepageView';
 import RecordMenuView from '../views/RecordMenuView';
 import CameraView from '../views/CameraView';
 import ForgotPasswordView from '../views/ForgotPasswordView';
 import ChangeAvatarView from '../views/ChangeAvatarView';
+import UserMenuView from '../views/UserMenuView';
+import ChangeEmailView from '../views/ChangeEmailView';
 
 import { createStackNavigator } from 'react-navigation';
 
@@ -16,10 +18,10 @@ const MainNavigator = createStackNavigator(
         headerTitle: 'Login View'
       }
     },
-    UserMenu: {
-      screen: UserMenuView,
+    Homepage: {
+      screen: HomepageView,
       navigationOptions: {
-        headerTitle: 'User Menu',
+        headerTitle: 'Homepage',
         headerLeft: null
       }
     },
@@ -51,6 +53,18 @@ const MainNavigator = createStackNavigator(
       screen: ChangeAvatarView,
       navigationOptions: {
         headerTitle: 'Change Avatar Picture'
+      }
+    },
+    UserMenu: {
+      screen: UserMenuView,
+      navigationOptions: {
+        headerTitle: 'User Menu'
+      }
+    },
+    ChangeEmail: {
+      screen: ChangeEmailView,
+      navigationOptions: {
+        headerTitle: 'Change Email '
       }
     }
   },

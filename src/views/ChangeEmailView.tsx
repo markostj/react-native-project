@@ -1,71 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Alert } from 'react-native';
-import { NavigationScreenProps } from 'react-navigation';
-import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
-import { FirebaseAuth } from '../firebase/FirebaseService';
+import React, { useEffect, useState } from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  Alert
+} from 'react-native';
 import { connect } from 'react-redux';
-import { passwordReset } from '../redux/userThunks';
+import { NavigationScreenProps } from 'react-navigation';
+
 import { ApplicationState } from '../redux/store';
+
+import { signIn } from '../redux/userThunks';
 import { GetUserActions } from '../redux/userActions';
+import { changeEmail } from '../redux/userThunks';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
 interface ReduxProps {
   error: string;
-  reset: boolean;
+  auth: boolean;
 }
-
 interface DispatchProps {
-  passwordReset: (email: string) => void;
   getError: (error: string) => void;
+  changeEmail: (email: string) => void;
 }
 
-const ForgotPasswordView: React.FC<Props> = ({
+const ChangeEmailPasswordView: React.FC<Props> = ({
   navigation,
   error,
-  reset,
-  passwordReset,
-  getError
+  getError,
+  changeEmail,
+  auth
 }) => {
   const [email, setEmail] = useState('');
   const [emailVal, setEmailVal] = useState('');
 
+  // Fix error why if email format is not ok it returns you to MenuView
+
   useEffect(() => {
-    if (reset) {
-      Alert.alert('Provjerite mail');
+    if (!auth) {
+      Alert.alert('Promijenjen je mail');
       navigation.navigate('Login');
     }
-    if (error && email !== '') {
+    if (error) {
       Alert.alert(error);
     }
   });
-
+  console.log(error);
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        Write your email to send password reset mail
-      </Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Write your new email</Text>
       <TextInput
         style={styles.textInput}
-        placeholder="Your Email"
+        placeholder="New Email"
         maxLength={40}
         value={email}
         onChangeText={handleEmailChange}
       />
+
       <Text style={styles.emailVal}> {emailVal}</Text>
+
       <TouchableHighlight
         onPress={handleSubmit}
         style={styles.submit}
         underlayColor={'#8F8F8F'}
       >
-        <Text style={styles.submitText}>Send Email</Text>
+        <Text style={styles.submitText}>Change your email</Text>
       </TouchableHighlight>
-    </View>
+    </SafeAreaView>
   );
 
   function handleEmailChange(text: string) {
     getError('');
-    console.log(text);
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(text) === false) {
       setEmailVal('Email format is Not Correct');
@@ -78,7 +86,7 @@ const ForgotPasswordView: React.FC<Props> = ({
   }
 
   function handleSubmit() {
-    passwordReset(email);
+    changeEmail(email);
   }
 };
 
@@ -89,20 +97,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  title: {
+    fontSize: 25,
+    textAlign: 'center'
+  },
   textInput: {
     backgroundColor: '#fff',
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 10,
     color: '#000',
     fontSize: 25,
     textAlign: 'center',
     borderColor: 'gray',
     borderWidth: 1,
     width: 300
-  },
-  title: {
-    fontSize: 25,
-    textAlign: 'center'
   },
   submit: {
     borderWidth: 1,
@@ -119,18 +128,20 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   emailVal: {
+    marginTop: 10,
     color: 'red',
-    fontSize: 30
+    fontSize: 20
   }
 });
 
 export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
-    error: state.user.error,
-    reset: state.user.resetPassword
+    auth: state.user.authenticated,
+    error: state.user.error
   }),
   {
-    passwordReset,
-    getError: GetUserActions.error
+    signIn,
+    getError: GetUserActions.error,
+    changeEmail
   }
-)(ForgotPasswordView);
+)(ChangeEmailPasswordView);
