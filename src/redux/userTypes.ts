@@ -1,8 +1,8 @@
 enum UserActions { // enum is for defining constant so we can easier use it
-    GetUserInfo = 'user/GetUserInfo',
+    SetUserInfo = 'user/SetUserInfo',
     AuthUser = 'user/AuthUser',
     Error = 'user/Error',
-    PasswordReset = 'user/PasswordReset'
+    PasswordIsReset = 'user/PasswordIsReset'
 }
 
 export const UserActionTypes = {

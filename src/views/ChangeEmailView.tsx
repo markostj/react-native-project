@@ -12,27 +12,26 @@ import { NavigationScreenProps } from 'react-navigation';
 
 import { ApplicationState } from '../redux/store';
 
-import { signIn } from '../redux/userThunks';
-import { GetUserActions } from '../redux/userActions';
 import { changeEmail } from '../redux/userThunks';
+import { UserActions } from '../redux/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
 interface ReduxProps {
-  error: string;
   auth: boolean;
+  error: string;
 }
 interface DispatchProps {
-  getError: (error: string) => void;
   changeEmail: (email: string) => void;
+  setError: (error: string) => void;
 }
 
 const ChangeEmailPasswordView: React.FC<Props> = ({
   navigation,
-  error,
-  getError,
   changeEmail,
-  auth
+  auth,
+  error,
+  setError
 }) => {
   const [email, setEmail] = useState('');
   const [emailVal, setEmailVal] = useState('');
@@ -41,14 +40,14 @@ const ChangeEmailPasswordView: React.FC<Props> = ({
 
   useEffect(() => {
     if (!auth) {
-      Alert.alert('Promijenjen je mail');
+      Alert.alert('Promijenjen je email');
       navigation.navigate('Login');
     }
-    if (error) {
+    if (error && email !== '') {
       Alert.alert(error);
     }
   });
-  console.log(error);
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Write your new email</Text>
@@ -73,7 +72,7 @@ const ChangeEmailPasswordView: React.FC<Props> = ({
   );
 
   function handleEmailChange(text: string) {
-    getError('');
+    setError('');
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(text) === false) {
       setEmailVal('Email format is Not Correct');
@@ -140,8 +139,7 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     error: state.user.error
   }),
   {
-    signIn,
-    getError: GetUserActions.error,
-    changeEmail
+    changeEmail,
+    setError: UserActions.error
   }
 )(ChangeEmailPasswordView);

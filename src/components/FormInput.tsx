@@ -62,7 +62,7 @@ export const FormInput: React.FC<Props> = ({
       case 'big':
         return [styles.bodyForm, styles.bigForm];
       default:
-        return '';
+        return [styles.bodyForm];
     }
   }
 
@@ -75,7 +75,7 @@ export const FormInput: React.FC<Props> = ({
       case 'margin':
         return [styles.containerTitle, styles.margin];
       default:
-        return '';
+        return [styles.containerTitle];
     }
   }
 };

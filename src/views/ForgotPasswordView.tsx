@@ -6,32 +6,34 @@ import { FirebaseAuth } from '../firebase/FirebaseService';
 import { connect } from 'react-redux';
 import { passwordReset } from '../redux/userThunks';
 import { ApplicationState } from '../redux/store';
-import { GetUserActions } from '../redux/userActions';
+import { UserActions } from '../redux/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
 interface ReduxProps {
   error: string;
-  reset: boolean;
+  isPasswordReset: boolean;
 }
 
 interface DispatchProps {
   passwordReset: (email: string) => void;
-  getError: (error: string) => void;
+  setError: (error: string) => void;
 }
 
 const ForgotPasswordView: React.FC<Props> = ({
   navigation,
   error,
-  reset,
+  isPasswordReset,
   passwordReset,
-  getError
+  setError
 }) => {
   const [email, setEmail] = useState('');
   const [emailVal, setEmailVal] = useState('');
 
+  console.log(`PasswordResetBool : ${isPasswordReset}`);
+
   useEffect(() => {
-    if (reset) {
+    if (isPasswordReset) {
       Alert.alert('Provjerite mail');
       navigation.navigate('Login');
     }
@@ -64,7 +66,7 @@ const ForgotPasswordView: React.FC<Props> = ({
   );
 
   function handleEmailChange(text: string) {
-    getError('');
+    setError('');
     console.log(text);
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(text) === false) {
@@ -127,10 +129,10 @@ const styles = StyleSheet.create({
 export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
     error: state.user.error,
-    reset: state.user.resetPassword
+    isPasswordReset: state.user.passwordIsReset
   }),
   {
     passwordReset,
-    getError: GetUserActions.error
+    setError: UserActions.error
   }
 )(ForgotPasswordView);

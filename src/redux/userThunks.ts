@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { FirebaseAuth } from '../firebase/FirebaseService';
-import { GetUserActions } from './userActions';
+import { UserActions } from './userActions';
 import * as firebase from 'firebase';
 export const signIn = (email: string, password: string) => async (
     dispatch: Dispatch
@@ -12,11 +12,22 @@ export const signIn = (email: string, password: string) => async (
         );
 
         if (credential.user) {
-            dispatch(GetUserActions.authUser(true));
-            const photo = credential.user.photoURL.toString();
-            dispatch(GetUserActions.getUserInfo(photo));
-
             console.log(credential.user);
+            dispatch(UserActions.authUser(true));
+            /**
+             * Provjerit jel mi ovaj dispatch slike treba uopce, trebalo bi radit bez toga
+             */
+            if (credential.user.photoURL) {
+                dispatch(
+                    UserActions.userInfo('photoURL', credential.user.photoURL)
+                );
+            }
+            if (credential.user.email) {
+                dispatch(
+                    UserActions.userInfo('displayName', credential.user.email)
+                );
+            }
+
             /**
              * Nakon uspješnog dohvatiti sve kolekcije vezane za usera
              * Mergati podatke iz firebase autha i tih kolekcija u lokalni user objekt
@@ -24,56 +35,51 @@ export const signIn = (email: string, password: string) => async (
              */
         }
     } catch (error) {
-        dispatch(GetUserActions.error(error.message));
+        dispatch(UserActions.error(error.message));
     }
 };
 
 export const passwordReset = (email: string) => async (dispatch: Dispatch) => {
     try {
-        const reset = await FirebaseAuth.sendPasswordResetEmail(email);
-        dispatch(GetUserActions.error(''));
-        dispatch(GetUserActions.resetPassword());
+        await FirebaseAuth.sendPasswordResetEmail(email);
+        dispatch(UserActions.passwordIsReset(true));
     } catch (error) {
-        dispatch(GetUserActions.error(error.message));
+        dispatch(UserActions.error(error.message));
     }
 };
 
-export const logOut = () => async (dispatch: Dispatch) => {
-    const signout = await FirebaseAuth.signOut();
-    dispatch(GetUserActions.authUser(false));
+export const logOut = () => (dispatch: Dispatch) => {
+    FirebaseAuth.signOut();
+    dispatch(UserActions.authUser(false));
 };
 
-export const uploadAvatar = (photoUri: string) => async (
-    dispatch: Dispatch
-) => {
+export const uploadAvatar = (photoUri: string) => (dispatch: Dispatch) => {
     const user = FirebaseAuth.currentUser;
-
-    uploadImage(photoUri, 'Avatars', user.uid)
-        .then(async () => {
-            const data = await firebase
-                .storage()
-                .ref()
-                .child('Avatars/' + user.uid)
-                .getDownloadURL();
-            console.log(data);
-            return data;
-        })
-        .then(data => {
-            user.updateProfile({
-                photoURL: data
+    if (user) {
+        uploadImage(photoUri, 'Avatars', user.uid)
+            .then(() => {
+                const data = firebase
+                    .storage()
+                    .ref()
+                    .child(`Avatars/${user.uid}`)
+                    .getDownloadURL();
+                return data;
+            })
+            .then(data => {
+                user.updateProfile({
+                    photoURL: data
+                });
+                dispatch(UserActions.userInfo('photoURL', data));
             });
-            dispatch(GetUserActions.getUserInfo(data));
-        });
+    }
 };
 
-export const uploadRecord = (photoUri: string) => async (
-    dispatch: Dispatch
-) => {
+export const uploadRecord = (photoUri: string) => (dispatch: Dispatch) => {
     const uuidv4 = require('uuid/v4');
-    console.log(uuidv4());
     uploadImage(photoUri, 'Records', uuidv4());
 };
 
+// Vidjet za imena kolekcija i to kako je Vlaja rekao
 const uploadImage = async (
     uri: string,
     collectionName: string,
@@ -89,14 +95,18 @@ const uploadImage = async (
 };
 
 export const changeEmail = (email: string) => async (dispatch: Dispatch) => {
-    try {
-        const user = await FirebaseAuth.currentUser
+    if (FirebaseAuth.currentUser) {
+        try {
+            await FirebaseAuth.currentUser.updateEmail(email);
+            dispatch(UserActions.authUser(false));
+        } catch (error) {
+            /* const user = await FirebaseAuth.currentUser
             .updateEmail(email)
             .then(() => {
                 dispatch(GetUserActions.error(''));
                 dispatch(GetUserActions.authUser(false));
-            });
-    } catch (error) {
-        dispatch(GetUserActions.error(error.message));
+            }); */
+            dispatch(UserActions.error(error.message));
+        }
     }
 };

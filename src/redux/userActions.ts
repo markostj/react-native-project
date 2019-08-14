@@ -1,22 +1,17 @@
 import { UserActionTypes } from './userTypes';
+// import { ActionUnion } from '../models/ActionUnion';
+import { createAction } from '../models/createAction';
 
-/**
- * Every set put in one action
- */
-export const GetUserActions = {
-    getUserInfo: (value: string) => ({
-        type: UserActionTypes.GetUserInfo,
-        payload: value
-    }),
-    authUser: (auth: boolean) => ({
-        type: UserActionTypes.AuthUser,
-        payload: auth
-    }),
-    error: (error: string) => ({
-        type: UserActionTypes.Error,
-        payload: error
-    }),
-    resetPassword: () => ({
-        type: UserActionTypes.PasswordReset
-    })
+export const UserActions = {
+    userInfo: (name: string, value: string) =>
+        createAction(UserActionTypes.SetUserInfo, { name, value }),
+    authUser: (auth: boolean) =>
+        createAction(UserActionTypes.AuthUser, { auth }),
+    error: (error: string) => createAction(UserActionTypes.Error, { error }),
+    passwordIsReset: (isReset: boolean) =>
+        createAction(UserActionTypes.PasswordIsReset, { isReset })
 };
+
+export type UserActions = ReturnType<
+    typeof UserActions[keyof typeof UserActions]
+>;

@@ -15,7 +15,7 @@ import { NavigationScreenProps } from 'react-navigation';
 import { ApplicationState } from '../redux/store';
 
 import { signIn } from '../redux/userThunks';
-import { GetUserActions } from '../redux/userActions';
+import { UserActions } from '../redux/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -26,6 +26,7 @@ interface ReduxProps {
 interface DispatchProps {
   signIn: (email: string, password: string) => void;
   getError: (error: string) => void;
+  isPasswordReset: (reset: boolean) => void;
 }
 
 const LoginView: React.FC<Props> = ({
@@ -33,7 +34,8 @@ const LoginView: React.FC<Props> = ({
   signIn,
   authenticated,
   error,
-  getError
+  getError,
+  isPasswordReset
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -120,6 +122,7 @@ const LoginView: React.FC<Props> = ({
 
   function forgotPassword() {
     navigation.navigate('ForgotPassword');
+    isPasswordReset(false);
   }
 };
 
@@ -186,13 +189,15 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect<any, DispatchProps, null, ApplicationState>(
+export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
+  // ovako stavi da ne bude warning na state (  state: { user: { authenticated: any; error: any; }; }) => ({
   state => ({
     authenticated: state.user.authenticated,
     error: state.user.error
   }),
   {
     signIn,
-    getError: GetUserActions.error
+    getError: UserActions.error,
+    isPasswordReset: UserActions.passwordIsReset
   }
 )(LoginView);

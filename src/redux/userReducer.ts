@@ -1,9 +1,11 @@
 import { UserActionTypes } from './userTypes';
+import { UserActions } from './userActions';
+
 export interface UserState extends firebase.UserInfo {
     refereeCenter: string;
     authenticated: boolean;
-    error: '';
-    resetPassword: boolean;
+    error: string;
+    passwordIsReset: boolean;
 }
 
 const INITIAL_STATE: UserState = {
@@ -16,33 +18,31 @@ const INITIAL_STATE: UserState = {
     refereeCenter: '',
     authenticated: false,
     error: '',
-    resetPassword: false
+    passwordIsReset: false
 };
 
-/**
- * How to put here for example [value] : action.payload.[value]
- */
-export default (state = INITIAL_STATE, action: any): UserState => {
+// Using helper in models
+export default (state = INITIAL_STATE, action: UserActions): UserState => {
     switch (action.type) {
-        case UserActionTypes.GetUserInfo:
+        case UserActionTypes.SetUserInfo:
             return {
                 ...state,
-                photoURL: action.payload
+                [action.payload.name]: action.payload.value
             };
         case UserActionTypes.AuthUser:
             return {
                 ...state,
-                authenticated: action.payload
+                authenticated: action.payload.auth
             };
         case UserActionTypes.Error:
             return {
                 ...state,
-                error: action.payload
+                error: action.payload.error
             };
-        case UserActionTypes.PasswordReset:
+        case UserActionTypes.PasswordIsReset:
             return {
                 ...state,
-                resetPassword: true
+                passwordIsReset: action.payload.isReset
             };
         default:
             return state || INITIAL_STATE;

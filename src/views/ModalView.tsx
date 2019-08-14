@@ -13,7 +13,7 @@ const ModalView: React.FC<Props> = ({ navigation }) => {
         Vaš zapisnik je uspješno poslan u bazu!
       </Text>
       <Navigation
-        value="Menu"
+        value="Homepage"
         colorBg="#f4511e"
         text="OK, go to Menu"
         size={30}
