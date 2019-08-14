@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { FirebaseAuth } from '../firebase/FirebaseService';
+import { FirebaseAuth, FirebaseDatabase } from '../firebase/FirebaseService';
 import { UserActions } from './userActions';
 import * as firebase from 'firebase';
 export const signIn = (email: string, password: string) => async (
@@ -14,25 +14,46 @@ export const signIn = (email: string, password: string) => async (
         if (credential.user) {
             console.log(credential.user);
             dispatch(UserActions.authUser(true));
-            /**
-             * Provjerit jel mi ovaj dispatch slike treba uopce, trebalo bi radit bez toga
-             */
+
+            const uid = credential.user.uid;
+            FirebaseDatabase.collection('users')
+                .doc(uid)
+                .get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+
+                        if (data) {
+                            if (credential.user) {
+                                credential.user.updateProfile({
+                                    displayName: data.name
+                                });
+                            }
+
+                            dispatch(
+                                UserActions.userInfo(
+                                    'refereeCenter',
+                                    data.center
+                                )
+                            );
+                            dispatch(
+                                UserActions.userInfo('displayName', data.name)
+                            );
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(error.message);
+                });
+
             if (credential.user.photoURL) {
                 dispatch(
                     UserActions.userInfo('photoURL', credential.user.photoURL)
                 );
             }
             if (credential.user.email) {
-                dispatch(
-                    UserActions.userInfo('displayName', credential.user.email)
-                );
+                dispatch(UserActions.userInfo('email', credential.user.email));
             }
-
-            /**
-             * Nakon uspješnog dohvatiti sve kolekcije vezane za usera
-             * Mergati podatke iz firebase autha i tih kolekcija u lokalni user objekt
-             * dispatchirati usera sa svim podacima u reduxs
-             */
         }
     } catch (error) {
         dispatch(UserActions.error(error.message));

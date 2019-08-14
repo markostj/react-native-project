@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action: UserActions): UserState => {
         case UserActionTypes.SetUserInfo:
             return {
                 ...state,
-                [action.payload.name]: action.payload.value
+                [action.payload.propName]: action.payload.value
             };
         case UserActionTypes.AuthUser:
             return {

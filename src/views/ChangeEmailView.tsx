@@ -20,6 +20,7 @@ type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 interface ReduxProps {
   auth: boolean;
   error: string;
+  oldEmail: string;
 }
 interface DispatchProps {
   changeEmail: (email: string) => void;
@@ -31,7 +32,8 @@ const ChangeEmailPasswordView: React.FC<Props> = ({
   changeEmail,
   auth,
   error,
-  setError
+  setError,
+  oldEmail
 }) => {
   const [email, setEmail] = useState('');
   const [emailVal, setEmailVal] = useState('');
@@ -50,6 +52,7 @@ const ChangeEmailPasswordView: React.FC<Props> = ({
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={[styles.title, styles.bold]}>Old Email: {oldEmail} </Text>
       <Text style={styles.title}>Write your new email</Text>
       <TextInput
         style={styles.textInput}
@@ -130,13 +133,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: 'red',
     fontSize: 20
+  },
+  bold: {
+    fontWeight: 'bold'
   }
 });
 
 export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
     auth: state.user.authenticated,
-    error: state.user.error
+    error: state.user.error,
+    oldEmail: state.user.email
   }),
   {
     changeEmail,

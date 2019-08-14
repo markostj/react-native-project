@@ -21,10 +21,11 @@ import { logOut } from '../redux/userThunks';
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
 interface ReduxProps {
-  userName: string;
-  userCenter: string;
+  displayName: string;
+  refereeCenter: string;
   authUser: boolean;
   photoURI: string;
+  email: string;
 }
 
 interface DispatchProps {
@@ -33,11 +34,12 @@ interface DispatchProps {
 
 const HomepageView: React.FC<Props> = ({
   navigation,
-  userName,
-  userCenter,
+  displayName,
+  refereeCenter,
   authUser,
   photoURI,
-  logOut
+  logOut,
+  email
 }) => {
   useEffect(() => {
     if (!authUser) {
@@ -63,8 +65,9 @@ const HomepageView: React.FC<Props> = ({
             uri: photoURI
           }}
         />
-        <Text style={styles.headerName}>Marko</Text>
-        <Text style={styles.headerCenter}> OS</Text>
+        <Text style={styles.headerName}>{displayName}</Text>
+        <Text style={styles.headerName}>{email}</Text>
+        <Text style={styles.headerCenter}> {refereeCenter}</Text>
       </View>
       <View>
         <Navigation
@@ -146,8 +149,9 @@ const styles = StyleSheet.create({
 
 export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
-    userName: state.user.name,
-    userCenter: state.user.center,
+    displayName: state.user.displayName,
+    refereeCenter: state.user.refereeCenter,
+    email: state.user.email,
     authUser: state.user.authenticated,
     photoURI: state.user.photoURL
   }),

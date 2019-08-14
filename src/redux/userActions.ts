@@ -3,8 +3,8 @@ import { UserActionTypes } from './userTypes';
 import { createAction } from '../models/createAction';
 
 export const UserActions = {
-    userInfo: (name: string, value: string) =>
-        createAction(UserActionTypes.SetUserInfo, { name, value }),
+    userInfo: (propName: string, value: string) =>
+        createAction(UserActionTypes.SetUserInfo, { propName, value }),
     authUser: (auth: boolean) =>
         createAction(UserActionTypes.AuthUser, { auth }),
     error: (error: string) => createAction(UserActionTypes.Error, { error }),

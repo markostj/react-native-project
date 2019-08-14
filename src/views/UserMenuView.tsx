@@ -12,15 +12,17 @@ import { CirclesLoader, TextLoader } from 'react-native-indicator';
 type Props = NavigationScreenProps & ReduxProps;
 
 interface ReduxProps {
-  userName: string;
-  userCenter: string;
+  displayName: string;
+  refereeCenter: string;
+  email: string;
   photoURI: string;
 }
 
 const UserMenuView: React.FC<Props> = ({
   navigation,
-  userName,
-  userCenter,
+  displayName,
+  refereeCenter,
+  email,
   photoURI
 }) => {
   return (
@@ -32,8 +34,9 @@ const UserMenuView: React.FC<Props> = ({
             uri: photoURI
           }}
         />
-        <Text style={styles.headerName}>Marko</Text>
-        <Text style={styles.headerCenter}> OS</Text>
+        <Text style={styles.headerName}>{displayName}</Text>
+        <Text style={styles.headerName}>{email}</Text>
+        <Text style={styles.headerCenter}> {refereeCenter}</Text>
       </View>
       <View>
         <Navigation
@@ -97,8 +100,9 @@ const styles = StyleSheet.create({
 
 export default connect<ReduxProps, null, null, ApplicationState>(
   state => ({
-    userName: state.user.name,
-    userCenter: state.user.center,
+    displayName: state.user.displayName,
+    refereeCenter: state.user.refereeCenter,
+    email: state.user.email,
     photoURI: state.user.photoURL
   }),
   {}
