@@ -14,45 +14,48 @@ import { NavigationScreenProps } from 'react-navigation';
 
 import { ApplicationState } from '../redux/store';
 
-import { GetUserActions } from '../redux/userActions';
-import { FirebaseAuth } from '../firebase/FirebaseService';
+import { signIn } from '../redux/userThunks';
+import { UserActions } from '../redux/userActions';
 
-type Props = NavigationScreenProps & DispatchProps;
+type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
+interface ReduxProps {
+  authenticated: boolean;
+  error: string;
+}
 interface DispatchProps {
-  getName: (text: string) => void;
-  setUID: (uid: string) => void;
+  signIn: (email: string, password: string) => void;
+  getError: (error: string) => void;
+  isPasswordReset: (reset: boolean) => void;
 }
 
-const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+const LoginView: React.FC<Props> = ({
+  navigation,
+  signIn,
+  authenticated,
+  error,
+  getError,
+  isPasswordReset
+}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailVal, setEmailVal] = useState('');
 
-  FirebaseAuth.onAuthStateChanged(user => {
-    if (user) {
-      // User logged in already or has just logged in.
-      setUID(user.uid);
-    } else {
-      /**
-       * setUID(''); error because of that
-       * when he tries to logout probably because of
-       * firebase .doc(userUID) and it is empty then
-       */
+  console.log(`Authenticated je : ${authenticated}`);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert(error);
+    }
+    if (authenticated) {
+      setEmail('');
+      setPassword('');
+      navigation.navigate('Homepage');
     }
   });
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image // maybe delete this and left just navigation
-          style={styles.img}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/square.png')}
-        />
-        <Image
-          style={styles.img}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/square.png')}
-        />
-      </View>
       <View style={styles.body}>
         <Image
           style={styles.bodyImg}
@@ -65,7 +68,7 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
             placeholder="Email"
             maxLength={40}
             value={email}
-            onChangeText={handleNameChange}
+            onChangeText={handleEmailChange}
           />
           <TextInput
             secureTextEntry={true}
@@ -76,7 +79,7 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
             onChangeText={handlePasswordChange}
           />
         </View>
-
+        <Text style={styles.emailVal}> {emailVal}</Text>
         <TouchableHighlight
           onPress={handleSubmit}
           style={styles.footerBtn}
@@ -95,30 +98,31 @@ const Homepage: React.FC<Props> = ({ navigation, getName, setUID }) => {
     </SafeAreaView>
   );
 
-  function handleNameChange(text: string) {
-    setEmail(text);
+  function handleEmailChange(text: string) {
+    getError('');
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      setEmailVal('Email format is Not Correct');
+      setEmail(text);
+      return false;
+    } else {
+      setEmail(text);
+      setEmailVal('');
+    }
   }
 
   function handlePasswordChange(text: string) {
+    getError('');
     setPassword(text);
   }
 
   function handleSubmit() {
-    FirebaseAuth.signInWithEmailAndPassword(email, password).then(
-      () => {
-        navigation.navigate('Location');
-        getName(email);
-        setEmail('');
-        setPassword('');
-      },
-      error => {
-        Alert.alert(error.message);
-      }
-    );
+    signIn(email, password);
   }
 
   function forgotPassword() {
     navigation.navigate('ForgotPassword');
+    isPasswordReset(false);
   }
 };
 
@@ -126,20 +130,6 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     flex: 1
-  },
-
-  header: {
-    backgroundColor: '#8F8F8F',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  img: {
-    width: 25,
-    height: 25,
-    marginLeft: 10,
-    marginRight: 10
   },
   body: {
     backgroundColor: '#C4C4C4',
@@ -191,13 +181,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'gray',
     fontSize: 30
+  },
+  emailVal: {
+    marginTop: 10,
+    color: 'red',
+    fontSize: 20
   }
 });
 
-export default connect<any, DispatchProps, null, ApplicationState>(
-  state => ({}),
+export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
+  // ovako stavi da ne bude warning na state (  state: { user: { authenticated: any; error: any; }; }) => ({
+  state => ({
+    authenticated: state.user.authenticated,
+    error: state.user.error
+  }),
   {
-    getName: GetUserActions.setName,
-    setUID: GetUserActions.setUID
+    signIn,
+    getError: UserActions.error,
+    isPasswordReset: UserActions.passwordIsReset
   }
-)(Homepage);
+)(LoginView);

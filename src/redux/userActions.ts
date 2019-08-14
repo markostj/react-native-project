@@ -1,57 +1,17 @@
 import { UserActionTypes } from './userTypes';
+// import { ActionUnion } from '../models/ActionUnion';
+import { createAction } from '../models/createAction';
 
-export const GetUserActions = {
-    setName: (name: string) => ({
-        type: UserActionTypes.SetName,
-        payload: name
-    }),
-    setCenter: (center: string) => ({
-        type: UserActionTypes.SetCenter,
-        payload: center
-    }),
-    userError: (error: boolean) => ({
-        type: UserActionTypes.UserError,
-        payload: error
-    }),
-    userLoading: (loading: boolean) => ({
-        type: UserActionTypes.UserLoading,
-        payload: loading
-    }),
-    fetchSuccess: (name: string, center: string) => ({
-        type: UserActionTypes.FetchSuccess,
-        name,
-        center
-    }),
-    setUID: (uid: string) => ({
-        type: UserActionTypes.SetUID,
-        payload: uid
-    }),
-    setUrlPics: (url: string) => ({
-        type: UserActionTypes.SetUrlPics,
-        payload: url
-    })
+export const UserActions = {
+    userInfo: (propName: string, value: string) =>
+        createAction(UserActionTypes.SetUserInfo, { propName, value }),
+    authUser: (auth: boolean) =>
+        createAction(UserActionTypes.AuthUser, { auth }),
+    error: (error: string) => createAction(UserActionTypes.Error, { error }),
+    passwordIsReset: (isReset: boolean) =>
+        createAction(UserActionTypes.PasswordIsReset, { isReset })
 };
 
-export function itemsFetchData(url: string) {
-    return dispatch => {
-        dispatch(GetUserActions.userLoading(true));
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-
-                dispatch(GetUserActions.userLoading(false));
-
-                return response;
-            })
-            .then(response => response.json())
-            .then(items =>
-                dispatch(
-                    GetUserActions.fetchSuccess(items.name, items.address.city)
-                )
-            )
-            .catch(() => dispatch(GetUserActions.userError(true)));
-    };
-}
+export type UserActions = ReturnType<
+    typeof UserActions[keyof typeof UserActions]
+>;

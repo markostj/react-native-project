@@ -1,59 +1,48 @@
 import { UserActionTypes } from './userTypes';
-export interface UserState {
-    name: string;
-    center: string;
-    error: boolean;
-    loading: boolean;
-    uid: string;
-    urlPic: string;
+import { UserActions } from './userActions';
+
+export interface UserState extends firebase.UserInfo {
+    refereeCenter: string;
+    authenticated: boolean;
+    error: string;
+    passwordIsReset: boolean;
 }
 
 const INITIAL_STATE: UserState = {
-    name: '',
-    center: '',
-    error: false,
-    loading: false,
+    displayName: '',
+    email: '',
+    phoneNumber: '',
+    photoURL: '',
+    providerId: '',
     uid: '',
-    urlPic: 'smtg'
+    refereeCenter: '',
+    authenticated: false,
+    error: '',
+    passwordIsReset: false
 };
 
-export default (state = INITIAL_STATE, action: any): UserState => {
+// Using helper in models
+export default (state = INITIAL_STATE, action: UserActions): UserState => {
     switch (action.type) {
-        case UserActionTypes.SetName:
+        case UserActionTypes.SetUserInfo:
             return {
                 ...state,
-                name: action.payload
+                [action.payload.propName]: action.payload.value
             };
-        case UserActionTypes.SetCenter:
+        case UserActionTypes.AuthUser:
             return {
                 ...state,
-                center: action.payload
+                authenticated: action.payload.auth
             };
-        case UserActionTypes.UserError:
+        case UserActionTypes.Error:
             return {
                 ...state,
-                error: action.payload
+                error: action.payload.error
             };
-        case UserActionTypes.UserLoading:
+        case UserActionTypes.PasswordIsReset:
             return {
                 ...state,
-                loading: action.payload
-            };
-        case UserActionTypes.FetchSuccess:
-            return {
-                ...state,
-                name: action.name,
-                center: action.center
-            };
-        case UserActionTypes.SetUID:
-            return {
-                ...state,
-                uid: action.payload
-            };
-        case UserActionTypes.SetUrlPics:
-            return {
-                ...state,
-                urlPic: action.payload
+                passwordIsReset: action.payload.isReset
             };
         default:
             return state || INITIAL_STATE;

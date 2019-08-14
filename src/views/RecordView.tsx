@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -11,36 +11,53 @@ import { NavigationScreenProps, ScrollView } from 'react-navigation';
 import { FormInput } from '../components/FormInput';
 import { Record } from '../models/Record';
 import { FirebaseDatabase } from '../firebase/FirebaseService';
+import GetLocation from 'react-native-get-location';
+import Geocoder from 'react-native-geocoding';
+
+Geocoder.init('AIzaSyAOwmI18jGOgTZBJX11b9Bbq0Y7HZI0898');
 
 type Props = NavigationScreenProps;
 
 const RecordView: React.FC<Props> = ({ navigation }) => {
   const [recordState, setRecordState] = useState(new Record());
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [mjesto, setMjesto] = useState('');
+  const [ulica, setUlica] = useState('');
 
   const isValid = Object.keys(recordState).every(
     key => recordState[key].length > 0
   );
 
-  console.log(`Vidjet cemo jel valja: ${isValid}`);
-
   const [error, setError] = useState('');
+  const today = new Date();
 
+  useEffect(() => {
+    if (recordState.date === '') {
+      setRecordState({
+        ...recordState,
+        date: `${today.getDate().toString()}.${(
+          today.getMonth() + 1
+        ).toString()}.${today.getFullYear().toString()}.`
+      });
+    }
+  });
+
+  if (recordState.place === '') {
+    Location();
+  }
+
+  console.log(recordState);
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Zapisnik</Text>
         <View style={styles.containerForm}>
-          <FormInput
-            title="Datum"
-            titleStyle="normal"
-            handleChangeCallback={handleChange}
-            placeholder="Datum"
-            value={recordState.date}
-            size="small"
-            propName="date"
-            maxLength={15}
-          />
+          <Text style={styles.text}>Datum: {recordState.date}</Text>
         </View>
+        <Text style={styles.locationText}>
+          Trenutna adresa:{ulica}, {mjesto}
+        </Text>
         <View style={styles.containerForm}>
           <FormInput
             title="Liga"
@@ -241,7 +258,9 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
             onPress={check}
             underlayColor={'#8F8F8F'}
           >
-            <Text style={[styles.text]}>Pošalji u bazu podataka</Text>
+            <Text style={[styles.text, styles.white]}>
+              Pošalji u bazu podataka
+            </Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -258,6 +277,7 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
         .doc()
         .set({
           date: recordState.date,
+          place: recordState.place,
           league: recordState.league,
           round: recordState.round,
           homeTeam: recordState.homeTeam,
@@ -296,6 +316,42 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
       { cancelable: false }
     );
   }
+
+  function Location() {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000
+    })
+      .then((location: { latitude: number; longitude: number }) => {
+        const lat = location.latitude;
+        const long = location.longitude;
+        setLatitude(lat.toFixed(2));
+        setLongitude(long.toFixed(2));
+      })
+      .then(() => {
+        fetch(
+          'https://maps.googleapis.com/maps/api/geocode/json?address=' +
+            latitude +
+            ',' +
+            longitude +
+            '&key=' +
+            'AIzaSyAOwmI18jGOgTZBJX11b9Bbq0Y7HZI0898'
+        )
+          .then(response => response.json())
+          .then(responseJson => {
+            setUlica(responseJson.results[0].address_components[1].short_name);
+            setMjesto(responseJson.results[0].address_components[2].long_name);
+          });
+      })
+      .then(() => {
+        setRecordState({ ...recordState, place: ulica + mjesto });
+      })
+
+      .catch((error: { code: string; message: string }) => {
+        const { code, message } = error;
+        console.warn(code, message);
+      });
+  }
 };
 
 const styles = StyleSheet.create({
@@ -333,16 +389,22 @@ const styles = StyleSheet.create({
     padding: 20
   },
   text: {
-    color: '#fff',
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 30
+  },
+  white: {
+    color: '#fff'
   },
   blue: {
     backgroundColor: '#66ffff'
   },
   purple: {
     backgroundColor: '#6666ff'
+  },
+  locationText: {
+    textAlign: 'center',
+    fontSize: 25
   }
 });
 

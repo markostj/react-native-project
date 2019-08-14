@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import AppContainer from './navigation/RootNavigator';
 
@@ -16,27 +16,29 @@ import { Provider } from 'react-redux';
 import { configureStore } from './redux/store';
 
 import './fixtimerbug';
+import { FirebaseAuth } from './firebase/FirebaseService';
 /**
  * fixtimerbug is for setting a timer for a long period of time react native ERROR
  */
 
-class App extends React.Component {
-  store = configureStore();
+const App: React.FC = () => {
+  const store = configureStore();
 
-  /**
-   * onAuthStateChanged maybe put later?
-   * can we make logout just with signOut and navigate to login page
-   * or have to do with onAuthStateChanged
-   *
-   */
+  useEffect(() => {
+    FirebaseAuth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('Loged in');
+      } else {
+        console.log('Loged out');
+      }
+    });
+  });
 
-  render() {
-    return (
-      <Provider store={this.store}>
-        <AppContainer />
-      </Provider>
-    );
-  }
-}
+  return (
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  );
+};
 
 export default App;

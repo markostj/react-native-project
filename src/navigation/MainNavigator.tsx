@@ -1,46 +1,34 @@
-import Homepage from '../views/Homepage';
-import HomeScreen from '../views/Homescreen';
+import LoginView from '../views/LoginView';
 import RecordView from '../views/RecordView';
-import DetailsView from '../views/DetailsView';
-import LocationView from '../views/LocationView';
-import MenuView from '../views/MenuView';
+import HomepageView from '../views/HomepageView';
+import RecordMenuView from '../views/RecordMenuView';
 import CameraView from '../views/CameraView';
 import ForgotPasswordView from '../views/ForgotPasswordView';
+import ChangeAvatarView from '../views/ChangeAvatarView';
+import UserMenuView from '../views/UserMenuView';
+import ChangeEmailView from '../views/ChangeEmailView';
 
 import { createStackNavigator } from 'react-navigation';
 
 const MainNavigator = createStackNavigator(
   {
-    Home: {
-      // Can we do it in defaultNavigationOptions smth like headerTitle:navigation.state.routeName
-      screen: HomeScreen,
+    Login: {
+      screen: LoginView,
       navigationOptions: {
-        headerTitle: 'Home'
+        headerTitle: 'Login View'
       }
     },
-    Details: {
-      screen: DetailsView,
+    Homepage: {
+      screen: HomepageView,
       navigationOptions: {
-        headerTitle: 'Details'
-      }
-    },
-    App: {
-      screen: Homepage,
-      navigationOptions: {
-        headerTitle: 'Hns Homepage'
-      }
-    },
-    Location: {
-      screen: LocationView,
-      navigationOptions: {
-        headerTitle: 'Location',
+        headerTitle: 'Homepage',
         headerLeft: null
       }
     },
-    Menu: {
-      screen: MenuView,
+    RecordMenu: {
+      screen: RecordMenuView,
       navigationOptions: {
-        headerTitle: 'Menu'
+        headerTitle: 'Record Menu'
       }
     },
     Camera: {
@@ -60,10 +48,28 @@ const MainNavigator = createStackNavigator(
       navigationOptions: {
         headerTitle: 'Forgot Password'
       }
+    },
+    Avatar: {
+      screen: ChangeAvatarView,
+      navigationOptions: {
+        headerTitle: 'Change Avatar Picture'
+      }
+    },
+    UserMenu: {
+      screen: UserMenuView,
+      navigationOptions: {
+        headerTitle: 'User Menu'
+      }
+    },
+    ChangeEmail: {
+      screen: ChangeEmailView,
+      navigationOptions: {
+        headerTitle: 'Change Email '
+      }
     }
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
 
     defaultNavigationOptions: {
       headerStyle: {
