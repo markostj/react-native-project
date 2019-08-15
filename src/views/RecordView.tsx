@@ -47,7 +47,6 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
     Location();
   }
 
-  console.log(recordState);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -296,7 +295,6 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           comentReferee: recordState.comentReferee,
           result: recordState.result
         })
-        .then(() => console.log('Document successfully written!'))
         .then(() => navigation.navigate('MyModal'))
         .catch(errorText =>
           console.error('Error writing document: ', errorText)

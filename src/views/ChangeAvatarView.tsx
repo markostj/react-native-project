@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Alert, Button, Image } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
-import { FirebaseAuth } from '../firebase/FirebaseService';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { passwordReset } from '../redux/userThunks';
 import { ApplicationState } from '../redux/store';
 import ImagePicker from 'react-native-image-picker';
-import * as firebase from 'firebase';
 import { uploadAvatar } from '../redux/userThunks';
 import { logOut } from '../redux/userThunks';
 
@@ -24,30 +22,14 @@ interface DispatchProps {
   uploadAvatar: (uri: string) => void;
 }
 
-const ChangeAvatarView: React.FC<Props> = ({
-  navigation,
-  error,
-  reset,
-  passwordReset,
-  logOut,
-  uploadAvatar
-}) => {
+const ChangeAvatarView: React.FC<Props> = ({ uploadAvatar }) => {
   const [photo, setPhoto] = useState();
-
-  const [proba, setProba] = useState();
-
-  const user = FirebaseAuth.currentUser;
-  /**
-   * Isto thunk
-   */
 
   console.log(photo);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Izaberite svoju profilnu sliku</Text>
-      {photo && (
-        <Image source={{ uri: photo }} style={{ width: 300, height: 300 }} />
-      )}
+      {photo && <Image source={{ uri: photo }} style={styles.pic} />}
       <TouchableHighlight
         onPress={handleChoosePhoto}
         style={styles.btn}
@@ -101,6 +83,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     color: '#fff'
+  },
+  pic: {
+    width: 300,
+    height: 300
   }
 });
 

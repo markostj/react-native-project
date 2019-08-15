@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -47,7 +47,7 @@ const HomepageView: React.FC<Props> = ({
     }
   });
 
-  if (!authUser) {
+  if (!authUser || !photoURI || !displayName || !email || !refereeCenter) {
     return (
       <View style={styles.container}>
         <CirclesLoader size={100} />

@@ -7,3 +7,5 @@ export * from './RecordView';
 export * from './ForgotPasswordView';
 export * from './UserMenuView';
 export * from './ChangeEmailView';
+export * from './AdminView';
+export * from './AddUserView';

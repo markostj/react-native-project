@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
-import { FirebaseAuth } from '../firebase/FirebaseService';
 import { connect } from 'react-redux';
 import { passwordReset } from '../redux/userThunks';
 import { ApplicationState } from '../redux/store';
