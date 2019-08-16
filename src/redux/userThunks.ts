@@ -29,7 +29,8 @@ export const signIn = (email: string, password: string) => async (
                                     displayName: data.name
                                 });
                             }
-
+                            // Stavit da je data.refereeCenter i onda sve Usere takve
+                            // Posto je negdje center, a negdje refereeCenter
                             dispatch(
                                 UserActions.userInfo(
                                     'refereeCenter',
@@ -45,7 +46,7 @@ export const signIn = (email: string, password: string) => async (
                 .catch(error => {
                     console.log(error.message);
                 });
-
+            // Source uri should not be an empty string
             if (credential.user.photoURL) {
                 dispatch(
                     UserActions.userInfo('photoURL', credential.user.photoURL)
