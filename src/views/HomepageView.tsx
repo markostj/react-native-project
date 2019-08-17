@@ -18,8 +18,6 @@ import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
 import { logOut } from '../redux/userThunks';
 
-import { UserActions } from '../redux/userActions';
-
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
 interface ReduxProps {
@@ -32,7 +30,6 @@ interface ReduxProps {
 
 interface DispatchProps {
   logOut: () => void;
-  setAvatar: (name: string, value: string) => void;
 }
 
 const HomepageView: React.FC<Props> = ({
@@ -42,8 +39,7 @@ const HomepageView: React.FC<Props> = ({
   authUser,
   photoURI,
   logOut,
-  email,
-  setAvatar
+  email
 }) => {
   useEffect(() => {
     if (!authUser) {
@@ -51,19 +47,12 @@ const HomepageView: React.FC<Props> = ({
     }
   });
 
-  if (!authUser || !displayName || !email) {
+  if (!authUser || !photoURI || !displayName || !email || !refereeCenter) {
     return (
       <View style={styles.container}>
         <CirclesLoader size={100} />
         <TextLoader text="Loading" />
       </View>
-    );
-  }
-
-  if (photoURI === '') {
-    setAvatar(
-      'photoURL',
-      'https://firebasestorage.googleapis.com/v0/b/ns-zapisnik.appspot.com/o/profilePic.png?alt=media&token=301ce583-5c7b-49fe-8a70-09f1309c9bf3'
     );
   }
 
@@ -167,7 +156,6 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     photoURI: state.user.photoURL
   }),
   {
-    logOut,
-    setAvatar: UserActions.userInfo
+    logOut
   }
 )(HomepageView);
