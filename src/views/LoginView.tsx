@@ -16,6 +16,7 @@ import { ApplicationState } from '../redux/store';
 
 import { signIn } from '../redux/userThunks';
 import { UserActions } from '../redux/userActions';
+import { FirebaseAuth } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -48,6 +49,17 @@ const LoginView: React.FC<Props> = ({
       Alert.alert(error);
     }
     if (authenticated) {
+      if (FirebaseAuth.currentUser) {
+        console.log(FirebaseAuth.currentUser);
+        const userUID = FirebaseAuth.currentUser.uid;
+        if (userUID === 'OENvU8IGw9TeiQ0N9PG7EVdnuMG3') {
+          setEmail('');
+          setPassword('');
+          navigation.navigate('Admin');
+          return;
+        }
+      }
+
       setEmail('');
       setPassword('');
       navigation.navigate('Homepage');

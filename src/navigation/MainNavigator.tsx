@@ -7,6 +7,8 @@ import ForgotPasswordView from '../views/ForgotPasswordView';
 import ChangeAvatarView from '../views/ChangeAvatarView';
 import UserMenuView from '../views/UserMenuView';
 import ChangeEmailView from '../views/ChangeEmailView';
+import AdminView from '../views/AdminView';
+import AddUserView from '../views/AddUserView';
 
 import { createStackNavigator } from 'react-navigation';
 
@@ -65,6 +67,19 @@ const MainNavigator = createStackNavigator(
       screen: ChangeEmailView,
       navigationOptions: {
         headerTitle: 'Change Email '
+      }
+    },
+    Admin: {
+      screen: AdminView,
+      navigationOptions: {
+        headerTitle: 'Admin',
+        headerLeft: null
+      }
+    },
+    AddUser: {
+      screen: AddUserView,
+      navigationOptions: {
+        headerTitle: 'Add User'
       }
     }
   },
