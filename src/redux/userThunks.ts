@@ -34,7 +34,7 @@ export const signIn = (email: string, password: string) => async (
                             dispatch(
                                 UserActions.userInfo(
                                     'refereeCenter',
-                                    data.center
+                                    data.refereeCenter
                                 )
                             );
                             dispatch(

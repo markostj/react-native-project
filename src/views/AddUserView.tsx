@@ -22,13 +22,6 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
   );
 
   /**
-<<<<<<< HEAD
-   * Vidjet jel se treba dodat na firebase uid isto tj da ima polje za uid a to da mu se pošalje kod kreiranja korisnika
-   * Spojit usera s kolekcijom user i to da moze dohvacat podatke
-   * ali moram vidjet kako dobit uid kad se kreira novi korisnik da mogu proslijedit
-   */
-  const [error, setError] = useState('');
-=======
    * Vidjet jel u thunk mozda
    */
   const [error, setError] = useState('');
@@ -62,13 +55,10 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
           })
           .then(() => Alert.alert('Novi korisnik je uspješno dodan'))
           .then(() => navigation.navigate('Admin'))
-          .catch(errorText =>
-            console.error('Error writing document: ', errorText)
-          );
+          .catch(errorText => Alert.alert(errorText.message));
       }
     }
   };
->>>>>>> origin/develop
 
   return (
     <ScrollView>
@@ -164,44 +154,6 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
   /**
    * U kolekciju users snimit pod imenom UID sto mu dodijeli firebase
    */
-<<<<<<< HEAD
-  function check() {
-    if (!isValid) {
-      setError('Ostavili ste polje prazno');
-      alertError();
-    } else {
-      setError('');
-      FirebaseAuth.createUserWithEmailAndPassword(
-        newUserState.email,
-        newUserState.password
-      )
-        .catch(errorAuth => {
-          Alert.alert(errorAuth.message);
-        })
-
-        .then(() => {
-          FirebaseDatabase.collection('users')
-            .doc('blblabnekiUID')
-            .set({
-              name: newUserState.name,
-              email: newUserState.email,
-              password: newUserState.password,
-              birth: newUserState.birth,
-              refereeCenter: newUserState.refereeCenter,
-              number: newUserState.number,
-              // UID KOJI CEMO DOBIT
-              uid: 'blablabla'
-            })
-            .then(() => Alert.alert('Novi korisnik je uspješno dodan'))
-            .then(() => navigation.navigate('Admin'))
-            .catch(errorText =>
-              console.error('Error writing document: ', errorText)
-            );
-        });
-    }
-  }
-=======
->>>>>>> origin/develop
 
   function handleChange(propName: string, value: string) {
     setNewUserState({ ...newUserState, [propName]: value });
