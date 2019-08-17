@@ -9,6 +9,7 @@ import UserMenuView from '../views/UserMenuView';
 import ChangeEmailView from '../views/ChangeEmailView';
 import AdminView from '../views/AdminView';
 import AddUserView from '../views/AddUserView';
+import AllGamesView from '../views/AllGamesView';
 
 import { createStackNavigator } from 'react-navigation';
 
@@ -80,6 +81,12 @@ const MainNavigator = createStackNavigator(
       screen: AddUserView,
       navigationOptions: {
         headerTitle: 'Add User'
+      }
+    },
+    AllGames: {
+      screen: AllGamesView,
+      navigationOptions: {
+        headerTitle: 'All Games'
       }
     }
   },

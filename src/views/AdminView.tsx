@@ -64,7 +64,7 @@ const AdminView: React.FC<Props> = ({ navigation, logOut, authUser }) => {
           {...navigation}
         />
         <Navigation
-          value="ListGames"
+          value="AllGames"
           colorBg="#6666ff"
           text="Izlistaj utakmice"
           size={30}
