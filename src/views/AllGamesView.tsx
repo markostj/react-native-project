@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   SafeAreaView,
@@ -10,11 +10,23 @@ import {
 } from 'react-native';
 
 import { NavigationScreenProps } from 'react-navigation';
+import { connect } from 'react-redux';
 
 import { Navigation } from '../components/Navigation';
+import { getGames } from '../redux/records/recordThunks';
+import { ApplicationState } from '../redux/store';
+
 import { FirebaseDatabase } from '../firebase/FirebaseService';
 
-type Props = NavigationScreenProps;
+type Props = NavigationScreenProps & ReduxProps & DispatchProps;
+
+interface ReduxProps {
+  records: any;
+  error: string;
+}
+interface DispatchProps {
+  listGames: () => void;
+}
 
 // U Thunk ce to trebat i treba se napravit Flatlista
 /* const getGames = async () => {
@@ -32,7 +44,7 @@ type Props = NavigationScreenProps;
 // Firebase Firestore - OR query vidjet s vlatkom kako je najbolje jel to RxJS ili nesto drugo
 // Ovo je za UserView gdje moce moci vidjet samo svoje utakmice .where('referee', '==', displayName-iz reduxa), .where('firstReferee', '==', displayName)
 // .where('secondReferee', '==', displayName)
-const getGames = () => {
+/* const getGames = () => {
   FirebaseDatabase.collection('records')
     .where('referee', '==', 'das')
     .get()
@@ -46,14 +58,39 @@ const getGames = () => {
       Alert.alert(error.message);
     });
 };
+ */
 
-const AllGamesView: React.FC<Props> = ({ navigation }) => {
+// Order by date and maybe write date also
+const AllGamesView: React.FC<Props> = ({
+  navigation,
+  listGames,
+  records,
+  error
+}) => {
+  useEffect(() => {
+    listGames();
+  }, []);
+
+  if (records !== undefined) {
+    console.log(records);
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <View>
+          {records.map(item => (
+            <Text style={styles.text} key={item.id}>
+              {item.homeTeam} - {item.awayTeam} ({item.result})
+            </Text>
+          ))}
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <TouchableHighlight onPress={getGames}>
-          <Text>Get Games</Text>
-        </TouchableHighlight>
+        <Text>Loading...</Text>
       </View>
     </SafeAreaView>
   );
@@ -65,7 +102,18 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  text: {
+    fontSize: 20
   }
 });
 
-export default AllGamesView;
+export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
+  state => ({
+    records: state.record.records,
+    error: state.record.error
+  }),
+  {
+    listGames: getGames
+  }
+)(AllGamesView);
