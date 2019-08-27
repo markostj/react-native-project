@@ -54,7 +54,7 @@ const UserMenuView: React.FC<Props> = ({
           {...navigation}
         />
         <Navigation
-          value="Games"
+          value="UserGames"
           colorBg="#f4511e"
           text="Prijašnje utakmice"
           size={25}

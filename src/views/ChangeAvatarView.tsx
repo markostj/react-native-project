@@ -3,11 +3,11 @@ import { Text, View, StyleSheet, Image } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { passwordReset } from '../redux/userThunks';
+import { passwordReset } from '../redux/users/userThunks';
 import { ApplicationState } from '../redux/store';
 import ImagePicker from 'react-native-image-picker';
-import { uploadAvatar } from '../redux/userThunks';
-import { logOut } from '../redux/userThunks';
+import { uploadAvatar } from '../redux/users/userThunks';
+import { logOut } from '../redux/users/userThunks';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 

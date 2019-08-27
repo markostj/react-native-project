@@ -13,7 +13,7 @@ import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { Navigation } from '../components/Navigation';
-import { getGames } from '../redux/records/recordThunks';
+import { getAllGames } from '../redux/records/recordThunks';
 import { ApplicationState } from '../redux/store';
 
 import { FirebaseDatabase } from '../firebase/FirebaseService';
@@ -29,19 +29,6 @@ interface ReduxProps {
 interface DispatchProps {
   listGames: () => void;
 }
-
-// U Thunk ce to trebat i treba se napravit Flatlista
-/* const getGames = async () => {
-  const snapshot = await FirebaseDatabase.collection('records').get();
-  snapshot.docs.map(doc => {
-    if (doc.exists) {
-      const data = doc.data();
-      if (data) {
-        console.log(`${data.homeTeam}-${data.awayTeam} (${data.result})`);
-      }
-    }
-  });
-}; */
 
 // Firebase Firestore - OR query vidjet s vlatkom kako je najbolje jel to RxJS ili nesto drugo
 // Ovo je za UserView gdje moce moci vidjet samo svoje utakmice .where('referee', '==', displayName-iz reduxa), .where('firstReferee', '==', displayName)
@@ -62,7 +49,6 @@ interface DispatchProps {
 };
  */
 
-// Order by date and maybe write date also
 const AllGamesView: React.FC<Props> = ({
   navigation,
   listGames,
@@ -82,12 +68,13 @@ const AllGamesView: React.FC<Props> = ({
           {records.map(
             (game: {
               id: string | number | undefined;
+              date: React.ReactNode;
               homeTeam: React.ReactNode;
               awayTeam: React.ReactNode;
               result: React.ReactNode;
             }) => (
               <Text style={styles.text} key={game.id}>
-                {game.homeTeam} - {game.awayTeam} ({game.result})
+                {game.date} {game.homeTeam} - {game.awayTeam} ({game.result})
               </Text>
             )
           )}
@@ -112,7 +99,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   text: {
-    fontSize: 20
+    textAlign: 'center',
+    fontSize: 18,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#808080',
+    marginBottom: 5
   },
   loadingText: {
     fontSize: 20,
@@ -126,6 +118,6 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     error: state.record.error
   }),
   {
-    listGames: getGames
+    listGames: getAllGames
   }
 )(AllGamesView);

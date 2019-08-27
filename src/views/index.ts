@@ -11,3 +11,4 @@ export * from './ModalView';
 export * from './RecordMenuView';
 export * from './RecordView';
 export * from './UserMenuView';
+export * from './UserGamesView';

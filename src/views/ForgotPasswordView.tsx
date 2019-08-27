@@ -3,9 +3,9 @@ import { Text, View, StyleSheet, Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { passwordReset } from '../redux/userThunks';
+import { passwordReset } from '../redux/users/userThunks';
 import { ApplicationState } from '../redux/store';
-import { UserActions } from '../redux/userActions';
+import { UserActions } from '../redux/users/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 

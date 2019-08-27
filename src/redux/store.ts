@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import userReducer, { UserState } from './userReducer';
+import userReducer, { UserState } from './users/userReducer';
 import recordReducer, { RecordState } from './records/recordReducer';
 import thunk from 'redux-thunk';
 

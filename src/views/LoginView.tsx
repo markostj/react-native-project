@@ -14,8 +14,8 @@ import { NavigationScreenProps } from 'react-navigation';
 
 import { ApplicationState } from '../redux/store';
 
-import { signIn } from '../redux/userThunks';
-import { UserActions } from '../redux/userActions';
+import { signIn } from '../redux/users/userThunks';
+import { UserActions } from '../redux/users/userActions';
 import { FirebaseAuth } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;

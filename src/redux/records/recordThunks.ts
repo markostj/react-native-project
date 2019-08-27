@@ -2,8 +2,9 @@ import { Dispatch } from 'redux';
 import { FirebaseDatabase } from '../../firebase/FirebaseService';
 import { RecordActions } from './recordActions';
 
-export const getGames = () => (dispatch: Dispatch) => {
+export const getAllGames = () => (dispatch: Dispatch) => {
     FirebaseDatabase.collection('records')
+        .orderBy('timestamp', 'desc')
         .get()
         .then(response => {
             const allRecords = response.docs.map(doc => {

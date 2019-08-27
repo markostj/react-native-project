@@ -12,8 +12,8 @@ import { NavigationScreenProps } from 'react-navigation';
 
 import { ApplicationState } from '../redux/store';
 
-import { changeEmail } from '../redux/userThunks';
-import { UserActions } from '../redux/userActions';
+import { changeEmail } from '../redux/users/userThunks';
+import { UserActions } from '../redux/users/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 

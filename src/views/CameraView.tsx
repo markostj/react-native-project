@@ -11,7 +11,7 @@ import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../redux/store';
 import ImagePicker from 'react-native-image-picker';
-import { uploadRecord } from '../redux/userThunks';
+import { uploadRecord } from '../redux/users/userThunks';
 
 type Props = NavigationScreenProps & DispatchProps;
 

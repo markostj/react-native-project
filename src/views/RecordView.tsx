@@ -31,6 +31,7 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
 
   const [error, setError] = useState('');
   const today = new Date();
+  const time = new Date().getTime();
 
   useEffect(() => {
     if (recordState.date === '') {
@@ -254,7 +255,7 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.error}> {error} </Text>
           <TouchableHighlight
             style={[styles.button, styles.blue]}
-            onPress={check}
+            onPress={addNewRecord}
             underlayColor={'#8F8F8F'}
           >
             <Text style={[styles.text, styles.white]}>
@@ -266,40 +267,41 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
     </ScrollView>
   );
 
-  function check() {
+  function addNewRecord() {
     if (!isValid) {
       setError('Ostavili ste polje prazno');
       alertError();
-    } else {
-      setError('');
-      FirebaseDatabase.collection('records')
-        .doc()
-        .set({
-          date: recordState.date,
-          place: recordState.place,
-          league: recordState.league,
-          round: recordState.round,
-          homeTeam: recordState.homeTeam,
-          awayTeam: recordState.awayTeam,
-          referee: recordState.referee,
-          firstAssistant: recordState.firstAssistant,
-          secondAssistant: recordState.secondAssistant,
-          delegate: recordState.delegate,
-          homeRepresentative: recordState.homeRepresentative,
-          awayRepresentative: recordState.awayRepresentative,
-          homeYellow: recordState.homeYellow,
-          awayYellow: recordState.awayYellow,
-          homeRed: recordState.homeRed,
-          awayRed: recordState.awayRed,
-          remarks: recordState.remarks,
-          comentReferee: recordState.comentReferee,
-          result: recordState.result
-        })
-        .then(() => navigation.navigate('MyModal'))
-        .catch(errorText =>
-          console.error('Error writing document: ', errorText)
-        );
+      return;
     }
+
+    setError('');
+
+    FirebaseDatabase.collection('records')
+      .doc()
+      .set({
+        date: recordState.date,
+        place: recordState.place,
+        league: recordState.league,
+        round: recordState.round,
+        homeTeam: recordState.homeTeam,
+        awayTeam: recordState.awayTeam,
+        referee: recordState.referee,
+        firstAssistant: recordState.firstAssistant,
+        secondAssistant: recordState.secondAssistant,
+        delegate: recordState.delegate,
+        homeRepresentative: recordState.homeRepresentative,
+        awayRepresentative: recordState.awayRepresentative,
+        homeYellow: recordState.homeYellow,
+        awayYellow: recordState.awayYellow,
+        homeRed: recordState.homeRed,
+        awayRed: recordState.awayRed,
+        remarks: recordState.remarks,
+        comentReferee: recordState.comentReferee,
+        result: recordState.result,
+        timestamp: time
+      })
+      .then(() => navigation.navigate('MyModal'))
+      .catch(errorText => console.error('Error writing document: ', errorText));
   }
 
   function handleChange(propName: string, value: string) {

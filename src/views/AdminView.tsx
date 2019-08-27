@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ApplicationState } from '../redux/store';
 
-import { logOut } from '../redux/userThunks';
+import { logOut } from '../redux/users/userThunks';
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;

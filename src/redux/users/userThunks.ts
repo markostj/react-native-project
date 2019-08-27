@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { FirebaseAuth, FirebaseDatabase } from '../firebase/FirebaseService';
+import { FirebaseAuth, FirebaseDatabase } from '../../firebase/FirebaseService';
 import { UserActions } from './userActions';
 import * as firebase from 'firebase';
 export const signIn = (email: string, password: string) => async (

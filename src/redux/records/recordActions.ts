@@ -1,5 +1,5 @@
 import { RecordActionTypes } from './recordTypes';
-import { createAction } from '../../models/createAction';
+import { createAction } from '../helpers/createAction';
 
 export const RecordActions = {
     recordSuccess: (records: any) =>
