@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  Text,
-  View,
+  Alert,
   StyleSheet,
+  Text,
   TouchableHighlight,
-  Alert
+  View
 } from 'react-native';
 import { NavigationScreenProps, ScrollView } from 'react-navigation';
-
 import { FormInput } from '../components/FormInput';
+import { FirebaseAuth, FirebaseDatabase } from '../firebase/FirebaseService';
 import { NewUser } from '../models/NewUser';
-import { FirebaseDatabase, FirebaseAuth } from '../firebase/FirebaseService';
 
 type Props = NavigationScreenProps;
 
@@ -21,43 +20,45 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
     key => newUserState[key].length > 0
   );
 
-  /**
-   * Vidjet jel u thunk mozda
-   */
   const [error, setError] = useState('');
-  const [UID, setUID] = useState('');
 
-  const check = async () => {
+  const addNewUser = () => {
     if (!isValid) {
       setError('Ostavili ste polje prazno');
       alertError();
-    } else {
-      setError('');
-      await FirebaseAuth.createUserWithEmailAndPassword(
-        newUserState.email,
-        newUserState.password
-      ).catch(errorText => {
+      return;
+    }
+
+    setError('');
+
+    FirebaseAuth.createUserWithEmailAndPassword(
+      newUserState.email,
+      newUserState.password
+    )
+      .then(user => {
+        if (!user) {
+          return;
+        }
+
+        if (user.user.uid) {
+          FirebaseDatabase.collection('users')
+            .doc(user.user.uid)
+            .set({
+              name: newUserState.name,
+              email: newUserState.email,
+              birth: newUserState.birth,
+              refereeCenter: newUserState.refereeCenter,
+              number: newUserState.number,
+              uid: user.user.uid
+            })
+            .then(() => Alert.alert('Novi korisnik je uspješno dodan'))
+            .then(() => navigation.navigate('Admin'))
+            .catch(errorText => Alert.alert(errorText.message));
+        }
+      })
+      .catch(errorText => {
         Alert.alert(errorText.message);
       });
-      const user = await FirebaseAuth.currentUser;
-      if (user) {
-        setUID(user.uid);
-        await FirebaseDatabase.collection('users')
-          .doc(user.uid)
-          .set({
-            name: newUserState.name,
-            email: newUserState.email,
-            password: newUserState.password,
-            birth: newUserState.birth,
-            refereeCenter: newUserState.refereeCenter,
-            number: newUserState.number,
-            uid: user.uid
-          })
-          .then(() => Alert.alert('Novi korisnik je uspješno dodan'))
-          .then(() => navigation.navigate('Admin'))
-          .catch(errorText => Alert.alert(errorText.message));
-      }
-    }
   };
 
   return (
@@ -141,7 +142,7 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.error}> {error} </Text>
           <TouchableHighlight
             style={[styles.button, styles.blue]}
-            onPress={check}
+            onPress={addNewUser}
             underlayColor={'#8F8F8F'}
           >
             <Text style={[styles.text, styles.white]}>Dodaj korisnika</Text>
@@ -150,10 +151,6 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
       </View>
     </ScrollView>
   );
-
-  /**
-   * U kolekciju users snimit pod imenom UID sto mu dodijeli firebase
-   */
 
   function handleChange(propName: string, value: string) {
     setNewUserState({ ...newUserState, [propName]: value });

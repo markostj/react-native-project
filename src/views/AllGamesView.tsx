@@ -18,6 +18,8 @@ import { ApplicationState } from '../redux/store';
 
 import { FirebaseDatabase } from '../firebase/FirebaseService';
 
+import { CirclesLoader, TextLoader } from 'react-native-indicator';
+
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
 interface ReduxProps {
@@ -77,22 +79,28 @@ const AllGamesView: React.FC<Props> = ({
     return (
       <SafeAreaView style={styles.container}>
         <View>
-          {records.map(item => (
-            <Text style={styles.text} key={item.id}>
-              {item.homeTeam} - {item.awayTeam} ({item.result})
-            </Text>
-          ))}
+          {records.map(
+            (game: {
+              id: string | number | undefined;
+              homeTeam: React.ReactNode;
+              awayTeam: React.ReactNode;
+              result: React.ReactNode;
+            }) => (
+              <Text style={styles.text} key={game.id}>
+                {game.homeTeam} - {game.awayTeam} ({game.result})
+              </Text>
+            )
+          )}
         </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <CirclesLoader size={100} />
+      <TextLoader style={styles.loadingText} text="Loading" />
+    </View>
   );
 };
 
@@ -105,6 +113,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20
+  },
+  loadingText: {
+    fontSize: 20,
+    textAlign: 'center'
   }
 });
 
