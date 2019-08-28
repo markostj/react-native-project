@@ -1,22 +1,12 @@
 import React, { useEffect } from 'react';
 
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  TouchableHighlight,
-  Text,
-  Alert
-} from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import { Navigation } from '../components/Navigation';
 import { getAllGames } from '../redux/records/recordThunks';
 import { ApplicationState } from '../redux/store';
-
-import { FirebaseDatabase } from '../firebase/FirebaseService';
 
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
@@ -30,31 +20,7 @@ interface DispatchProps {
   listGames: () => void;
 }
 
-// Firebase Firestore - OR query vidjet s vlatkom kako je najbolje jel to RxJS ili nesto drugo
-// Ovo je za UserView gdje moce moci vidjet samo svoje utakmice .where('referee', '==', displayName-iz reduxa), .where('firstReferee', '==', displayName)
-// .where('secondReferee', '==', displayName)
-/* const getGames = () => {
-  FirebaseDatabase.collection('records')
-    .where('referee', '==', 'das')
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
-      });
-    })
-    .catch(error => {
-      Alert.alert(error.message);
-    });
-};
- */
-
-const AllGamesView: React.FC<Props> = ({
-  navigation,
-  listGames,
-  records,
-  error
-}) => {
+const AllGamesView: React.FC<Props> = ({ listGames, records }) => {
   useEffect(() => {
     listGames();
   }, []);
