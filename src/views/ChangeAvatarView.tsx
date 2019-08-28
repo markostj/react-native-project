@@ -14,6 +14,7 @@ type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 interface ReduxProps {
   error: string;
   reset: boolean;
+  photoURI: string;
 }
 
 interface DispatchProps {
@@ -22,27 +23,48 @@ interface DispatchProps {
   uploadAvatar: (uri: string) => void;
 }
 
-const ChangeAvatarView: React.FC<Props> = ({ uploadAvatar }) => {
+const ChangeAvatarView: React.FC<Props> = ({ uploadAvatar, photoURI }) => {
   const [photo, setPhoto] = useState();
 
-  console.log(photo);
+  if (!photo) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Trenutna profilna slika</Text>
+        <Image source={{ uri: photoURI }} style={styles.pic} />
+        <TouchableHighlight
+          onPress={handleChoosePhoto}
+          style={styles.btn}
+          underlayColor={'#8F8F8F'}
+        >
+          <Text style={styles.btnText}>Odaberite sliku</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={handleUpload}
+          style={styles.btn}
+          underlayColor={'#8F8F8F'}
+        >
+          <Text style={styles.btnText}>Promijeni profilnu</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Izaberite svoju profilnu sliku</Text>
-      {photo && <Image source={{ uri: photo }} style={styles.pic} />}
+      <Image source={{ uri: photo }} style={styles.pic} />
       <TouchableHighlight
         onPress={handleChoosePhoto}
         style={styles.btn}
         underlayColor={'#8F8F8F'}
       >
-        <Text style={styles.btnText}>Odaberi sliku</Text>
+        <Text style={styles.btnText}>Odaberite sliku</Text>
       </TouchableHighlight>
       <TouchableHighlight
         onPress={handleUpload}
         style={styles.btn}
         underlayColor={'#8F8F8F'}
       >
-        <Text style={styles.btnText}>UPLOAD</Text>
+        <Text style={styles.btnText}>Promijeni profilnu</Text>
       </TouchableHighlight>
     </View>
   );
@@ -75,13 +97,18 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   btn: {
-    marginTop: 20,
-    width: 100,
-    backgroundColor: '#1B85F6'
+    borderWidth: 1,
+    borderColor: 'black',
+    marginTop: 10,
+    marginBottom: 15,
+    padding: 10,
+    width: 200,
+    backgroundColor: '#00ffff'
   },
   btnText: {
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: 'bold',
     color: '#fff'
   },
   pic: {
@@ -93,7 +120,8 @@ const styles = StyleSheet.create({
 export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
   state => ({
     error: state.user.error,
-    reset: state.user.resetPassword
+    reset: state.user.resetPassword,
+    photoURI: state.user.photoURL
   }),
   {
     passwordReset,

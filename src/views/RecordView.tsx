@@ -397,10 +397,7 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   blue: {
-    backgroundColor: '#66ffff'
-  },
-  purple: {
-    backgroundColor: '#6666ff'
+    backgroundColor: '#800080'
   },
   locationText: {
     textAlign: 'center',

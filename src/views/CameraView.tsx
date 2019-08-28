@@ -21,31 +21,24 @@ interface DispatchProps {
 
 const CameraView: React.FC<Props> = ({ uploadRecord }) => {
   const [photo, setPhoto] = useState();
-  console.log(photo);
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        {photo && (
-          <Image source={{ uri: photo }} style={{ width: 300, height: 300 }} />
-        )}
-        <TouchableHighlight
-          onPress={handleTakePicture}
-          style={styles.btn}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.btnText}>Uslikaj</Text>
-        </TouchableHighlight>
-      </View>
-      <View>
-        <TouchableHighlight
-          onPress={handleUpload}
-          style={styles.btn}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.btnText}>UPLOAD</Text>
-        </TouchableHighlight>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      {photo && <Image source={{ uri: photo }} style={styles.pic} />}
+      <TouchableHighlight
+        onPress={handleTakePicture}
+        style={styles.btn}
+        underlayColor={'#8F8F8F'}
+      >
+        <Text style={styles.btnText}>Uslikaj</Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        onPress={handleUpload}
+        style={styles.btn}
+        underlayColor={'#8F8F8F'}
+      >
+        <Text style={styles.btnText}>UPLOAD</Text>
+      </TouchableHighlight>
+    </View>
   );
 
   function handleTakePicture() {
@@ -53,7 +46,6 @@ const CameraView: React.FC<Props> = ({ uploadRecord }) => {
       noData: true
     };
     ImagePicker.launchCamera(options, response => {
-      console.log('response:', response);
       if (response.uri) {
         setPhoto(response.uri);
       }
@@ -79,14 +71,23 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   btn: {
-    marginTop: 20,
-    width: 100,
-    backgroundColor: '#1B85F6'
+    borderWidth: 1,
+    borderColor: 'black',
+    marginTop: 10,
+    marginBottom: 15,
+    padding: 10,
+    width: 200,
+    backgroundColor: '#EE82EE'
   },
   btnText: {
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: 'bold',
     color: '#fff'
+  },
+  pic: {
+    width: 300,
+    height: 300
   }
 });
 

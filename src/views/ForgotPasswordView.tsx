@@ -29,8 +29,6 @@ const ForgotPasswordView: React.FC<Props> = ({
   const [email, setEmail] = useState('');
   const [emailVal, setEmailVal] = useState('');
 
-  console.log(`PasswordResetBool : ${isPasswordReset}`);
-
   useEffect(() => {
     if (isPasswordReset) {
       Alert.alert('Provjerite mail');
@@ -66,7 +64,6 @@ const ForgotPasswordView: React.FC<Props> = ({
 
   function handleEmailChange(text: string) {
     setError('');
-    console.log(text);
     const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (reg.test(text) === false) {
       setEmailVal('Email format is Not Correct');

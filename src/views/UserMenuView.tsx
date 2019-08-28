@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity
+} from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -28,12 +35,14 @@ const UserMenuView: React.FC<Props> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image
-          style={styles.headerImg}
-          source={{
-            uri: photoURI
-          }}
-        />
+        <TouchableOpacity onPress={navigateToChangeAvatarView}>
+          <Image
+            style={styles.headerImg}
+            source={{
+              uri: photoURI
+            }}
+          />
+        </TouchableOpacity>
         <Text style={styles.headerName}>{displayName}</Text>
         <Text style={styles.headerName}>{email}</Text>
         <Text style={styles.headerCenter}> {refereeCenter}</Text>
@@ -41,21 +50,21 @@ const UserMenuView: React.FC<Props> = ({
       <View>
         <Navigation
           value="Avatar"
-          colorBg="#05a05a"
+          colorBg="#00ffff"
           text="Promijeni profilnu sliku"
           size={25}
           {...navigation}
         />
         <Navigation
           value="ChangeEmail"
-          colorBg="#bf3eff"
+          colorBg="#0080ff"
           text="Promijeni email"
           size={25}
           {...navigation}
         />
         <Navigation
           value="UserGames"
-          colorBg="#f4511e"
+          colorBg="#6600cc"
           text="Prijašnje utakmice"
           size={25}
           {...navigation}
@@ -63,6 +72,10 @@ const UserMenuView: React.FC<Props> = ({
       </View>
     </SafeAreaView>
   );
+
+  function navigateToChangeAvatarView() {
+    navigation.navigate('Avatar');
+  }
 };
 
 const styles = StyleSheet.create({
@@ -79,9 +92,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   headerImg: {
-    width: 100,
-    height: 100,
-    borderRadius: 50
+    width: 180,
+    height: 180,
+    borderRadius: 90
   },
   headerName: {
     marginTop: 10,

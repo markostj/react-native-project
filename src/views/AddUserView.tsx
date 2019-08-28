@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   blue: {
-    backgroundColor: '#66ffff'
+    backgroundColor: '#ff9933'
   }
 });
 

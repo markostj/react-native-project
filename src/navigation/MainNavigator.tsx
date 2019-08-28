@@ -19,81 +19,73 @@ const MainNavigator = createStackNavigator(
     Login: {
       screen: LoginView,
       navigationOptions: {
-        headerTitle: 'Login View'
+        header: null
       }
     },
     Homepage: {
       screen: HomepageView,
       navigationOptions: {
-        headerTitle: 'Homepage',
-        headerLeft: null
+        header: null
       }
     },
     RecordMenu: {
       screen: RecordMenuView,
       navigationOptions: {
-        headerTitle: 'Record Menu'
+        headerTitle: 'Vrsta zapisnika'
       }
     },
     Camera: {
-      screen: CameraView,
-      navigationOptions: {
-        headerTitle: 'Camera'
-      }
+      screen: CameraView
     },
     Record: {
-      screen: RecordView,
-      navigationOptions: {
-        headerTitle: 'Record'
-      }
+      screen: RecordView
     },
     ForgotPassword: {
       screen: ForgotPasswordView,
       navigationOptions: {
-        headerTitle: 'Forgot Password'
+        headerTitle: 'Reset Password'
       }
     },
     Avatar: {
       screen: ChangeAvatarView,
       navigationOptions: {
-        headerTitle: 'Change Avatar Picture'
+        headerTitle: 'Promijeni profilnu sliku'
       }
     },
     UserMenu: {
       screen: UserMenuView,
       navigationOptions: {
-        headerTitle: 'User Menu'
+        headerTitle: 'Korisnički profil'
       }
     },
     ChangeEmail: {
       screen: ChangeEmailView,
       navigationOptions: {
-        headerTitle: 'Change Email '
+        headerTitle: 'Promijeni Email '
       }
     },
     Admin: {
       screen: AdminView,
       navigationOptions: {
-        headerTitle: 'Admin',
-        headerLeft: null
+        header: null
       }
     },
     AddUser: {
       screen: AddUserView,
       navigationOptions: {
-        headerTitle: 'Add User'
+        headerTitle: 'Dodaj korisnika'
       }
     },
     AllGames: {
       screen: AllGamesView,
       navigationOptions: {
-        headerTitle: 'All Games'
+        headerTitle: 'Sve utakmice'
       }
     },
     UserGames: {
       screen: UserGamesView,
       navigationOptions: {
-        headerTitle: 'User Games'
+        headerTitle: 'Korisnikove utakmice'
       }
     }
   },
@@ -102,7 +94,7 @@ const MainNavigator = createStackNavigator(
 
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#f4511e' // Change color
+        backgroundColor: '#DD0023' // Change color
       },
       headerTintColor: '#fff',
       headerTitleStyle: {

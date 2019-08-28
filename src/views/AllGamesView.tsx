@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text, Alert } from 'react-native';
 
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -20,14 +20,15 @@ interface DispatchProps {
   listGames: () => void;
 }
 
-const AllGamesView: React.FC<Props> = ({ listGames, records }) => {
+const AllGamesView: React.FC<Props> = ({ listGames, records, error }) => {
   useEffect(() => {
     listGames();
+    if (error) {
+      Alert.alert(error);
+    }
   }, []);
 
   if (records !== undefined) {
-    console.log(records);
-
     return (
       <SafeAreaView style={styles.container}>
         <View>

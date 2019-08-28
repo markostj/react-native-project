@@ -42,15 +42,12 @@ const LoginView: React.FC<Props> = ({
   const [password, setPassword] = useState('');
   const [emailVal, setEmailVal] = useState('');
 
-  console.log(`Authenticated je : ${authenticated}`);
-
   useEffect(() => {
     if (error) {
       Alert.alert(error);
     }
     if (authenticated) {
       if (FirebaseAuth.currentUser) {
-        console.log(FirebaseAuth.currentUser);
         const userUID = FirebaseAuth.currentUser.uid;
         if (userUID === 'OENvU8IGw9TeiQ0N9PG7EVdnuMG3') {
           setEmail('');
@@ -71,7 +68,7 @@ const LoginView: React.FC<Props> = ({
       <View style={styles.body}>
         <Image
           style={styles.bodyImg}
-          source={require('C:/Users/marko/OneDrive/Desktop/Projekt/src/assets/img/hns.png')}
+          source={require('assets/img/hns-login.png')}
         />
         <Text style={styles.bodyTitle}>NS Zapisnik</Text>
         <View style={styles.bodyLogIn}>
@@ -150,9 +147,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   bodyImg: {
-    width: 80,
-    height: 80,
-    overflow: 'visible' // Behave like it is hidden??
+    width: '30%',
+    height: '30%'
   },
   bodyTitle: {
     color: '#9E1700',
@@ -202,7 +198,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
-  // ovako stavi da ne bude warning na state (  state: { user: { authenticated: any; error: any; }; }) => ({
   state => ({
     authenticated: state.user.authenticated,
     error: state.user.error
