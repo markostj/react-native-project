@@ -49,7 +49,6 @@ export const FormInput: React.FC<Props> = ({
 
   function onChange(event: NativeSyntheticEvent<TextInputChangeEventData>) {
     const { text } = event.nativeEvent;
-    console.log(text);
     handleChangeCallback(propName, text);
   }
 

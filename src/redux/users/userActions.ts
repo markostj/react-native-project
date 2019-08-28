@@ -1,6 +1,6 @@
 import { UserActionTypes } from './userTypes';
 // import { ActionUnion } from '../models/ActionUnion';
-import { createAction } from '../models/createAction';
+import { createAction } from '../helpers/createAction';
 
 export const UserActions = {
     userInfo: (propName: string, value: string) =>

@@ -1,4 +1,4 @@
-import { Action, ActionWithPayload } from 'models';
+import { Action, ActionWithPayload } from '../helpers';
 
 /**
  * Create action that dispatches only Type

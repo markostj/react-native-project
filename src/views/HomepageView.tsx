@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -16,9 +17,9 @@ import { Navigation } from '../components/Navigation';
 
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
-import { logOut } from '../redux/userThunks';
+import { logOut } from '../redux/users/userThunks';
 
-import { UserActions } from '../redux/userActions';
+import { UserActions } from '../redux/users/userActions';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
@@ -60,22 +61,66 @@ const HomepageView: React.FC<Props> = ({
     );
   }
 
+  // Don't know how to just change profile pic because if we use pic from folder
+  // we have to use require
+
   if (photoURI === '') {
     setAvatar(
       'photoURL',
       'https://firebasestorage.googleapis.com/v0/b/ns-zapisnik.appspot.com/o/profilePic.png?alt=media&token=301ce583-5c7b-49fe-8a70-09f1309c9bf3'
+    );
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={navigateToChangeAvatarView}>
+            <Image
+              style={styles.headerImg}
+              source={require('assets/img/newProfilePic.jpeg')}
+            />
+          </TouchableOpacity>
+          <Text style={styles.headerName}>{displayName}</Text>
+          <Text style={styles.headerName}>{email}</Text>
+          <Text style={styles.headerCenter}> {refereeCenter}</Text>
+        </View>
+        <View>
+          <Navigation
+            value="UserMenu"
+            colorBg="#05a05a"
+            text="Profil"
+            size={25}
+            {...navigation}
+          />
+          <Navigation
+            value="RecordMenu"
+            colorBg="#f4511e"
+            text="Odaberi vrstu zapisnika"
+            size={25}
+            {...navigation}
+          />
+          <TouchableHighlight
+            onPress={handleLogOut}
+            style={styles.logOutBtn}
+            underlayColor={'#8F8F8F'}
+          >
+            <Text style={styles.logOutText}>Odlogiraj se</Text>
+          </TouchableHighlight>
+        </View>
+      </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image
-          style={styles.headerImg}
-          source={{
-            uri: photoURI
-          }}
-        />
+        <TouchableOpacity onPress={navigateToChangeAvatarView}>
+          <Image
+            style={styles.headerImg}
+            source={{
+              uri: photoURI
+            }}
+          />
+        </TouchableOpacity>
+
         <Text style={styles.headerName}>{displayName}</Text>
         <Text style={styles.headerName}>{email}</Text>
         <Text style={styles.headerCenter}> {refereeCenter}</Text>
@@ -83,14 +128,14 @@ const HomepageView: React.FC<Props> = ({
       <View>
         <Navigation
           value="UserMenu"
-          colorBg="#05a05a"
+          colorBg="#0000ff"
           text="Profil"
           size={25}
           {...navigation}
         />
         <Navigation
           value="RecordMenu"
-          colorBg="#f4511e"
+          colorBg="#DB7093"
           text="Odaberi vrstu zapisnika"
           size={25}
           {...navigation}
@@ -109,13 +154,16 @@ const HomepageView: React.FC<Props> = ({
   function handleLogOut() {
     logOut();
   }
+
+  function navigateToChangeAvatarView() {
+    navigation.navigate('Avatar');
+  }
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     height: '100%',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -125,9 +173,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   headerImg: {
-    width: 100,
-    height: 100,
-    borderRadius: 50
+    width: 200,
+    height: 200,
+    borderRadius: 100
   },
   headerName: {
     marginTop: 10,
@@ -136,11 +184,6 @@ const styles = StyleSheet.create({
   headerCenter: {
     fontSize: 15,
     marginBottom: 10
-  },
-  bodyImg: {
-    width: 350,
-    height: 300,
-    marginBottom: 20
   },
   logOutBtn: {
     backgroundColor: 'red',

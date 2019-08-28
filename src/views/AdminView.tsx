@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { ApplicationState } from '../redux/store';
 
-import { logOut } from '../redux/userThunks';
+import { logOut } from '../redux/users/userThunks';
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
@@ -44,28 +44,27 @@ const AdminView: React.FC<Props> = ({ navigation, logOut, authUser }) => {
     );
   }
 
-  // Dodaj Usera, Promijeni mail, Izlistaj utakmice i logout
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.title}> Admin </Text>
       <View>
-        <Text style={styles.title}> Admin </Text>
         <Navigation
           value="AddUser"
-          colorBg="#00cc00"
+          colorBg="#ff9933"
           text="Dodaj korisnika"
           size={30}
           {...navigation}
         />
         <Navigation
           value="ChangeEmail"
-          colorBg="#6666ff"
+          colorBg="#0080ff"
           text="Promijeni Email"
           size={30}
           {...navigation}
         />
         <Navigation
-          value="ListGames"
-          colorBg="#6666ff"
+          value="AllGames"
+          colorBg="#cccc00"
           text="Izlistaj utakmice"
           size={30}
           {...navigation}

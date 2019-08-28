@@ -3,9 +3,9 @@ import { Text, View, StyleSheet, Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { passwordReset } from '../redux/userThunks';
+import { passwordReset } from '../redux/users/userThunks';
 import { ApplicationState } from '../redux/store';
-import { UserActions } from '../redux/userActions';
+import { UserActions } from '../redux/users/userActions';
 
 type Props = NavigationScreenProps & DispatchProps & ReduxProps;
 
@@ -28,8 +28,6 @@ const ForgotPasswordView: React.FC<Props> = ({
 }) => {
   const [email, setEmail] = useState('');
   const [emailVal, setEmailVal] = useState('');
-
-  console.log(`PasswordResetBool : ${isPasswordReset}`);
 
   useEffect(() => {
     if (isPasswordReset) {
@@ -66,8 +64,7 @@ const ForgotPasswordView: React.FC<Props> = ({
 
   function handleEmailChange(text: string) {
     setError('');
-    console.log(text);
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (reg.test(text) === false) {
       setEmailVal('Email format is Not Correct');
       setEmail(text);
