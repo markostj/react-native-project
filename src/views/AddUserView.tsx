@@ -141,11 +141,13 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
         <View>
           <Text style={styles.error}> {error} </Text>
           <TouchableHighlight
-            style={[styles.button, styles.blue]}
+            style={[styles.btn, styles.blueBtn]}
             onPress={addNewUser}
-            underlayColor={'#8F8F8F'}
+            underlayColor={'#0000ff'}
           >
-            <Text style={[styles.text, styles.white]}>Dodaj korisnika</Text>
+            <Text style={[styles.btnText, styles.whiteTxt]}>
+              Dodaj korisnika
+            </Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -194,22 +196,26 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'red'
   },
-  button: {
-    borderWidth: 1,
+  btn: {
+    borderWidth: 2,
     borderColor: 'black',
+    marginTop: 30,
     marginBottom: 20,
-    padding: 20
+    marginLeft: 10,
+    padding: 10,
+    borderRadius: 20,
+    width: 150,
+    height: 50
   },
-  text: {
+  blueBtn: {
+    backgroundColor: '#0000ff'
+  },
+  btnText: {
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 30
+    fontSize: 14
   },
-  white: {
-    color: '#fff'
-  },
-  blue: {
-    backgroundColor: '#ff9933'
+  whiteTxt: {
+    color: '#ffffff'
   }
 });
 

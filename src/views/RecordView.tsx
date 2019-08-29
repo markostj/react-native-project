@@ -55,7 +55,7 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
         <View style={styles.containerForm}>
           <Text style={styles.text}>Datum: {recordState.date}</Text>
         </View>
-        <Text style={styles.locationText}>
+        <Text style={styles.text}>
           Trenutna adresa:{ulica}, {mjesto}
         </Text>
         <View style={styles.containerForm}>
@@ -82,13 +82,10 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
             maxLength={3}
           />
         </View>
-        <Text style={[styles.containerTitle, styles.margin]}>
-          Utakmica između klubova
-        </Text>
         <View style={styles.containerForm}>
           <FormInput
-            title=""
-            titleStyle="none"
+            title="Utakmica između klubova"
+            titleStyle="normal"
             handleChangeCallback={handleChange}
             placeholder="Domaćin"
             value={recordState.homeTeam}
@@ -364,19 +361,7 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   containerForm: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
     marginBottom: 30
-  },
-  containerTitle: {
-    fontSize: 20,
-    width: 200,
-    flexWrap: 'wrap',
-    textAlign: 'center'
-  },
-  margin: {
-    marginBottom: 10
   },
   error: {
     fontSize: 30,
@@ -390,18 +375,13 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 30
+    fontSize: 25
   },
   white: {
     color: '#fff'
   },
   blue: {
     backgroundColor: '#800080'
-  },
-  locationText: {
-    textAlign: 'center',
-    fontSize: 25
   }
 });
 

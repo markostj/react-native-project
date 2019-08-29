@@ -5,7 +5,8 @@ import {
   TextInputProps,
   NativeSyntheticEvent,
   TextInputChangeEventData,
-  Text
+  Text,
+  View
 } from 'react-native';
 
 type FormSize = 'small' | 'medium' | 'big';
@@ -33,7 +34,7 @@ export const FormInput: React.FC<Props> = ({
   titleStyle
 }) => {
   return (
-    <>
+    <View style={styles.container}>
       <Text style={getStyleTitle(titleStyle)}> {title} </Text>
       <TextInput
         style={getStyleList(size)}
@@ -44,7 +45,7 @@ export const FormInput: React.FC<Props> = ({
         multiline={true}
         autoCorrect={false}
       />
-    </>
+    </View>
   );
 
   function onChange(event: NativeSyntheticEvent<TextInputChangeEventData>) {
@@ -80,22 +81,19 @@ export const FormInput: React.FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 10
+  },
   bodyForm: {
-    backgroundColor: '#EAEAEA',
-    marginLeft: 10,
-    marginRight: 10,
-    color: '#888888',
-    fontSize: 25,
-    textAlign: 'center',
-    borderColor: '#D8D8D8',
+    backgroundColor: '#fff',
+    color: '#000',
+    fontSize: 19,
+    borderColor: 'gray',
     borderWidth: 1,
-    width: 180
+    width: 300
   },
   bigForm: {
     height: 300,
-    width: 350,
-    textAlignVertical: 'top',
-    textAlign: 'left',
     marginBottom: 20
   },
   mediumForm: {
@@ -103,9 +101,7 @@ const styles = StyleSheet.create({
   },
   containerTitle: {
     fontSize: 20,
-    width: 200,
-    flexWrap: 'wrap',
-    textAlign: 'center'
+    marginBottom: 5
   },
   none: {
     display: 'none'

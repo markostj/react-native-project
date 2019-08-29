@@ -50,33 +50,33 @@ const AdminView: React.FC<Props> = ({ navigation, logOut, authUser }) => {
       <View>
         <Navigation
           value="AddUser"
-          colorBg="#ff9933"
+          colorBg="#0000ff"
           text="Dodaj korisnika"
-          size={30}
+          size={14}
           {...navigation}
         />
         <Navigation
           value="ChangeEmail"
-          colorBg="#0080ff"
+          colorBg="#0000ff"
           text="Promijeni Email"
-          size={30}
+          size={14}
           {...navigation}
         />
         <Navigation
           value="AllGames"
-          colorBg="#cccc00"
+          colorBg="#0000ff"
           text="Izlistaj utakmice"
-          size={30}
+          size={14}
           {...navigation}
         />
-        <TouchableHighlight
-          onPress={handleLogOut}
-          style={styles.logOutBtn}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.logOutText}> Odlogiraj se</Text>
-        </TouchableHighlight>
       </View>
+      <TouchableHighlight
+        onPress={handleLogOut}
+        style={styles.logOutBtn}
+        underlayColor={'red'}
+      >
+        <Text style={styles.logOutText}> Odlogiraj se</Text>
+      </TouchableHighlight>
     </SafeAreaView>
   );
 
@@ -89,27 +89,35 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     height: '100%',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center'
   },
   title: {
     fontSize: 40,
+    color: '#ffffff',
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor: 'red',
+    width: '100%'
   },
   logOutBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'red',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: 'black',
     marginTop: 30,
     marginBottom: 20,
-    padding: 20
+    marginLeft: 10,
+    padding: 10,
+    borderRadius: 20,
+    width: 150,
+    height: 50
   },
   logOutText: {
-    color: '#000',
+    color: '#ffffff',
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 25
+    fontSize: 15
   }
 });
 

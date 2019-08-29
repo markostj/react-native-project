@@ -6,7 +6,8 @@ import {
   Text,
   View,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  Button
 } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -17,9 +18,10 @@ import { Navigation } from '../components/Navigation';
 
 import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
-import { logOut } from '../redux/users/userThunks';
-
 import { UserActions } from '../redux/users/userActions';
+
+import { CustomButton } from '../components/Buttons';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
@@ -32,7 +34,6 @@ interface ReduxProps {
 }
 
 interface DispatchProps {
-  logOut: () => void;
   setAvatar: (name: string, value: string) => void;
 }
 
@@ -42,7 +43,6 @@ const HomepageView: React.FC<Props> = ({
   refereeCenter,
   authUser,
   photoURI,
-  logOut,
   email,
   setAvatar
 }) => {
@@ -72,38 +72,33 @@ const HomepageView: React.FC<Props> = ({
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
+          <Text style={styles.headerName}>{displayName}</Text>
           <TouchableOpacity onPress={navigateToChangeAvatarView}>
             <Image
               style={styles.headerImg}
               source={require('assets/img/newProfilePic.jpeg')}
             />
           </TouchableOpacity>
-          <Text style={styles.headerName}>{displayName}</Text>
-          <Text style={styles.headerName}>{email}</Text>
-          <Text style={styles.headerCenter}> {refereeCenter}</Text>
+          <View>
+            <Text style={styles.headerName}>{email}</Text>
+            <Text style={styles.headerCenter}> {refereeCenter}</Text>
+          </View>
         </View>
-        <View>
+        <View style={styles.buttons}>
           <Navigation
             value="UserMenu"
-            colorBg="#05a05a"
+            colorBg="#0000ff"
             text="Profil"
-            size={25}
+            size={14}
             {...navigation}
           />
           <Navigation
             value="RecordMenu"
-            colorBg="#f4511e"
+            colorBg="#ffffff"
             text="Odaberi vrstu zapisnika"
-            size={25}
+            size={14}
             {...navigation}
           />
-          <TouchableHighlight
-            onPress={handleLogOut}
-            style={styles.logOutBtn}
-            underlayColor={'#8F8F8F'}
-          >
-            <Text style={styles.logOutText}>Odlogiraj se</Text>
-          </TouchableHighlight>
         </View>
       </SafeAreaView>
     );
@@ -112,6 +107,7 @@ const HomepageView: React.FC<Props> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
+        <Text style={styles.headerName}>{displayName}</Text>
         <TouchableOpacity onPress={navigateToChangeAvatarView}>
           <Image
             style={styles.headerImg}
@@ -120,40 +116,29 @@ const HomepageView: React.FC<Props> = ({
             }}
           />
         </TouchableOpacity>
-
-        <Text style={styles.headerName}>{displayName}</Text>
-        <Text style={styles.headerName}>{email}</Text>
-        <Text style={styles.headerCenter}> {refereeCenter}</Text>
+        <View>
+          <Text style={styles.headerEmail}>{email}</Text>
+          <Text style={styles.headerCenter}> {refereeCenter}</Text>
+        </View>
       </View>
-      <View>
+      <View style={styles.buttons}>
         <Navigation
           value="UserMenu"
           colorBg="#0000ff"
           text="Profil"
-          size={25}
+          size={14}
           {...navigation}
         />
         <Navigation
           value="RecordMenu"
-          colorBg="#DB7093"
+          colorBg="#ffffff"
           text="Odaberi vrstu zapisnika"
-          size={25}
+          size={14}
           {...navigation}
         />
-        <TouchableHighlight
-          onPress={handleLogOut}
-          style={styles.logOutBtn}
-          underlayColor={'#8F8F8F'}
-        >
-          <Text style={styles.logOutText}>Odlogiraj se</Text>
-        </TouchableHighlight>
       </View>
     </SafeAreaView>
   );
-
-  function handleLogOut() {
-    logOut();
-  }
 
   function navigateToChangeAvatarView() {
     navigation.navigate('Avatar');
@@ -164,7 +149,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     height: '100%',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center'
   },
   header: {
@@ -173,31 +158,25 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   headerImg: {
-    width: 200,
-    height: 200,
-    borderRadius: 100
+    width: 220,
+    height: 220,
+    borderRadius: 110
   },
   headerName: {
-    marginTop: 10,
-    fontSize: 20
+    fontSize: 22,
+    marginBottom: 25
   },
-  headerCenter: {
-    fontSize: 15,
+  headerEmail: {
+    marginTop: 20,
+    fontSize: 22,
     marginBottom: 10
   },
-  logOutBtn: {
-    backgroundColor: 'red',
-    borderWidth: 1,
-    borderColor: 'black',
-    marginTop: 30,
-    marginBottom: 20,
-    padding: 20
+  headerCenter: {
+    fontSize: 20,
+    textAlign: 'center'
   },
-  logOutText: {
-    color: '#000',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 25
+  buttons: {
+    flexDirection: 'row'
   }
 });
 
@@ -210,7 +189,6 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     photoURI: state.user.photoURL
   }),
   {
-    logOut,
     setAvatar: UserActions.userInfo
   }
 )(HomepageView);

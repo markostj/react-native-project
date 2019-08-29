@@ -67,7 +67,7 @@ const ChangeEmailPasswordView: React.FC<Props> = ({
       <TouchableHighlight
         onPress={handleSubmit}
         style={styles.submit}
-        underlayColor={'#8F8F8F'}
+        underlayColor={'#0000ff'}
       >
         <Text style={styles.submitText}>Change your email</Text>
       </TouchableHighlight>
@@ -94,7 +94,7 @@ const ChangeEmailPasswordView: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#ffffff',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
@@ -109,25 +109,30 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 10,
     color: '#000',
-    fontSize: 25,
+    fontSize: 19,
     textAlign: 'center',
     borderColor: 'gray',
     borderWidth: 1,
     width: 300
   },
   submit: {
-    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
     borderColor: 'black',
     marginTop: 30,
     marginBottom: 20,
-    padding: 20,
-    backgroundColor: '#fff'
+    marginLeft: 10,
+    padding: 10,
+    borderRadius: 20,
+    width: 150,
+    height: 50,
+    backgroundColor: '#0000ff'
   },
   submitText: {
-    color: '#000',
+    color: '#ffffff',
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 14
   },
   emailVal: {
     marginTop: 10,

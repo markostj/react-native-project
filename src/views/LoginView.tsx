@@ -71,7 +71,7 @@ const LoginView: React.FC<Props> = ({
           source={require('assets/img/hns-login.png')}
         />
         <Text style={styles.bodyTitle}>NS Zapisnik</Text>
-        <View style={styles.bodyLogIn}>
+        <View>
           <TextInput
             style={styles.bodyForm}
             placeholder="Email"
@@ -92,16 +92,18 @@ const LoginView: React.FC<Props> = ({
         <TouchableHighlight
           onPress={handleSubmit}
           style={styles.footerBtn}
-          underlayColor={'#8F8F8F'}
+          underlayColor={'transparent'}
         >
           <Text style={styles.footerBtnText}>Log In</Text>
         </TouchableHighlight>
         <TouchableHighlight
           onPress={forgotPassword}
           style={styles.footerBtn}
-          underlayColor={'#8F8F8F'}
+          underlayColor={'transparent'}
         >
-          <Text style={styles.footerBtnText}>Forgot Password</Text>
+          <Text style={[styles.footerBtnText, styles.forgotPassBtn]}>
+            Forgot Password
+          </Text>
         </TouchableHighlight>
       </View>
     </SafeAreaView>
@@ -155,13 +157,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 40
   },
-  bodyLogIn: {},
   bodyForm: {
     backgroundColor: '#fff',
     marginLeft: 10,
     marginRight: 10,
     color: '#000',
-    fontSize: 25,
+    fontSize: 19,
     textAlign: 'center',
     borderColor: 'gray',
     borderWidth: 1,
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 5,
     color: '#000',
-    fontSize: 25,
+    fontSize: 19,
     textAlign: 'center',
     borderColor: 'gray',
     borderWidth: 1,
@@ -182,13 +183,16 @@ const styles = StyleSheet.create({
   footerBtn: {
     marginLeft: 20,
     marginRight: 20,
-    padding: 5,
+    padding: 10,
     backgroundColor: 'transparent'
   },
   footerBtnText: {
     textAlign: 'center',
     color: 'gray',
     fontSize: 30
+  },
+  forgotPassBtn: {
+    fontSize: 20
   },
   emailVal: {
     marginTop: 10,

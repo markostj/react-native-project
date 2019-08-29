@@ -20,11 +20,23 @@ export const Navigation: React.FC<Props> = ({
   navigate,
   value
 }) => {
+  if (colorBg === '#ffffff') {
+    return (
+      <TouchableHighlight
+        underlayColor={colorBg}
+        style={[styles.button, { backgroundColor: colorBg }]}
+        onPress={whenClicked}
+      >
+        <Text style={[styles.white, { fontSize: size }]}>{text}</Text>
+      </TouchableHighlight>
+    );
+  }
+
   return (
     <TouchableHighlight
+      underlayColor={colorBg}
       style={[styles.button, { backgroundColor: colorBg }]}
       onPress={whenClicked}
-      underlayColor={'#8F8F8F'}
     >
       <Text style={[styles.text, { fontSize: size }]}>{text}</Text>
     </TouchableHighlight>
@@ -37,16 +49,24 @@ export const Navigation: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   button: {
-    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
     borderColor: 'black',
-    marginTop: 30,
-    marginBottom: 20,
-    padding: 20,
-    borderRadius: 30
+    marginTop: 5,
+    marginBottom: 10,
+    marginLeft: 10,
+    padding: 10,
+    borderRadius: 20,
+    width: 150,
+    height: 50
   },
   text: {
     color: '#fff',
-    textAlign: 'center',
-    fontWeight: 'bold'
+    textAlign: 'center'
+  },
+  white: {
+    color: '#0000ff',
+    textAlign: 'center'
   }
 });

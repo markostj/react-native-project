@@ -16,16 +16,16 @@ const RecordMenuView: React.FC<Props> = ({ navigation }) => {
       <View>
         <Navigation
           value="Camera"
-          colorBg="#EE82EE"
+          colorBg="#0000ff"
           text="Slikaj"
-          size={30}
+          size={14}
           {...navigation}
         />
         <Navigation
           value="Record"
-          colorBg="#800080"
+          colorBg="#ffffff"
           text="Napiši zapisnik"
-          size={30}
+          size={14}
           {...navigation}
         />
       </View>

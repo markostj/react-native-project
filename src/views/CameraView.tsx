@@ -24,20 +24,22 @@ const CameraView: React.FC<Props> = ({ uploadRecord }) => {
   return (
     <View style={styles.container}>
       {photo && <Image source={{ uri: photo }} style={styles.pic} />}
-      <TouchableHighlight
-        onPress={handleTakePicture}
-        style={styles.btn}
-        underlayColor={'#8F8F8F'}
-      >
-        <Text style={styles.btnText}>Uslikaj</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        onPress={handleUpload}
-        style={styles.btn}
-        underlayColor={'#8F8F8F'}
-      >
-        <Text style={styles.btnText}>UPLOAD</Text>
-      </TouchableHighlight>
+      <View style={styles.buttons}>
+        <TouchableHighlight
+          onPress={handleTakePicture}
+          style={[styles.btn, styles.blueBtn]}
+          underlayColor={'#0000ff'}
+        >
+          <Text style={[styles.btnText, styles.whiteTxt]}>Uslikaj</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={handleUpload}
+          style={[styles.btn, styles.whiteBtn]}
+          underlayColor={'#ffffff'}
+        >
+          <Text style={[styles.btnText, styles.blueTxt]}>UPLOAD</Text>
+        </TouchableHighlight>
+      </View>
     </View>
   );
 
@@ -71,23 +73,40 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   btn: {
-    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
     borderColor: 'black',
-    marginTop: 10,
-    marginBottom: 15,
+    marginTop: 30,
+    marginBottom: 20,
+    marginLeft: 10,
     padding: 10,
-    width: 200,
-    backgroundColor: '#EE82EE'
+    borderRadius: 20,
+    width: 150,
+    height: 50
+  },
+  blueBtn: {
+    backgroundColor: '#0000ff'
+  },
+  whiteBtn: {
+    backgroundColor: '#ffffff'
+  },
+  blueTxt: {
+    color: '#0000ff'
+  },
+  whiteTxt: {
+    color: '#ffffff'
   },
   btnText: {
     textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff'
+    fontSize: 14
   },
   pic: {
     width: 300,
     height: 300
+  },
+  buttons: {
+    flexDirection: 'row'
   }
 });
 
