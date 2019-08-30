@@ -251,11 +251,11 @@ const RecordView: React.FC<Props> = ({ navigation }) => {
         <View>
           <Text style={styles.error}> {error} </Text>
           <TouchableHighlight
-            style={[styles.button, styles.blue]}
+            style={[styles.btn, styles.blueBtn]}
             onPress={addNewRecord}
-            underlayColor={'#8F8F8F'}
+            underlayColor={'#0000ff'}
           >
-            <Text style={[styles.text, styles.white]}>
+            <Text style={[styles.btnText, styles.whiteTxt]}>
               Pošalji u bazu podataka
             </Text>
           </TouchableHighlight>
@@ -367,21 +367,32 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'red'
   },
-  button: {
-    borderWidth: 1,
+  btn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
     borderColor: 'black',
+    marginTop: 30,
     marginBottom: 20,
-    padding: 20
+    padding: 10,
+    borderRadius: 10,
+    width: 150,
+    height: 50
+  },
+  blueBtn: {
+    backgroundColor: '#0000ff',
+    alignSelf: 'center'
+  },
+  btnText: {
+    textAlign: 'center',
+    fontSize: 14
+  },
+  whiteTxt: {
+    color: '#ffffff'
   },
   text: {
     textAlign: 'center',
     fontSize: 25
-  },
-  white: {
-    color: '#fff'
-  },
-  blue: {
-    backgroundColor: '#800080'
   }
 });
 

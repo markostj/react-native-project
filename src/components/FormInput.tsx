@@ -87,17 +87,20 @@ const styles = StyleSheet.create({
   bodyForm: {
     backgroundColor: '#fff',
     color: '#000',
-    fontSize: 19,
+    fontSize: 15,
     borderColor: 'gray',
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    paddingLeft: 20,
     width: 300
   },
   bigForm: {
     height: 300,
-    marginBottom: 20
+    marginBottom: 20,
+    borderWidth: 1
   },
   mediumForm: {
-    height: 200
+    height: 200,
+    borderWidth: 1
   },
   containerTitle: {
     fontSize: 20,

@@ -93,9 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     borderColor: '#808080',
-    marginBottom: 8,
-    marginLeft: 5,
-    marginRight: 5
+    marginBottom: 8
   },
   text: {
     textAlign: 'center',

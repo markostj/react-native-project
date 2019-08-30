@@ -159,8 +159,6 @@ const styles = StyleSheet.create({
   },
   bodyForm: {
     backgroundColor: '#fff',
-    marginLeft: 10,
-    marginRight: 10,
     color: '#000',
     fontSize: 19,
     textAlign: 'center',
@@ -170,8 +168,6 @@ const styles = StyleSheet.create({
   },
   bodyPassword: {
     backgroundColor: '#fff',
-    marginLeft: 10,
-    marginRight: 10,
     marginTop: 5,
     color: '#000',
     fontSize: 19,
@@ -181,8 +177,6 @@ const styles = StyleSheet.create({
     width: 300
   },
   footerBtn: {
-    marginLeft: 20,
-    marginRight: 20,
     padding: 10,
     backgroundColor: 'transparent'
   },

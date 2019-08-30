@@ -105,8 +105,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: '#fff',
-    marginLeft: 10,
-    marginRight: 10,
     marginTop: 10,
     color: '#000',
     fontSize: 19,
@@ -122,9 +120,8 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginTop: 30,
     marginBottom: 20,
-    marginLeft: 10,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 10,
     width: 150,
     height: 50,
     backgroundColor: '#0000ff'

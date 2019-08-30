@@ -201,14 +201,14 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginTop: 30,
     marginBottom: 20,
-    marginLeft: 10,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 10,
     width: 150,
     height: 50
   },
   blueBtn: {
-    backgroundColor: '#0000ff'
+    backgroundColor: '#0000ff',
+    alignSelf: 'center'
   },
   btnText: {
     textAlign: 'center',
