@@ -36,6 +36,7 @@ export const signIn = (email: string, password: string) => async (
                                     data.refereeCenter
                                 )
                             );
+                            dispatch(UserActions.userInfo('uid', data.uid));
                             dispatch(
                                 UserActions.userInfo('displayName', data.name)
                             );
@@ -71,6 +72,7 @@ export const passwordReset = (email: string) => async (dispatch: Dispatch) => {
 export const logOut = () => (dispatch: Dispatch) => {
     FirebaseAuth.signOut();
     dispatch(UserActions.authUser(false));
+    dispatch(UserActions.setInitialState());
 };
 
 export const uploadAvatar = (photoUri: string) => (dispatch: Dispatch) => {

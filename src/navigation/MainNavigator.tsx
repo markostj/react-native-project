@@ -90,7 +90,7 @@ const MainNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Homepage',
 
     defaultNavigationOptions: {
       headerStyle: {

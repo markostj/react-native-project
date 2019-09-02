@@ -44,6 +44,8 @@ export default (state = INITIAL_STATE, action: UserActions): UserState => {
                 ...state,
                 passwordIsReset: action.payload.isReset
             };
+        case UserActionTypes.SetInitialState:
+            return INITIAL_STATE;
         default:
             return state || INITIAL_STATE;
     }

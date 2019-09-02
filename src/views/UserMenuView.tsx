@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -26,6 +26,7 @@ interface ReduxProps {
   refereeCenter: string;
   email: string;
   photoURI: string;
+  authUser: boolean;
 }
 
 interface DispatchProps {
@@ -38,8 +39,15 @@ const UserMenuView: React.FC<Props> = ({
   refereeCenter,
   email,
   photoURI,
-  loginOut
+  loginOut,
+  authUser
 }) => {
+  useEffect(() => {
+    if (!authUser) {
+      navigation.navigate('Login');
+    }
+  });
+
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -167,7 +175,8 @@ export default connect<ReduxProps, null, null, ApplicationState>(
     displayName: state.user.displayName,
     refereeCenter: state.user.refereeCenter,
     email: state.user.email,
-    photoURI: state.user.photoURL
+    photoURI: state.user.photoURL,
+    authUser: state.user.authenticated
   }),
   {
     loginOut: logOut

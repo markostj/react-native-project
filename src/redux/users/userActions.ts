@@ -9,7 +9,8 @@ export const UserActions = {
         createAction(UserActionTypes.AuthUser, { auth }),
     error: (error: string) => createAction(UserActionTypes.Error, { error }),
     passwordIsReset: (isReset: boolean) =>
-        createAction(UserActionTypes.PasswordIsReset, { isReset })
+        createAction(UserActionTypes.PasswordIsReset, { isReset }),
+    setInitialState: () => createAction(UserActionTypes.SetInitialState)
 };
 
 export type UserActions = ReturnType<

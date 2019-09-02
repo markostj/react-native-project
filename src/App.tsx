@@ -17,12 +17,15 @@ import { configureStore } from './redux/store';
 
 import './fixtimerbug';
 import { FirebaseAuth } from './firebase/FirebaseService';
+
+import { PersistGate } from 'redux-persist/integration/react';
 /**
  * fixtimerbug is for setting a timer for a long period of time react native ERROR
  */
 
 const App: React.FC = () => {
-  const store = configureStore();
+  const persistedStore = configureStore();
+  const { store, persistor } = persistedStore;
 
   useEffect(() => {
     FirebaseAuth.onAuthStateChanged(user => {
@@ -36,7 +39,9 @@ const App: React.FC = () => {
 
   return (
     <Provider store={store}>
-      <AppContainer />
+      <PersistGate loading={null} persistor={persistor}>
+        <AppContainer />
+      </PersistGate>
     </Provider>
   );
 };

@@ -20,9 +20,6 @@ import { CirclesLoader, TextLoader } from 'react-native-indicator';
 
 import { UserActions } from '../redux/users/userActions';
 
-import { CustomButton } from '../components/Buttons';
-import { ScrollView } from 'react-native-gesture-handler';
-
 type Props = NavigationScreenProps & ReduxProps & DispatchProps;
 
 interface ReduxProps {
@@ -31,6 +28,7 @@ interface ReduxProps {
   authUser: boolean;
   photoURI: string;
   email: string;
+  uid: string;
 }
 
 interface DispatchProps {
@@ -44,11 +42,16 @@ const HomepageView: React.FC<Props> = ({
   authUser,
   photoURI,
   email,
-  setAvatar
+  setAvatar,
+  uid
 }) => {
   useEffect(() => {
+    console.log(uid);
     if (!authUser) {
       navigation.navigate('Login');
+    }
+    if (uid === 'OENvU8IGw9TeiQ0N9PG7EVdnuMG3') {
+      navigation.navigate('Admin');
     }
   });
 
@@ -186,7 +189,8 @@ export default connect<ReduxProps, DispatchProps, null, ApplicationState>(
     refereeCenter: state.user.refereeCenter,
     email: state.user.email,
     authUser: state.user.authenticated,
-    photoURI: state.user.photoURL
+    photoURI: state.user.photoURL,
+    uid: state.user.uid
   }),
   {
     setAvatar: UserActions.userInfo
