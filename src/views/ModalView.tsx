@@ -14,9 +14,9 @@ const ModalView: React.FC<Props> = ({ navigation }) => {
       </Text>
       <Navigation
         value="Homepage"
-        colorBg="#f4511e"
+        colorBg="#0000ff"
         text="OK, go to Menu"
-        size={30}
+        size={14}
         {...navigation}
       />
     </View>

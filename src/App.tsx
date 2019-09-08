@@ -22,6 +22,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 /**
  * fixtimerbug is for setting a timer for a long period of time react native ERROR
  */
+console.disableYellowBox = true;
 
 const App: React.FC = () => {
   const persistedStore = configureStore();

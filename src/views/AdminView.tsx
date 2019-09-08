@@ -75,7 +75,7 @@ const AdminView: React.FC<Props> = ({ navigation, logOut, authUser }) => {
         style={styles.logOutBtn}
         underlayColor={'red'}
       >
-        <Text style={styles.logOutText}> Odlogiraj se</Text>
+        <Text style={styles.logOutText}> Odjavi se</Text>
       </TouchableHighlight>
     </SafeAreaView>
   );

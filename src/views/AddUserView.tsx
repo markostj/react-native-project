@@ -51,11 +51,12 @@ const AddUserView: React.FC<Props> = ({ navigation }) => {
               number: newUserState.number,
               uid: user.user.uid
             })
-            .then(() => Alert.alert('Novi korisnik je uspješno dodan'))
-            .then(() => navigation.navigate('Admin'))
+
             .catch(errorText => Alert.alert(errorText.message));
         }
       })
+      .then(() => Alert.alert('Novi korisnik je uspješno dodan'))
+      .then(() => navigation.navigate('Admin'))
       .catch(errorText => {
         Alert.alert(errorText.message);
       });

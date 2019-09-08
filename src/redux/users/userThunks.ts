@@ -101,7 +101,6 @@ export const uploadRecord = (photoUri: string) => (dispatch: Dispatch) => {
     uploadImage(photoUri, 'Records', uuidv4());
 };
 
-// Vidjet za imena kolekcija i to kako je Vlaja rekao
 const uploadImage = async (
     uri: string,
     collectionName: string,
@@ -122,12 +121,6 @@ export const changeEmail = (email: string) => async (dispatch: Dispatch) => {
             await FirebaseAuth.currentUser.updateEmail(email);
             dispatch(UserActions.authUser(false));
         } catch (error) {
-            /* const user = await FirebaseAuth.currentUser
-            .updateEmail(email)
-            .then(() => {
-                dispatch(GetUserActions.error(''));
-                dispatch(GetUserActions.authUser(false));
-            }); */
             dispatch(UserActions.error(error.message));
         }
     }
