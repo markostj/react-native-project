@@ -8,8 +8,6 @@ import { Navigation } from '../components/Navigation';
 
 type Props = NavigationScreenProps;
 
-// Maybe it looks empty? Put stmg here?
-
 const RecordMenuView: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>

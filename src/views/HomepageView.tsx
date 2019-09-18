@@ -64,9 +64,6 @@ const HomepageView: React.FC<Props> = ({
     );
   }
 
-  // Don't know how to just change profile pic because if we use pic from folder
-  // we have to use require
-
   if (photoURI === '') {
     setAvatar(
       'photoURL',
